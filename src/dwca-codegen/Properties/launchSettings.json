@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "dwca-codegen": {
+      "commandName": "Project",
+      "commandLineArgs": "-a \"C:\\Users\\pjoin\\Documents\\Data\\dwca-rooftop-v1.4\""
+    }
+  }
+}
