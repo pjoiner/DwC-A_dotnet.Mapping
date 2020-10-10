@@ -15,3 +15,12 @@ steps:
     command: 'pack'
     packagesToPack: '**/dwca-codegen.csproj'
     versioningScheme: 'off'
+    configuration: '$(BuildConfiguration)'
+    packDirectory: '$(build.artifactStagingDirectory)'
+
+# Publish Package as Build Artifact
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+    artifactName: 'NuGet package' 
+
