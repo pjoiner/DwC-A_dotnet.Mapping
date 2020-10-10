@@ -23,9 +23,9 @@ namespace DwcaCodegen.CommandLine
         private Command BuildListCommand()
         {
             var list = new Command("list", "List configuration items");
-            list.Handler = CommandHandler.Create<string>((configFile) =>
+            list.Handler = CommandHandler.Create<string>((configName) =>
             {
-                configApp.ConfigList(configFile);
+                configApp.ConfigList(configName);
             });
             return list;
         }
@@ -48,9 +48,9 @@ namespace DwcaCodegen.CommandLine
         {
             var delete = new Command("delete", "Delete Property Configuration");
             delete.AddArgument(BuildTermArgument());
-            delete.Handler = CommandHandler.Create<string, string>((configFile, term) =>
+            delete.Handler = CommandHandler.Create<string, string>((configName, term) =>
             {
-                configApp.ConfigDelete(configFile, term);
+                configApp.ConfigDelete(configName, term);
             });
             return delete;
         }

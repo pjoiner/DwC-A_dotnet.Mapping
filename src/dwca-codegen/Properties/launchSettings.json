@@ -1,8 +1,7 @@
 {
   "profiles": {
     "dwca-codegen": {
-      "commandName": "Project",
-      "commandLineArgs": "config new default"
+      "commandName": "Project"
     }
   }
 }

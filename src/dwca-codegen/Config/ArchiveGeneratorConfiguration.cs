@@ -1,6 +1,7 @@
 ﻿using DwcaCodegen.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace DwcaCodegen.Config
 {
@@ -15,12 +16,24 @@ namespace DwcaCodegen.Config
 
         public void WriteToFile(string fileName, ISerializer serializer)
         {
+            var path = Path.GetDirectoryName(fileName);
+            if(!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
             serializer.Serialize(config, fileName);
         }
 
         public void ReadFromFile(string fileName, ISerializer serializer)
         {
-            config = serializer.Deserialize<GeneratorConfiguration>(fileName);
+            if (!File.Exists(fileName))
+            {
+                config = new GeneratorConfiguration();
+            }
+            else
+            {
+                config = serializer.Deserialize<GeneratorConfiguration>(fileName);
+            }
         }
 
         public PropertyConfiguration GetPropertyConfiguration(string term)

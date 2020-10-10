@@ -32,8 +32,9 @@ namespace DwcaCodegen
             archiveSourceGenerator.GenerateSource(archive);
         }
 
-        public void ConfigList(string configFile)
+        public void ConfigList(string configName)
         {
+            var configFile = ConfigPath(configName);
             archiveGeneratorConfiguration.ReadFromFile(configFile, serializer);
             Console.WriteLine($"Namespace:  {archiveGeneratorConfiguration.Namespace}");
             Console.WriteLine($"Capitalize: {archiveGeneratorConfiguration.Capitalize}");
@@ -50,12 +51,13 @@ namespace DwcaCodegen
             }
         }
 
-        public void ConfigAdd(string configFile,
+        public void ConfigAdd(string configName,
             string term,
             string name,
             bool include,
             string type)
         {
+            var configFile = ConfigPath(configName);
             archiveGeneratorConfiguration.ReadFromFile(configFile, serializer);
             if (archiveGeneratorConfiguration.Properties.ContainsKey(term))
             {
@@ -72,8 +74,9 @@ namespace DwcaCodegen
             archiveGeneratorConfiguration.WriteToFile(configFile, serializer);
         }
 
-        public void ConfigDelete(string configFile, string term)
+        public void ConfigDelete(string configName, string term)
         {
+            var configFile = ConfigPath(configName);
             archiveGeneratorConfiguration.ReadFromFile(configFile, serializer);
             if (archiveGeneratorConfiguration.Properties.ContainsKey(term))
             {
@@ -84,12 +87,21 @@ namespace DwcaCodegen
 
         public void ConfigNew(string configName)
         {
-            if (!Path.HasExtension(configName))
+            var configFile = ConfigPath(configName);
+            archiveGeneratorConfiguration.WriteToFile(configFile, serializer);
+        }
+
+        public string ConfigPath(string configName)
+        {
+            if(string.IsNullOrEmpty(configName))
+            {
+                configName = "default";
+            }
+            if(!Path.HasExtension(configName))
             {
                 configName = Path.ChangeExtension(configName, ".json");
             }
-            archiveGeneratorConfiguration.WriteToFile(configName, serializer);
+            return Path.Combine(".config", configName);
         }
-
     }
 }
