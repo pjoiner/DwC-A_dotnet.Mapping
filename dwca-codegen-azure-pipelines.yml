@@ -16,7 +16,7 @@ steps:
   inputs:
     command: 'build'
     projects: '**/dwca-codegen.csproj'
-    configuration: $(buildConfiguration)
+    arguments: '-c $(buildConfiguration)'
     
 - task: CopyFiles@2
   inputs:
