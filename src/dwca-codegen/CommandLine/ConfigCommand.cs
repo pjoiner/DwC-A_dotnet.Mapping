@@ -99,7 +99,7 @@ namespace DwcaCodegen.CommandLine
         private Option<string> BuildTypeOption()
         {
             return new Option<string>(
-                aliases: new[] { "-p", "--type" },
+                aliases: new[] { "-t", "--type" },
                 getDefaultValue: () => "string",
                 description: "Type of the property");
         }

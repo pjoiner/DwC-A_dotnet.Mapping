@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="termConfig.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Include=".config\default.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
