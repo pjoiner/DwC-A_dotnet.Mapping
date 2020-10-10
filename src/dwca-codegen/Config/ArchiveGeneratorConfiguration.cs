@@ -11,11 +11,7 @@ namespace DwcaCodegen.Config
         public string Output => config.Output;
         public bool Capitalize => config.Capitalize;
         public IList<string> Usings => config.Usings;
-
-        public ArchiveGeneratorConfiguration()
-        {
-
-        }
+        public IDictionary<string, PropertyConfiguration> Properties => config.Properties;
 
         public void WriteToFile(string fileName, ISerializer serializer)
         {

@@ -1,7 +1,4 @@
-﻿using DwcaCodegen.Config;
-using DwcaCodegen.Generator;
-using DwcaCodegen.Utils;
-using System;
+﻿using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.Parsing;
@@ -11,29 +8,23 @@ namespace DwcaCodegen.CommandLine
 {
     class GenerateCommand
     {
-        private readonly RootCommand root;
+        private readonly Command generate;
 
-        public RootCommand RootCommand => root;
+        public Command Command => generate;
 
-        public GenerateCommand()
+        public GenerateCommand(IGenerator generator)
         {
-            root = new RootCommand("A tool to generate class files from Darwin Core Archive meta data");
-            root.AddArgument(BuildArchiveArgument());
-            root.AddOption(BuildNamespaceOption());
-            root.AddOption(BuildCapitalizeOption());
-            root.AddOption(BuildOutputOption());
-            root.AddOption(BuildConfigOption());
+            generate = new Command("generate", "Generate class files from Darwin Core Archive meta data");
+            generate.AddAlias("gen");
+            generate.AddArgument(BuildArchiveArgument());
+            generate.AddOption(BuildNamespaceOption());
+            generate.AddOption(BuildCapitalizeOption());
+            generate.AddOption(BuildOutputOption());
 
-            root.Handler = CommandHandler.Create<string, string, bool, string, string>((archive, @namespace, capitalize, output, config) =>
+            generate.Handler = CommandHandler.Create<string, string, bool, string, string>((archive, @namespace, capitalize, output, configFile) =>
             {
                 Console.WriteLine($"Generating files for archive {archive} for namespace {@namespace} in {output}");
-                var archiveGeneratorConfiguration = new ArchiveGeneratorConfiguration();
-                archiveGeneratorConfiguration.ReadFromFile(config, new JsonSerializer());
-                archiveGeneratorConfiguration.AddNamespace(@namespace)
-                    .AddCapitalize(capitalize)
-                    .AddOutput(output);
-                var archiveSourceGenerator = new ArchiveSourceGenerator(archiveGeneratorConfiguration);
-                archiveSourceGenerator.GenerateSource(archive);
+                generator.Generate(archive, @namespace, capitalize, output, configFile);  
             });
         }
 
@@ -82,22 +73,6 @@ namespace DwcaCodegen.CommandLine
                 getDefaultValue: () => true);
         }
 
-        private Option<string> BuildConfigOption()
-        {
-            var configOption = new Option<string>(
-                aliases: new[] { "-c", "--config" },
-                description: "Configuration file",
-                getDefaultValue: () => "termConfig.json");
-            configOption.AddValidator(s =>
-            {
-                var configFile = s.GetValueOrDefault<string>();
-                if(!File.Exists(configFile))
-                {
-                    s.ErrorMessage = $"Configuration file {configFile} not found";
-                }
-                return s.ErrorMessage;
-            });
-            return configOption;
-        }
+
     }
 }

@@ -7,8 +7,9 @@ namespace DwcaCodegen
     {
         static int Main(string[] args)
         {
-            return new GenerateCommand()
-                .RootCommand
+            var application = new Application();
+            return new Commands(application, application)
+                .Root
                 .InvokeAsync(args)
                 .Result;
         }
