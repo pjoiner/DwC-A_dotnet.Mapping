@@ -14,6 +14,13 @@ steps:
   inputs:
     command: 'build'
     projects: '**/dwca-codegen.csproj'
+    configuration: $(BuildConfiguration)
+    
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '**/dwca-codegen/bin/Release'
+    Contents: '*.nupkg'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 # Publish Package as Build Artifact
 - task: PublishBuildArtifacts@1
