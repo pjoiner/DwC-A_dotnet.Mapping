@@ -1,7 +1,8 @@
 {
   "profiles": {
     "dwca-codegen": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "gen C:\\Users\\pjoin\\Documents\\Data\\dwca-rooftop-v1.4 -o out -c termConfig"
     }
   }
 }

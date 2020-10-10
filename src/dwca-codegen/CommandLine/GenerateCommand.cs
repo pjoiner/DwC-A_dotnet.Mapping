@@ -21,10 +21,9 @@ namespace DwcaCodegen.CommandLine
             generate.AddOption(BuildCapitalizeOption());
             generate.AddOption(BuildOutputOption());
 
-            generate.Handler = CommandHandler.Create<string, string, bool, string, string>((archive, @namespace, capitalize, output, configFile) =>
+            generate.Handler = CommandHandler.Create<string, string, bool, string, string>((archive, @namespace, capitalize, output, configName) =>
             {
-                Console.WriteLine($"Generating files for archive {archive} for namespace {@namespace} in {output}");
-                generator.Generate(archive, @namespace, capitalize, output, configFile);  
+                generator.Generate(archive, @namespace, capitalize, output, configName);  
             });
         }
 

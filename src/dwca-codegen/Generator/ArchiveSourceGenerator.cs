@@ -1,6 +1,9 @@
 ﻿using DwC_A;
 using DwcaCodegen.Config;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace DwcaCodegen.Generator
@@ -20,8 +23,9 @@ namespace DwcaCodegen.Generator
             }
         }
 
-        public void GenerateSource(string fileName)
+        public string[] GenerateSource(string fileName)
         {
+            IList<string> sourceFiles = new List<string>();
             using (var archive = new ArchiveReader(fileName))
             {
                 var roslynClassGenerator = new ClassGenerator(config);
@@ -32,6 +36,7 @@ namespace DwcaCodegen.Generator
                 }
                 var sourceFileName = Path.Combine(outputPath,
                     Path.GetFileNameWithoutExtension(archive.CoreFile.FileName) + ".cs");
+                sourceFiles.Add(sourceFileName);
                 var metaData = archive.CoreFile.FileMetaData;
                 var coreSource = roslynClassGenerator.GenerateFile(metaData);
                 File.WriteAllText(sourceFileName, coreSource, Encoding.UTF8);
@@ -39,11 +44,13 @@ namespace DwcaCodegen.Generator
                 {
                     var extensionFileName = Path.Combine(outputPath,
                         Path.GetFileNameWithoutExtension(extension.FileName) + ".cs");
+                    sourceFiles.Add(sourceFileName);
                     var meta = extension.FileMetaData;
                     var extensionSource = roslynClassGenerator.GenerateFile(meta);
                     File.WriteAllText(extensionFileName, extensionSource, Encoding.UTF8);
                 }
             }
+            return sourceFiles.ToArray();
         }
     }
 }

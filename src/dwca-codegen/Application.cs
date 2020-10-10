@@ -22,14 +22,17 @@ namespace DwcaCodegen
             string @namespace,
             bool capitalize,
             string output,
-            string configFile)
+            string configName)
         {
+            var configFile = ConfigPath(configName);
+            Console.WriteLine($"Generating files for archive {archive} for namespace {@namespace} in {output}");
             archiveGeneratorConfiguration.ReadFromFile(configFile, serializer);
             archiveGeneratorConfiguration.AddNamespace(@namespace)
                 .AddCapitalize(capitalize)
                 .AddOutput(output);
             var archiveSourceGenerator = new ArchiveSourceGenerator(archiveGeneratorConfiguration);
-            archiveSourceGenerator.GenerateSource(archive);
+            var sourceFiles = archiveSourceGenerator.GenerateSource(archive);
+            sourceFiles.ToList().ForEach((fileName) => Console.WriteLine($"Created {fileName}"));
         }
 
         public void ConfigList(string configName)
@@ -72,6 +75,7 @@ namespace DwcaCodegen
             };
             archiveGeneratorConfiguration.Properties.Add(term, propertyConfiguration);
             archiveGeneratorConfiguration.WriteToFile(configFile, serializer);
+            Console.WriteLine($"Configuration for term {term} added to file {configFile}");
         }
 
         public void ConfigDelete(string configName, string term)
@@ -83,12 +87,14 @@ namespace DwcaCodegen
                 archiveGeneratorConfiguration.Properties.Remove(term);
             }
             archiveGeneratorConfiguration.WriteToFile(configFile, serializer);
+            Console.WriteLine($"Configuration for term {term} deleted from file {configFile}");
         }
 
         public void ConfigNew(string configName)
         {
             var configFile = ConfigPath(configName);
             archiveGeneratorConfiguration.WriteToFile(configFile, serializer);
+            Console.WriteLine($"Configuration file {configFile} created");
         }
 
         public string ConfigPath(string configName)

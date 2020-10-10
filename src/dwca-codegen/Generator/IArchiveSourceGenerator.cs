@@ -2,6 +2,6 @@
 {
     public interface IArchiveSourceGenerator
     {
-        void GenerateSource(string fileName);
+        string[] GenerateSource(string fileName);
     }
 }
