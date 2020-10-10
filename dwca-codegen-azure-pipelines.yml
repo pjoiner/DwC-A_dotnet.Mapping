@@ -12,11 +12,8 @@ pool:
 steps:
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'pack'
-    packagesToPack: '**/dwca-codegen.csproj'
-    versioningScheme: 'off'
-    configuration: '$(BuildConfiguration)'
-    packDirectory: '$(build.artifactStagingDirectory)'
+    command: 'build'
+    projects: '**/dwca-codegen.csproj'
 
 # Publish Package as Build Artifact
 - task: PublishBuildArtifacts@1
