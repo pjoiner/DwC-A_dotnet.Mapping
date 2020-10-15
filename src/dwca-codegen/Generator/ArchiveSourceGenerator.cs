@@ -34,23 +34,31 @@ namespace DwcaCodegen.Generator
                 {
                     Directory.CreateDirectory(outputPath);
                 }
-                var sourceFileName = Path.Combine(outputPath,
-                    Path.GetFileNameWithoutExtension(archive.CoreFile.FileName) + ".cs");
+                string sourceFileName = CreateSourceFileName(archive.CoreFile.FileName, outputPath);
                 sourceFiles.Add(sourceFileName);
                 var metaData = archive.CoreFile.FileMetaData;
                 var coreSource = roslynClassGenerator.GenerateFile(metaData);
                 File.WriteAllText(sourceFileName, coreSource, Encoding.UTF8);
                 foreach (var extension in archive.Extensions.GetFileReaders())
                 {
-                    var extensionFileName = Path.Combine(outputPath,
-                        Path.GetFileNameWithoutExtension(extension.FileName) + ".cs");
-                    sourceFiles.Add(sourceFileName);
+                    var extensionFileName = CreateSourceFileName(extension.FileName, outputPath); 
+                    sourceFiles.Add(extensionFileName);
                     var meta = extension.FileMetaData;
                     var extensionSource = roslynClassGenerator.GenerateFile(meta);
                     File.WriteAllText(extensionFileName, extensionSource, Encoding.UTF8);
                 }
             }
             return sourceFiles.ToArray();
+        }
+
+        private string CreateSourceFileName(string fileName, string outputPath)
+        {
+            var sourceFileName = Path.GetFileNameWithoutExtension(fileName); 
+            if (config.Capitalize)
+            {
+                sourceFileName = char.ToUpper(sourceFileName[0]) + sourceFileName.Substring(1);
+            }
+            return Path.Combine(outputPath, sourceFileName + ".cs");
         }
     }
 }

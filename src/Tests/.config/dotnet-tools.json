@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "dwca-codegen": {
+      "version": "1.0.0",
+      "commands": [
+        "dwca-generate"
+      ]
+    }
+  }
+}

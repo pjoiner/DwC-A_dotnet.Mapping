@@ -35,8 +35,9 @@ namespace DwcaCodegen.Generator
 
         private ClassDeclarationSyntax GenerateClass(string className, IFieldMetaData fieldMetaData)
         {
+            className = RoslynGeneratorUtils.ModifyKeywords(className, config.Capitalize);
             var classDeclaration = SyntaxFactory
-                .ClassDeclaration(RoslynGeneratorUtils.ModifyKeywords(className, config.Capitalize))
+                .ClassDeclaration(className)
                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.PartialKeyword));
 
@@ -44,6 +45,10 @@ namespace DwcaCodegen.Generator
             {
                 var propertyConfiguration = config.GetPropertyConfiguration(metaData.Term);
                 var propertyName = propertyConfiguration.PropertyName ?? RoslynGeneratorUtils.ModifyKeywords(metaData.Term, config.Capitalize);
+                if(propertyName.Equals(className))
+                {
+                    propertyName += "1";
+                }
                 if (propertyConfiguration.Include)
                 {
                     var propertyDeclaration = SyntaxFactory

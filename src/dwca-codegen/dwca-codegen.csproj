@@ -11,7 +11,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>DwC-A darwin-core Biodiversity</PackageTags>
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>dwca-generate</ToolCommandName>
+    <ToolCommandName>dwca-codegen</ToolCommandName>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
