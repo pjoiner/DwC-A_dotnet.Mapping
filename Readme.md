@@ -6,15 +6,17 @@ dwca-codegen is a dotnet CLI tool for generating class source files in C# from D
 
 ### Local Install
 
+> :bulb: **NOTE:**  Note: To install a tool locally you must first create a [tool manifest as described here](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools)
+
 To install the dwca-codegen tool locally open a command prompt in your project folder and enter
 
-    dotnet tool -i dwca-codegen
+    dotnet tool install dwca-codegen
 
 ### Global Install
 
 To install dwca-codegen globally open a command prompt and enter
 
-    dotnet tool -g -i dwca-codegen
+    dotnet tool install -g dwca-codegen
     
 ## Usage
 

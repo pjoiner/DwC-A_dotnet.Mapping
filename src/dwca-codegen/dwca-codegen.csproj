@@ -13,6 +13,8 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>dwca-codegen</ToolCommandName>
     <Nullable>disable</Nullable>
+    <PackageProjectUrl>https://github.com/pjoiner/DwC-A_Mapping</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/pjoiner/DwC-A_Mapping</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

@@ -39,6 +39,7 @@ namespace DwcaCodegen
         {
             var configFile = ConfigPath(configName);
             archiveGeneratorConfiguration.ReadFromFile(configFile, serializer);
+            Console.WriteLine($"Configuration File: {configFile}");
             Console.WriteLine($"Namespace:  {archiveGeneratorConfiguration.Namespace}");
             Console.WriteLine($"Capitalize: {archiveGeneratorConfiguration.Capitalize}");
             Console.WriteLine($"Output:     {archiveGeneratorConfiguration.Output}");
@@ -90,9 +91,13 @@ namespace DwcaCodegen
             Console.WriteLine($"Configuration for term {term} deleted from file {configFile}");
         }
 
-        public void ConfigNew(string configName)
+        public void ConfigNew(string configName, bool empty)
         {
             var configFile = ConfigPath(configName);
+            if(!empty)
+            {
+                archiveGeneratorConfiguration.ReadFromFile(ConfigUtils.DefaultConfig, serializer);
+            }
             archiveGeneratorConfiguration.WriteToFile(configFile, serializer);
             Console.WriteLine($"Configuration file {configFile} created");
         }
@@ -107,7 +112,8 @@ namespace DwcaCodegen
             {
                 configName = Path.ChangeExtension(configName, ".json");
             }
-            return Path.Combine(".config", configName);
+            var rootConfigPath = ConfigUtils.ConfigLocation;
+            return Path.Combine(rootConfigPath, configName);
         }
     }
 }

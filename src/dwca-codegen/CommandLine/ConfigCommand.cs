@@ -60,9 +60,10 @@ namespace DwcaCodegen.CommandLine
         {
             var command = new Command("new", "Create a new configuration file");
             command.AddArgument(BuildNewConfigArgument());
-            command.Handler = CommandHandler.Create<string>((configName) =>
+            command.AddOption(BuildEmptyOption());
+            command.Handler = CommandHandler.Create<string, bool>((configName, empty) =>
             {
-                configApp.ConfigNew(configName);
+                configApp.ConfigNew(configName, empty);
             });
             return command;
         }
@@ -102,6 +103,14 @@ namespace DwcaCodegen.CommandLine
                 aliases: new[] { "-t", "--type" },
                 getDefaultValue: () => "string",
                 description: "Type of the property");
+        }
+
+        private Option<bool> BuildEmptyOption()
+        {
+            return new Option<bool>(
+                aliases: new[] {"-e", "--empty"},
+                getDefaultValue: () => false,
+                description: "Create a new empty configuration" );
         }
     }
 }
