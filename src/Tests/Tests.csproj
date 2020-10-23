@@ -14,4 +14,21 @@
   <ItemGroup>
     <ProjectReference Include="..\DwC-A_Mapper\DwC-A_Mapper.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="resources\dwca-rooftop-v1.4\eml.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\dwca-rooftop-v1.4\event.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\dwca-rooftop-v1.4\meta.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\dwca-rooftop-v1.4\occurrence.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\dwca-rooftop-v1.4\occurrence_genus.ndx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
