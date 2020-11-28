@@ -21,6 +21,9 @@ namespace DwC_A_Mapper
             // Create CompilationUnitSyntax
             var syntaxFactory = SyntaxFactory.CompilationUnit();
 
+            syntaxFactory = syntaxFactory.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("DwC_A")));
+            syntaxFactory = syntaxFactory.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(obj.Namespace)));
+
             // Create a namespace: (namespace CodeGenerationSample)
             var @namespace = SyntaxFactory
                 .NamespaceDeclaration(SyntaxFactory.ParseName("DwC"))
@@ -28,7 +31,8 @@ namespace DwC_A_Mapper
 
             var classDeclaration = SyntaxFactory
                 .ClassDeclaration("Mapper")
-                .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword));
+                .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
+                .AddModifiers(SyntaxFactory.Token(SyntaxKind.StaticKeyword));
 
             var statements = new List<StatementSyntax>();
             var createObjectStatement = SyntaxFactory
@@ -59,6 +63,7 @@ namespace DwC_A_Mapper
 
             var methodDeclaration = SyntaxFactory.MethodDeclaration(SyntaxFactory.ParseTypeName(obj.Name), "Map")
                  .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
+                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.StaticKeyword))
                  .AddParameterListParameters(parameter)
                  .WithBody(SyntaxFactory.Block(statements));
 

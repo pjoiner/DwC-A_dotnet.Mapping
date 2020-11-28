@@ -22,14 +22,16 @@ namespace DwcaCodegen
             string @namespace,
             bool capitalize,
             string output,
-            string configName)
+            string configName,
+            bool addAttributes)
         {
             var configFile = ConfigPath(configName);
             Console.WriteLine($"Generating files for archive {archive} for namespace {@namespace} in {output}");
             archiveGeneratorConfiguration.ReadFromFile(configFile, serializer);
             archiveGeneratorConfiguration.AddNamespace(@namespace)
                 .AddCapitalize(capitalize)
-                .AddOutput(output);
+                .AddOutput(output)
+                .UseAttributes(addAttributes);
             var archiveSourceGenerator = new ArchiveSourceGenerator(archiveGeneratorConfiguration);
             var sourceFiles = archiveSourceGenerator.GenerateSource(archive);
             sourceFiles.ToList().ForEach((fileName) => Console.WriteLine($"Created {fileName}"));

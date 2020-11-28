@@ -4,6 +4,7 @@ namespace DwcaCodegen.Config
 {
     public class GeneratorConfiguration
     {
+        public bool AddAttributes { get; set; } = false;
         public bool Capitalize { get; set; } = false;
         public string Namespace { get; set; } = "DwC";
         public string Output { get; set; } = ".";

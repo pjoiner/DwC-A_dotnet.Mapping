@@ -25,6 +25,12 @@ namespace DwcaCodegen.Generator
             {
                 @namespace = @namespace.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(usingNamespace)));
             }
+
+            if(config.AddAttributes)
+            {
+                @namespace = @namespace.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("DwC_A.Attributes")));
+            }
+
             @namespace = @namespace.AddMembers(classDeclaration);
             var code = @namespace
                 .NormalizeWhitespace()
@@ -40,6 +46,15 @@ namespace DwcaCodegen.Generator
                 .ClassDeclaration(className)
                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.PartialKeyword));
+
+            if(config.AddAttributes)
+            {
+                var attribute = SyntaxFactory.Attribute(SyntaxFactory.ParseName("Map"));
+                var attributes = new SeparatedSyntaxList<AttributeSyntax>();
+                attributes = attributes.Add(attribute);
+                var attributeList = SyntaxFactory.AttributeList(attributes);
+                classDeclaration = classDeclaration.AddAttributeLists(attributeList);
+            }
 
             foreach (var metaData in fieldMetaData)
             {
@@ -58,6 +73,19 @@ namespace DwcaCodegen.Generator
                             SyntaxFactory.AccessorDeclaration(SyntaxKind.GetAccessorDeclaration).WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)),
                             SyntaxFactory.AccessorDeclaration(SyntaxKind.SetAccessorDeclaration).WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)))
                         .NormalizeWhitespace(indentation: "", eol: " ");
+
+                    if(config.AddAttributes)
+                    {
+                        var arguments = SyntaxFactory.ParseAttributeArgumentList($"(\"{metaData.Term}\")");
+                        var attribute = SyntaxFactory.Attribute(SyntaxFactory.ParseName("Term"), arguments);
+                        var attributes = new SeparatedSyntaxList<AttributeSyntax>();
+                        attributes = attributes.Add(attribute);
+                        var attributeList = SyntaxFactory.AttributeList(attributes)
+                            .WithTrailingTrivia(SyntaxFactory.Whitespace("\n"));
+                        propertyDeclaration = propertyDeclaration
+                            .AddAttributeLists(attributeList);
+                    }
+
                     classDeclaration = classDeclaration.AddMembers(propertyDeclaration);
                 }
             }

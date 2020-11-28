@@ -13,10 +13,12 @@ namespace DwcaCodegen.Generator
 
         class SingleLinePropertyRewriter : CSharpSyntaxRewriter
         {
-            public override SyntaxNode VisitPropertyDeclaration(PropertyDeclarationSyntax node) =>
-                node.NormalizeWhitespace(indentation: "", eol: " ")
+            public override SyntaxNode VisitPropertyDeclaration(PropertyDeclarationSyntax node)
+            {
+                return node.NormalizeWhitespace(indentation: "", eol: " ")
                     .WithLeadingTrivia(node.GetLeadingTrivia())
                     .WithTrailingTrivia(node.GetTrailingTrivia());
+            }
         }
     }
 }

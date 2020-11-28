@@ -8,6 +8,7 @@ namespace DwcaCodegen.Config
     public class ArchiveGeneratorConfiguration
     {
         private GeneratorConfiguration config = new GeneratorConfiguration();
+        public bool AddAttributes => config.AddAttributes;
         public string Namespace => config.Namespace;
         public string Output => config.Output;
         public bool Capitalize => config.Capitalize;
@@ -81,6 +82,12 @@ namespace DwcaCodegen.Config
         public ArchiveGeneratorConfiguration AddOutput(string output)
         {
             config.Output = output;
+            return this;
+        }
+
+        public ArchiveGeneratorConfiguration UseAttributes(bool addAttributes)
+        {
+            config.AddAttributes = addAttributes;
             return this;
         }
 

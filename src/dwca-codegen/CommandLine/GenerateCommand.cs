@@ -20,10 +20,11 @@ namespace DwcaCodegen.CommandLine
             generate.AddOption(BuildNamespaceOption());
             generate.AddOption(BuildCapitalizeOption());
             generate.AddOption(BuildOutputOption());
+            generate.AddOption(BuildAddAttributesOption());
 
-            generate.Handler = CommandHandler.Create<string, string, bool, string, string>((archive, @namespace, capitalize, output, configName) =>
+            generate.Handler = CommandHandler.Create<string, string, bool, string, string, bool>((archive, @namespace, capitalize, output, configName, attributes) =>
             {
-                generator.Generate(archive, @namespace, capitalize, output, configName);  
+                generator.Generate(archive, @namespace, capitalize, output, configName, attributes);  
             });
         }
 
@@ -72,6 +73,12 @@ namespace DwcaCodegen.CommandLine
                 getDefaultValue: () => true);
         }
 
-
+        private Option<bool> BuildAddAttributesOption()
+        {
+            return new Option<bool>(
+                aliases: new[] { "-a", "--attributes" },
+                description: "Add attributes",
+                getDefaultValue: () => false);
+        }
     }
 }
