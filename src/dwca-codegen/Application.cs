@@ -115,5 +115,14 @@ namespace DwcaCodegen
             var rootConfigPath = ConfigUtils.ConfigLocation;
             return Path.Combine(rootConfigPath, configName);
         }
+
+        public void ConfigAddUsing(string configName, string namespaceName)
+        {
+            var configFile = ConfigPath(configName);
+            archiveGeneratorConfiguration.ReadFromFile(configFile, serializer);
+            archiveGeneratorConfiguration.Usings.Add(namespaceName);
+            archiveGeneratorConfiguration.WriteToFile(configFile, serializer);
+            Console.WriteLine($"Namespace {namespaceName} added to configuration {configName}");
+        }
     }
 }

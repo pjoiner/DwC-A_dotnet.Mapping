@@ -1,17 +1,13 @@
-﻿using DwcaCodegen.CommandLine;
+﻿using DwcaCodegen;
+using DwcaCodegen.CommandLine;
 using System.CommandLine;
+using System.CommandLine.Builder;
+using System.CommandLine.Parsing;
 
-namespace DwcaCodegen
-{
-    class Program
-    {
-        static int Main(string[] args)
-        {
-            var application = new Application();
-            return new Commands(application, application)
-                .Root
-                .InvokeAsync(args)
-                .Result;
-        }
-    }
-}
+var application = new Application();
+var rootCommand = new Commands(application, application).Root;
+var commandLine = new CommandLineBuilder(rootCommand)
+                        .UseDefaults()
+                        .Build();
+
+await commandLine.InvokeAsync(args);

@@ -18,6 +18,7 @@ namespace DwcaCodegen.CommandLine
             command.AddCommand(BuildAddCommand());
             command.AddCommand(BuildDeleteCommand());
             command.AddCommand(BuildNewCommand());
+            command.AddCommand(BuildAddUsingCommand());
         }
 
         private Command BuildListCommand()
@@ -68,6 +69,17 @@ namespace DwcaCodegen.CommandLine
             return command;
         }
 
+        private Command BuildAddUsingCommand()
+        {
+            var command = new Command("addUsing", "Add a namespace to the configuration");
+            command.AddArgument(BuildNamespaceNameArgument());
+            command.Handler = CommandHandler.Create<string, string>((configName, namespaceName) =>
+            {
+                configApp.ConfigAddUsing(configName, namespaceName);
+            });
+            return command;
+        }
+
         private Argument<string> BuildNewConfigArgument()
         {
             return new Argument<string>(
@@ -80,6 +92,13 @@ namespace DwcaCodegen.CommandLine
             return new Argument<string>(
                 name: "term",
                 description: "Fully qualified uri for term");
+        }
+
+        private Argument<string> BuildNamespaceNameArgument()
+        {
+            return new Argument<string>(
+                name: "namespaceName",
+                description: "Fully qualified namespace to add to generated class");
         }
 
         private Option<string> BuildNameOption()
