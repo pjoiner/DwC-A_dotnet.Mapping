@@ -7,10 +7,12 @@ namespace DwcaCodegen.Config
 {
     public class ArchiveGeneratorConfiguration
     {
+        private const string TermAttributeNamespaceName = "DwC_A.Terms";
         private GeneratorConfiguration config = new GeneratorConfiguration();
         public string Namespace => config.Namespace;
         public string Output => config.Output;
-        public bool Capitalize => config.Capitalize;
+        public bool PascalCase => config.PascalCase;
+        public bool TermAttribute => config.TermAttribute;
         public IList<string> Usings => config.Usings;
         public IDictionary<string, PropertyConfiguration> Properties => config.Properties;
 
@@ -66,9 +68,15 @@ namespace DwcaCodegen.Config
             return this;
         }
 
-        public ArchiveGeneratorConfiguration AddCapitalize(bool capitalize)
+        public ArchiveGeneratorConfiguration AddPascalCase(bool pascalCase)
         {
-            config.Capitalize = capitalize;
+            config.PascalCase = pascalCase;
+            return this;
+        }
+
+        public ArchiveGeneratorConfiguration AddTermAttribute(bool termAttribute)
+        {
+            config.TermAttribute = termAttribute;
             return this;
         }
 
@@ -84,5 +92,28 @@ namespace DwcaCodegen.Config
             return this;
         }
 
+        public void OverrideConfiguration(string @namespace, bool? pascalCase, bool? termAttribute, string output)
+        {
+            if (!string.IsNullOrEmpty(@namespace))
+            {
+                AddNamespace(@namespace);
+            }
+            if (pascalCase.HasValue)
+            {
+                AddPascalCase(pascalCase.Value);
+            }
+            if (termAttribute.HasValue)
+            {
+                AddTermAttribute(termAttribute.Value);
+            }
+            if (!string.IsNullOrEmpty(output))
+            {
+                AddOutput(output);
+            }
+            if (config.TermAttribute && !config.Usings.Contains(TermAttributeNamespaceName))
+            {
+                config.Usings.Add(TermAttributeNamespaceName);
+            }
+        }
     }
 }

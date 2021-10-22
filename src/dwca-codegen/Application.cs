@@ -20,16 +20,18 @@ namespace DwcaCodegen
 
         public void Generate(string archive,
             string @namespace,
-            bool capitalize,
+            bool? pascalCase,
+            bool? termAttribute,
             string output,
             string configName)
         {
             var configFile = ConfigPath(configName);
-            Console.WriteLine($"Generating files for archive {archive} for namespace {@namespace} in {output}");
             archiveGeneratorConfiguration.ReadFromFile(configFile, serializer);
-            archiveGeneratorConfiguration.AddNamespace(@namespace)
-                .AddCapitalize(capitalize)
-                .AddOutput(output);
+            archiveGeneratorConfiguration.OverrideConfiguration(@namespace, pascalCase, termAttribute, output);
+            Console.WriteLine($"Generating files for archive {archive} using configuration:");
+            //TODO: Maybe add a verbose switch to turn this on/off
+            ConfigList(archiveGeneratorConfiguration);
+
             var archiveSourceGenerator = new ArchiveSourceGenerator(archiveGeneratorConfiguration);
             var sourceFiles = archiveSourceGenerator.GenerateSource(archive);
             sourceFiles.ToList().ForEach((fileName) => Console.WriteLine($"Created {fileName}"));
@@ -40,8 +42,14 @@ namespace DwcaCodegen
             var configFile = ConfigPath(configName);
             archiveGeneratorConfiguration.ReadFromFile(configFile, serializer);
             Console.WriteLine($"Configuration File: {configFile}");
+            ConfigList(archiveGeneratorConfiguration);
+        }
+
+        private void ConfigList(ArchiveGeneratorConfiguration archiveGeneratorConfiguration)
+        {
             Console.WriteLine($"Namespace:  {archiveGeneratorConfiguration.Namespace}");
-            Console.WriteLine($"Capitalize: {archiveGeneratorConfiguration.Capitalize}");
+            Console.WriteLine($"PascalCase: {archiveGeneratorConfiguration.PascalCase}");
+            Console.WriteLine($"Term Attribute {archiveGeneratorConfiguration.TermAttribute}");
             Console.WriteLine($"Output:     {archiveGeneratorConfiguration.Output}");
             Console.WriteLine($"Usings:");
             archiveGeneratorConfiguration.Usings.ToList().ForEach(n => Console.WriteLine($"          {n}"));
@@ -91,13 +99,19 @@ namespace DwcaCodegen
             Console.WriteLine($"Configuration for term {term} deleted from file {configFile}");
         }
 
-        public void ConfigNew(string configName, bool empty)
+        public void ConfigNew(string configName, 
+            bool empty, 
+            string @namespace, 
+            string output, 
+            bool? pascalCase, 
+            bool? termAttribute)
         {
             var configFile = ConfigPath(configName);
             if(!empty)
             {
                 archiveGeneratorConfiguration.ReadFromFile(ConfigUtils.DefaultConfig, serializer);
             }
+            archiveGeneratorConfiguration.OverrideConfiguration(@namespace, pascalCase, termAttribute, output);
             archiveGeneratorConfiguration.WriteToFile(configFile, serializer);
             Console.WriteLine($"Configuration file {configFile} created");
         }

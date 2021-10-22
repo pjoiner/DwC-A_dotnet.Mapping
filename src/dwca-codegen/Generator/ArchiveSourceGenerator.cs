@@ -54,7 +54,7 @@ namespace DwcaCodegen.Generator
         private string CreateSourceFileName(string fileName, string outputPath)
         {
             var sourceFileName = Path.GetFileNameWithoutExtension(fileName); 
-            if (config.Capitalize)
+            if (config.PascalCase)
             {
                 sourceFileName = char.ToUpper(sourceFileName[0]) + sourceFileName.Substring(1);
             }

@@ -5,10 +5,10 @@ namespace DwcaCodegen.Generator
 {
     public static class RoslynGeneratorUtils
     {
-        public static string ModifyKeywords(string name, bool capitalize = false)
+        public static string ModifyKeywords(string name, bool pascalCase = false)
         {
             var propertyName = Terms.ShortName(name);
-            if (capitalize)
+            if (pascalCase)
             {
                 return char.ToUpper(propertyName[0]) + propertyName.Substring(1);
             }

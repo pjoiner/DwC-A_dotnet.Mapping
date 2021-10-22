@@ -56,15 +56,18 @@ namespace DwcaCodegen.CommandLine
             return delete;
         }
 
-
         private Command BuildNewCommand()
         {
             var command = new Command("new", "Create a new configuration file");
             command.AddArgument(BuildNewConfigArgument());
             command.AddOption(BuildEmptyOption());
-            command.Handler = CommandHandler.Create<string, bool>((configName, empty) =>
+            command.AddOption(OptionBuilder.BuildNamespaceOption());
+            command.AddOption(OptionBuilder.BuildOutputOption());
+            command.AddOption(OptionBuilder.BuildPascalCaseOption());
+            command.AddOption(OptionBuilder.BuildTermAttributeOption());
+            command.Handler = CommandHandler.Create<string, bool, string, string, bool?, bool?>((configName, empty, @namespace, output, pascalCase, termAttribute) =>
             {
-                configApp.ConfigNew(configName, empty);
+                configApp.ConfigNew(configName, empty, @namespace, output, pascalCase, termAttribute);
             });
             return command;
         }

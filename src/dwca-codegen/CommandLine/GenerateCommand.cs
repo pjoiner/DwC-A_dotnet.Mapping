@@ -1,5 +1,4 @@
-﻿using System;
-using System.CommandLine;
+﻿using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.Parsing;
 using System.IO;
@@ -17,30 +16,15 @@ namespace DwcaCodegen.CommandLine
             generate = new Command("generate", "Generate class files from Darwin Core Archive meta data");
             generate.AddAlias("gen");
             generate.AddArgument(BuildArchiveArgument());
-            generate.AddOption(BuildNamespaceOption());
-            generate.AddOption(BuildCapitalizeOption());
-            generate.AddOption(BuildOutputOption());
+            generate.AddOption(OptionBuilder.BuildNamespaceOption());
+            generate.AddOption(OptionBuilder.BuildPascalCaseOption());
+            generate.AddOption(OptionBuilder.BuildOutputOption());
+            generate.AddOption(OptionBuilder.BuildTermAttributeOption());
 
-            generate.Handler = CommandHandler.Create<string, string, bool, string, string>((archive, @namespace, capitalize, output, configName) =>
+            generate.Handler = CommandHandler.Create<string, string, bool?, bool?, string, string>((archive, @namespace, pascalCase, termAttribute, output, configName) =>
             {
-                generator.Generate(archive, @namespace, capitalize, output, configName);  
+                generator.Generate(archive, @namespace, pascalCase, termAttribute, output, configName);  
             });
-        }
-
-        private Option<string> BuildNamespaceOption()
-        {
-            return new Option<string>(
-                    aliases: new[] { "-n", "--namespace" },
-                    getDefaultValue: () => "DwC",
-                    description: "Namespace of generated source");
-        }
-
-        private Option<string> BuildOutputOption()
-        {
-            return new Option<string>(
-                    aliases: new[] {"-o", "--output"},
-                    getDefaultValue: () => ".",
-                    description: "Path to generated source");
         }
 
         private Argument<string> BuildArchiveArgument()
@@ -63,15 +47,6 @@ namespace DwcaCodegen.CommandLine
             });
             return archiveArgument;
         }
-
-        private Option<bool> BuildCapitalizeOption()
-        {
-            return new Option<bool>(
-                aliases: new[] { "-u", "--capitalize" },
-                description: "Captialize property and classnames",
-                getDefaultValue: () => true);
-        }
-
 
     }
 }

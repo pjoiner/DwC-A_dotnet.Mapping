@@ -2,6 +2,6 @@
 {
     public interface IGenerator
     {
-        void Generate(string archive, string @namespace, bool capitalize, string output, string configName);
+        void Generate(string archive, string @namespace, bool? pascalCase, bool? termAttribute, string output, string configName);
     }
 }
