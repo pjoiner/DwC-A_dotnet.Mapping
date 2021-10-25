@@ -1,4 +1,5 @@
-﻿using System.CommandLine;
+﻿using DwcaCodegen.Config;
+using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.Parsing;
 using System.IO;
@@ -21,7 +22,7 @@ namespace DwcaCodegen.CommandLine
             generate.AddOption(OptionBuilder.BuildOutputOption());
             generate.AddOption(OptionBuilder.BuildTermAttributeOption());
 
-            generate.Handler = CommandHandler.Create<string, string, bool?, bool?, string, string>((archive, @namespace, pascalCase, termAttribute, output, configName) =>
+            generate.Handler = CommandHandler.Create<string, string, bool?, TermAttributeType?, string, string>((archive, @namespace, pascalCase, termAttribute, output, configName) =>
             {
                 generator.Generate(archive, @namespace, pascalCase, termAttribute, output, configName);  
             });

@@ -1,4 +1,5 @@
-﻿using System.CommandLine;
+﻿using DwcaCodegen.Config;
+using System.CommandLine;
 using System.CommandLine.Invocation;
 
 namespace DwcaCodegen.CommandLine
@@ -65,7 +66,7 @@ namespace DwcaCodegen.CommandLine
             command.AddOption(OptionBuilder.BuildOutputOption());
             command.AddOption(OptionBuilder.BuildPascalCaseOption());
             command.AddOption(OptionBuilder.BuildTermAttributeOption());
-            command.Handler = CommandHandler.Create<string, bool, string, string, bool?, bool?>((configName, empty, @namespace, output, pascalCase, termAttribute) =>
+            command.Handler = CommandHandler.Create<string, bool, string, string, bool?, TermAttributeType?>((configName, empty, @namespace, output, pascalCase, termAttribute) =>
             {
                 configApp.ConfigNew(configName, empty, @namespace, output, pascalCase, termAttribute);
             });

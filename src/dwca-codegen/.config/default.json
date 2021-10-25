@@ -1,6 +1,6 @@
 {
   "pascalCase": true,
-  "termAttribute": false,
+  "termAttribute": "none",
   "namespace": "DwC",
   "output": ".",
   "usings": [

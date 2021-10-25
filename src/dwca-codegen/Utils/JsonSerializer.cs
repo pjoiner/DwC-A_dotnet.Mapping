@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace DwcaCodegen.Utils
 {
@@ -9,7 +10,11 @@ namespace DwcaCodegen.Utils
         {
             WriteIndented = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            DictionaryKeyPolicy = JsonNamingPolicy.CamelCase
+            DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
+            Converters =
+            {
+                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+            }
         };
 
         public void Serialize<T>(T config, string fileName)

@@ -5,12 +5,12 @@ namespace DwcaCodegen.Generator
 {
     public static class RoslynGeneratorUtils
     {
-        public static string ModifyKeywords(string name, bool pascalCase = false)
+        public static string NormalizeIdentifiers(string name, bool pascalCase = false)
         {
             var propertyName = Terms.ShortName(name);
             if (pascalCase)
             {
-                return char.ToUpper(propertyName[0]) + propertyName.Substring(1);
+                return char.ToUpper(propertyName[0]) + propertyName[1..];
             }
             if (!SyntaxFacts.IsValidIdentifier(propertyName))
             {

@@ -12,7 +12,7 @@ namespace DwcaCodegen.Config
         public string Namespace => config.Namespace;
         public string Output => config.Output;
         public bool PascalCase => config.PascalCase;
-        public bool TermAttribute => config.TermAttribute;
+        public TermAttributeType TermAttribute => config.TermAttribute;
         public IList<string> Usings => config.Usings;
         public IDictionary<string, PropertyConfiguration> Properties => config.Properties;
 
@@ -74,7 +74,7 @@ namespace DwcaCodegen.Config
             return this;
         }
 
-        public ArchiveGeneratorConfiguration AddTermAttribute(bool termAttribute)
+        public ArchiveGeneratorConfiguration AddTermAttribute(TermAttributeType termAttribute)
         {
             config.TermAttribute = termAttribute;
             return this;
@@ -92,7 +92,7 @@ namespace DwcaCodegen.Config
             return this;
         }
 
-        public void OverrideConfiguration(string @namespace, bool? pascalCase, bool? termAttribute, string output)
+        public void OverrideConfiguration(string @namespace, bool? pascalCase, TermAttributeType? termAttribute, string output)
         {
             if (!string.IsNullOrEmpty(@namespace))
             {
@@ -110,7 +110,7 @@ namespace DwcaCodegen.Config
             {
                 AddOutput(output);
             }
-            if (config.TermAttribute && !config.Usings.Contains(TermAttributeNamespaceName))
+            if (config.TermAttribute != TermAttributeType.none && !config.Usings.Contains(TermAttributeNamespaceName))
             {
                 config.Usings.Add(TermAttributeNamespaceName);
             }

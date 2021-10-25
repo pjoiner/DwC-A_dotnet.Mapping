@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
+using System;
 using System.IO;
 
 namespace DwcaCodegen.Generator
@@ -35,7 +36,7 @@ namespace DwcaCodegen.Generator
 
         private ClassDeclarationSyntax GenerateClass(string className, IFieldMetaData fieldMetaData)
         {
-            className = RoslynGeneratorUtils.ModifyKeywords(className, config.PascalCase);
+            className = RoslynGeneratorUtils.NormalizeIdentifiers(className, config.PascalCase);
             var classDeclaration = SyntaxFactory
                 .ClassDeclaration(className)
                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
@@ -44,7 +45,7 @@ namespace DwcaCodegen.Generator
             foreach (var metaData in fieldMetaData)
             {
                 var propertyConfiguration = config.GetPropertyConfiguration(metaData.Term);
-                var propertyName = propertyConfiguration.PropertyName ?? RoslynGeneratorUtils.ModifyKeywords(metaData.Term, config.PascalCase);
+                var propertyName = propertyConfiguration.PropertyName ?? RoslynGeneratorUtils.NormalizeIdentifiers(metaData.Term, config.PascalCase);
                 //TODO: Add additional logic here to weed out duplicate property names from different dwca namespaces
                 if(propertyName.Equals(className))
                 {
@@ -59,7 +60,7 @@ namespace DwcaCodegen.Generator
                             SyntaxFactory.AccessorDeclaration(SyntaxKind.GetAccessorDeclaration).WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)),
                             SyntaxFactory.AccessorDeclaration(SyntaxKind.SetAccessorDeclaration).WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)));
                     
-                    if(config.TermAttribute)
+                    if(config.TermAttribute != TermAttributeType.none)
                     {
                         AttributeListSyntax attributeList = AddTermAttibute(metaData);
                         propertyDeclaration = propertyDeclaration.AddAttributeLists(attributeList);
@@ -71,8 +72,23 @@ namespace DwcaCodegen.Generator
             return classDeclaration;
         }
 
-        private static AttributeListSyntax AddTermAttibute(FieldType metaData)
+        private AttributeListSyntax AddTermAttibute(FieldType metaData)
         {
+            LiteralExpressionSyntax literalExpression = null;
+            switch (config.TermAttribute)
+            {
+                case TermAttributeType.name: literalExpression = SyntaxFactory.LiteralExpression(
+                    SyntaxKind.StringLiteralExpression,
+                    SyntaxFactory.Literal(metaData.Term));
+                    break;
+                case TermAttributeType.index:
+                    literalExpression = SyntaxFactory.LiteralExpression(
+                    SyntaxKind.NumericLiteralExpression,
+                    SyntaxFactory.Literal(metaData.Index));
+                    break;
+                default: throw new Exception("Invalid term attribute configuration");
+            };
+
             return SyntaxFactory.AttributeList(
                     SyntaxFactory.SingletonSeparatedList<AttributeSyntax>(
                         SyntaxFactory.Attribute(
@@ -80,10 +96,7 @@ namespace DwcaCodegen.Generator
                         .WithArgumentList(
                             SyntaxFactory.AttributeArgumentList(
                                 SyntaxFactory.SingletonSeparatedList<AttributeArgumentSyntax>(
-                                    SyntaxFactory.AttributeArgument(
-                                        SyntaxFactory.LiteralExpression(
-                                            SyntaxKind.StringLiteralExpression,
-                                            SyntaxFactory.Literal(metaData.Term))))))));
+                                    SyntaxFactory.AttributeArgument(literalExpression))))));
         }
     }
 }

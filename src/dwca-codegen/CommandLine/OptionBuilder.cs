@@ -1,4 +1,8 @@
-﻿using System.CommandLine;
+﻿using DwcaCodegen.Config;
+using System;
+using System.CommandLine;
+using System.CommandLine.Parsing;
+using System.Linq;
 
 namespace DwcaCodegen.CommandLine
 {
@@ -25,11 +29,21 @@ namespace DwcaCodegen.CommandLine
                 description: "Use Pascal Case for property and classnames");
         }
 
-        public static Option<bool> BuildTermAttributeOption()
+        public static Option<TermAttributeType> BuildTermAttributeOption()
         {
-            return new Option<bool>(
+            var opt = new Option<TermAttributeType>(
                 aliases: new[] { "-t", "--termAttribute" },
+                parseArgument: (s) => 
+                {
+                    var argument = s.Tokens.FirstOrDefault(t => t.Type == TokenType.Argument);
+                    if (!Enum.TryParse<TermAttributeType>(argument?.Value, out TermAttributeType termAttributeType))
+                    {
+                        s.ErrorMessage = "termAttribute must be one of none, name or index";
+                    }
+                    return termAttributeType;
+                },
                 description: "Add Term attribute to properties");
+            return opt;
         }
 
     }

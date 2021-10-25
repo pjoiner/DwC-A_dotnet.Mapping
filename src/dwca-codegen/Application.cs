@@ -21,7 +21,7 @@ namespace DwcaCodegen
         public void Generate(string archive,
             string @namespace,
             bool? pascalCase,
-            bool? termAttribute,
+            TermAttributeType? termAttribute,
             string output,
             string configName)
         {
@@ -49,7 +49,7 @@ namespace DwcaCodegen
         {
             Console.WriteLine($"Namespace:  {archiveGeneratorConfiguration.Namespace}");
             Console.WriteLine($"PascalCase: {archiveGeneratorConfiguration.PascalCase}");
-            Console.WriteLine($"Term Attribute {archiveGeneratorConfiguration.TermAttribute}");
+            Console.WriteLine($"Term Attribute: {archiveGeneratorConfiguration.TermAttribute}");
             Console.WriteLine($"Output:     {archiveGeneratorConfiguration.Output}");
             Console.WriteLine($"Usings:");
             archiveGeneratorConfiguration.Usings.ToList().ForEach(n => Console.WriteLine($"          {n}"));
@@ -104,7 +104,7 @@ namespace DwcaCodegen
             string @namespace, 
             string output, 
             bool? pascalCase, 
-            bool? termAttribute)
+            TermAttributeType? termAttribute)
         {
             var configFile = ConfigPath(configName);
             if(!empty)

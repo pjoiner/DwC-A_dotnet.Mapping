@@ -2,7 +2,7 @@
   "profiles": {
     "dwca-codegen": {
       "commandName": "Project",
-      "commandLineArgs": "gen -c dwca-default -o code ..\\..\\..\\..\\Tests\\resources\\dwca-rooftop-v1.4"
+      "commandLineArgs": "gen -c dwca-default  -o code ..\\..\\..\\..\\Tests\\resources\\dwca-rooftop-v1.4"
     }
   }
 }
