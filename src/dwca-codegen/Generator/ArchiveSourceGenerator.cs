@@ -1,6 +1,5 @@
 ﻿using DwC_A;
 using DwcaCodegen.Config;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,6 +9,7 @@ namespace DwcaCodegen.Generator
 {
     public class ArchiveSourceGenerator : IArchiveSourceGenerator
     {
+        //TODO: This only needs to be GeneratorConfiguration or some readonly interface
         private readonly ArchiveGeneratorConfiguration config;
         public ArchiveSourceGenerator(ArchiveGeneratorConfiguration config)
         {

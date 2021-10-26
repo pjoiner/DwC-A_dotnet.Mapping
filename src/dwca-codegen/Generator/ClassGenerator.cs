@@ -20,59 +20,61 @@ namespace DwcaCodegen.Generator
 
         public string GenerateFile(IFileMetaData fileMetaData)
         {
-            var className = Path.GetFileNameWithoutExtension(fileMetaData.FileName);
-            var classDeclaration = GenerateClass(className, fileMetaData.Fields);
             var @namespace = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.ParseName(config.Namespace));
-
             foreach (var usingNamespace in config.Usings)
             {
                 @namespace = @namespace.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(usingNamespace)));
             }
+            var classDeclaration = GenerateClass(fileMetaData);
             @namespace = @namespace.AddMembers(classDeclaration);
             var doc  = Formatter.Format(@namespace, new AdhocWorkspace());
             var code = doc.ToFullString();
             return code;
         }
 
-        private ClassDeclarationSyntax GenerateClass(string className, IFieldMetaData fieldMetaData)
+        private ClassDeclarationSyntax GenerateClass(IFileMetaData fileMetaData)
         {
-            className = RoslynGeneratorUtils.NormalizeIdentifiers(className, config.PascalCase);
+            var roslynGeneratorUtils = new RoslynGeneratorUtils();
+            var className = roslynGeneratorUtils.NormalizeIdentifiers(Path.GetFileNameWithoutExtension(fileMetaData.FileName), 
+                config.PascalCase);
             var classDeclaration = SyntaxFactory
                 .ClassDeclaration(className)
                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.PartialKeyword));
 
-            foreach (var metaData in fieldMetaData)
+            foreach (var metaData in fileMetaData.Fields)
             {
                 var propertyConfiguration = config.GetPropertyConfiguration(metaData.Term);
-                var propertyName = propertyConfiguration.PropertyName ?? RoslynGeneratorUtils.NormalizeIdentifiers(metaData.Term, config.PascalCase);
-                //TODO: Add additional logic here to weed out duplicate property names from different dwca namespaces
-                if(propertyName.Equals(className))
-                {
-                    propertyName += "1";
-                }
+
                 if (propertyConfiguration.Include)
                 {
-                    var propertyDeclaration = SyntaxFactory
-                        .PropertyDeclaration(SyntaxFactory.ParseTypeName(propertyConfiguration.TypeName), propertyName)
-                        .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
-                        .AddAccessorListAccessors(
-                            SyntaxFactory.AccessorDeclaration(SyntaxKind.GetAccessorDeclaration).WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)),
-                            SyntaxFactory.AccessorDeclaration(SyntaxKind.SetAccessorDeclaration).WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)));
-                    
-                    if(config.TermAttribute != TermAttributeType.none)
-                    {
-                        AttributeListSyntax attributeList = AddTermAttibute(metaData);
-                        propertyDeclaration = propertyDeclaration.AddAttributeLists(attributeList);
-                    }
-
+                    var propertyDeclaration = GenerateProperty(metaData, propertyConfiguration, roslynGeneratorUtils);
                     classDeclaration = classDeclaration.AddMembers(propertyDeclaration);
                 }
             }
             return classDeclaration;
         }
 
-        private AttributeListSyntax AddTermAttibute(FieldType metaData)
+        private PropertyDeclarationSyntax GenerateProperty(FieldType metaData, PropertyConfiguration propertyConfiguration, RoslynGeneratorUtils roslynGeneratorUtils)
+        {
+            var propertyName = propertyConfiguration.PropertyName ?? roslynGeneratorUtils.NormalizeIdentifiers(metaData.Term, config.PascalCase);
+            var propertyDeclaration = SyntaxFactory
+                .PropertyDeclaration(SyntaxFactory.ParseTypeName(propertyConfiguration.TypeName), propertyName)
+                .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
+                .AddAccessorListAccessors(
+                    SyntaxFactory.AccessorDeclaration(SyntaxKind.GetAccessorDeclaration).WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)),
+                    SyntaxFactory.AccessorDeclaration(SyntaxKind.SetAccessorDeclaration).WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)));
+
+            if (config.TermAttribute != TermAttributeType.none)
+            {
+                AttributeListSyntax attributeList = GenerateTermAttribute(metaData);
+                propertyDeclaration = propertyDeclaration.AddAttributeLists(attributeList);
+            }
+
+            return propertyDeclaration;
+        }
+
+        private AttributeListSyntax GenerateTermAttribute(FieldType metaData)
         {
             LiteralExpressionSyntax literalExpression = null;
             switch (config.TermAttribute)

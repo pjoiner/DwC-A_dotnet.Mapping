@@ -19,7 +19,7 @@ namespace DwcaCodegen.Config
         public void WriteToFile(string fileName, ISerializer serializer)
         {
             var path = Path.GetDirectoryName(fileName);
-            if(!Directory.Exists(path))
+            if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
@@ -92,7 +92,10 @@ namespace DwcaCodegen.Config
             return this;
         }
 
-        public void OverrideConfiguration(string @namespace, bool? pascalCase, TermAttributeType? termAttribute, string output)
+        public void OverrideConfiguration(string @namespace,
+            bool? pascalCase,
+            TermAttributeType? termAttribute,
+            string output)
         {
             if (!string.IsNullOrEmpty(@namespace))
             {
