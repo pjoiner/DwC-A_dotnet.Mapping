@@ -18,5 +18,9 @@ namespace DwcaCodegen.Config
         public IList<string> Usings { get; set; } = new List<string>();
         public IDictionary<string, PropertyConfiguration> Properties { get; set; } =
             new Dictionary<string, PropertyConfiguration>();
+
+        public PropertyConfiguration GetPropertyConfiguration(string term) => Properties.ContainsKey(term)
+                    ? Properties[term]
+                    : new PropertyConfiguration();
     }
 }

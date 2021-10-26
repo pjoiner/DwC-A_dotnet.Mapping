@@ -11,9 +11,9 @@ namespace DwcaCodegen.Generator
 {
     public class ClassGenerator
     {
-        private readonly ArchiveGeneratorConfiguration config;
+        private readonly GeneratorConfiguration config;
 
-        public ClassGenerator(ArchiveGeneratorConfiguration config)
+        public ClassGenerator(GeneratorConfiguration config)
         {
             this.config = config;
         }

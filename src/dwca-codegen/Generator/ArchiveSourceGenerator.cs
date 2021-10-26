@@ -9,13 +9,12 @@ namespace DwcaCodegen.Generator
 {
     public class ArchiveSourceGenerator : IArchiveSourceGenerator
     {
-        //TODO: This only needs to be GeneratorConfiguration or some readonly interface
-        private readonly ArchiveGeneratorConfiguration config;
-        public ArchiveSourceGenerator(ArchiveGeneratorConfiguration config)
+        private readonly GeneratorConfiguration config;
+        public ArchiveSourceGenerator(GeneratorConfiguration config)
         {
             if (config == null)
             {
-                this.config = new ArchiveGeneratorConfiguration();
+                this.config = new GeneratorConfiguration();
             }
             else
             {

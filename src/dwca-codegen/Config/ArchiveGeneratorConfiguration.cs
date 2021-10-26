@@ -9,6 +9,8 @@ namespace DwcaCodegen.Config
     {
         private const string TermAttributeNamespaceName = "DwC_A.Terms";
         private GeneratorConfiguration config = new GeneratorConfiguration();
+
+        public GeneratorConfiguration Configuration => config;
         public string Namespace => config.Namespace;
         public string Output => config.Output;
         public bool PascalCase => config.PascalCase;
@@ -35,18 +37,6 @@ namespace DwcaCodegen.Config
             else
             {
                 config = serializer.Deserialize<GeneratorConfiguration>(fileName);
-            }
-        }
-
-        public PropertyConfiguration GetPropertyConfiguration(string term)
-        {
-            if (config.Properties.ContainsKey(term))
-            {
-                return config.Properties[term];
-            }
-            else
-            {
-                return new PropertyConfiguration();
             }
         }
 

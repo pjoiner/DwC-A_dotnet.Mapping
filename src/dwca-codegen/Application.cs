@@ -30,9 +30,9 @@ namespace DwcaCodegen
             archiveGeneratorConfiguration.OverrideConfiguration(@namespace, pascalCase, termAttribute, output);
             Console.WriteLine($"Generating files for archive {archive} using configuration:");
             //TODO: Maybe add a verbose switch to turn this on/off
-            ConfigList(archiveGeneratorConfiguration);
+            ConfigList(archiveGeneratorConfiguration.Configuration);
 
-            var archiveSourceGenerator = new ArchiveSourceGenerator(archiveGeneratorConfiguration);
+            var archiveSourceGenerator = new ArchiveSourceGenerator(archiveGeneratorConfiguration.Configuration);
             var sourceFiles = archiveSourceGenerator.GenerateSource(archive);
             sourceFiles.ToList().ForEach((fileName) => Console.WriteLine($"Created {fileName}"));
         }
@@ -42,23 +42,23 @@ namespace DwcaCodegen
             var configFile = ConfigPath(configName);
             archiveGeneratorConfiguration.ReadFromFile(configFile, serializer);
             Console.WriteLine($"Configuration File: {configFile}");
-            ConfigList(archiveGeneratorConfiguration);
+            ConfigList(archiveGeneratorConfiguration.Configuration);
         }
 
-        private void ConfigList(ArchiveGeneratorConfiguration archiveGeneratorConfiguration)
+        private void ConfigList(GeneratorConfiguration generatorConfiguration)
         {
-            Console.WriteLine($"Namespace:  {archiveGeneratorConfiguration.Namespace}");
-            Console.WriteLine($"PascalCase: {archiveGeneratorConfiguration.PascalCase}");
-            Console.WriteLine($"Term Attribute: {archiveGeneratorConfiguration.TermAttribute}");
-            Console.WriteLine($"Output:     {archiveGeneratorConfiguration.Output}");
+            Console.WriteLine($"Namespace:  {generatorConfiguration.Namespace}");
+            Console.WriteLine($"PascalCase: {generatorConfiguration.PascalCase}");
+            Console.WriteLine($"Term Attribute: {generatorConfiguration.TermAttribute}");
+            Console.WriteLine($"Output:     {generatorConfiguration.Output}");
             Console.WriteLine($"Usings:");
-            archiveGeneratorConfiguration.Usings.ToList().ForEach(n => Console.WriteLine($"          {n}"));
+            generatorConfiguration.Usings.ToList().ForEach(n => Console.WriteLine($"          {n}"));
             Console.WriteLine();
             Console.WriteLine($"Name      Type      Include Term");
             Console.WriteLine(new string('-', 80));
-            foreach (var property in archiveGeneratorConfiguration.Properties)
+            foreach (var property in generatorConfiguration.Properties)
             {
-                var propertyConfig = archiveGeneratorConfiguration.GetPropertyConfiguration(property.Key);
+                var propertyConfig = generatorConfiguration.GetPropertyConfiguration(property.Key);
                 Console.WriteLine($"{propertyConfig.PropertyName,-10}{propertyConfig.TypeName,-10}{propertyConfig.Include,-8}{property.Key}");
             }
         }
