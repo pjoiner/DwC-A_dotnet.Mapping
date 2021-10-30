@@ -6,23 +6,19 @@ using System.IO;
 
 namespace DwcaCodegen.CommandLine
 {
-    class GenerateCommand
+    class GenerateCommand : Command
     {
-        private readonly Command generate;
-
-        public Command Command => generate;
-
-        public GenerateCommand(IGenerator generator)
+        public GenerateCommand(IGenerator generator) 
+            : base("generate", "Generate class files from Darwin Core Archive meta data")
         {
-            generate = new Command("generate", "Generate class files from Darwin Core Archive meta data");
-            generate.AddAlias("gen");
-            generate.AddArgument(BuildArchiveArgument());
-            generate.AddOption(OptionBuilder.BuildNamespaceOption());
-            generate.AddOption(OptionBuilder.BuildPascalCaseOption());
-            generate.AddOption(OptionBuilder.BuildOutputOption());
-            generate.AddOption(OptionBuilder.BuildTermAttributeOption());
+            AddAlias("gen");
+            AddArgument(BuildArchiveArgument());
+            AddOption(OptionBuilder.BuildNamespaceOption());
+            AddOption(OptionBuilder.BuildPascalCaseOption());
+            AddOption(OptionBuilder.BuildOutputOption());
+            AddOption(OptionBuilder.BuildTermAttributeOption());
 
-            generate.Handler = CommandHandler.Create<string, string, bool?, TermAttributeType?, string, string>((archive, @namespace, pascalCase, termAttribute, output, configName) =>
+            Handler = CommandHandler.Create<string, string, bool?, TermAttributeType?, string, string>((archive, @namespace, pascalCase, termAttribute, output, configName) =>
             {
                 generator.Generate(archive, @namespace, pascalCase, termAttribute, output, configName);  
             });

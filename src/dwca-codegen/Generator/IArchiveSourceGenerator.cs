@@ -1,7 +1,9 @@
-﻿namespace DwcaCodegen.Generator
+﻿using DwcaCodegen.Config;
+
+namespace DwcaCodegen.Generator
 {
     public interface IArchiveSourceGenerator
     {
-        string[] GenerateSource(string fileName);
+        string[] GenerateSource(string fileName, IArchiveGeneratorConfiguration config);
     }
 }

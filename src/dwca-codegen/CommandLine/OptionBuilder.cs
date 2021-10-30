@@ -29,9 +29,9 @@ namespace DwcaCodegen.CommandLine
                 description: "Use Pascal Case for property and classnames");
         }
 
-        public static Option<TermAttributeType> BuildTermAttributeOption()
+        public static Option<string> BuildTermAttributeOption()
         {
-            var opt = new Option<TermAttributeType>(
+            var opt = new Option<string>(
                 aliases: new[] { "-t", "--termAttribute" },
                 parseArgument: (s) => 
                 {
@@ -40,7 +40,7 @@ namespace DwcaCodegen.CommandLine
                     {
                         s.ErrorMessage = "termAttribute must be one of none, name or index";
                     }
-                    return termAttributeType;
+                    return argument.Value;
                 },
                 description: "Add Term attribute to properties");
             return opt;
