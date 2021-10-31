@@ -1,4 +1,5 @@
 ﻿using DotNetConfig;
+using System;
 using System.Linq;
 using System.Text;
 
@@ -12,6 +13,15 @@ namespace DwcaCodegen.Config
         public ArchiveGeneratorConfigFactory(DotNetConfig.Config config)
         {
             this.config = config;
+        }
+
+        public IArchiveGeneratorConfiguration BuildConfiguration()
+        {
+            var @namespace = config.GetString("default", "namespace");
+            var pascalCase = config.GetBoolean("default", "pascalCase");
+            var termAttribute = Enum.Parse<TermAttributeType>(config.GetString("default", "termAttribute"));
+            var output = config.GetString("default", "output");
+            return BuildConfiguration(@namespace, pascalCase, termAttribute, output);
         }
 
         public IArchiveGeneratorConfiguration BuildConfiguration(

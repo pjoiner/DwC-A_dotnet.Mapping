@@ -11,10 +11,6 @@ namespace DwcaCodegen
 {
     class Program
     {
-        //TODO: Need to find a more elegant way of doing this
-        //TODO: Also need to recover the ConfigUtils to select the correct config file location
-        static DotNetConfig.Config config = DotNetConfig.Config.Build(".config/.dwca-generator");
-
         static async Task<int> Main(string[] args)
         {
             var services = new ServiceCollection();
@@ -28,14 +24,15 @@ namespace DwcaCodegen
 
         public static void ConfigureServices(IServiceCollection services)
         {
-            //TODO: Register any Options
-            //services.Configure<SettingsType>(configuration.GetSection("sectionName"));
-
-            services.AddSingleton<IGenerator, Application>();
-            services.AddSingleton<IArchiveSourceGenerator, ArchiveSourceGenerator>();
-            services.AddSingleton<ClassGenerator>();
-            services.AddSingleton<ArchiveGeneratorConfigFactory>();
-            services.AddSingleton<DotNetConfig.Config>(config);
+            services.AddTransient<IGenerator, Application>();
+            services.AddTransient<IConfigApp, Application>();
+            services.AddTransient<IArchiveSourceGenerator, ArchiveSourceGenerator>();
+            services.AddTransient<ClassGenerator>();
+            services.AddTransient<ArchiveGeneratorConfigFactory>();
+            services.AddTransient<DotNetConfig.Config>((c) =>
+            {
+                return DotNetConfig.Config.Build(ConfigUtils.FullConfigFilePath);
+            });
             services.AddCliCommands();
         }
 
@@ -48,6 +45,7 @@ namespace DwcaCodegen
                 rootCommand.AddCommand(command);
             }
 
+            var config = serviceProvider.GetService<DotNetConfig.Config>();
             rootCommand = rootCommand.WithConfigurableDefaults("default", config);
             
             var commandLineBuilder = new CommandLineBuilder(rootCommand);

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace DwcaCodegen
 {
-    public class Application : IGenerator
+    public class Application : IGenerator, IConfigApp
     {
         private readonly IArchiveSourceGenerator archiveSourceGenerator;
         private readonly ArchiveGeneratorConfigFactory archiveGeneratorConfigFactory;
@@ -15,6 +15,13 @@ namespace DwcaCodegen
         {
             this.archiveSourceGenerator = archiveSourceGenerator;
             this.archiveGeneratorConfigFactory = archiveGeneratorConfigFactory;
+        }
+
+        public void ConfigList()
+        {
+            var archiveGeneratorConfiguration = archiveGeneratorConfigFactory
+                .BuildConfiguration();
+            ConfigList(archiveGeneratorConfiguration);
         }
 
         public void Generate(string archive,
@@ -36,6 +43,7 @@ namespace DwcaCodegen
 
         private void ConfigList(IArchiveGeneratorConfiguration generatorConfiguration)
         {
+            Console.WriteLine($"Config File: {ConfigUtils.FullConfigFilePath}");
             Console.WriteLine($"Namespace:  {generatorConfiguration.Namespace}");
             Console.WriteLine($"PascalCase: {generatorConfiguration.PascalCase}");
             Console.WriteLine($"Term Attribute: {generatorConfiguration.TermAttribute}");
