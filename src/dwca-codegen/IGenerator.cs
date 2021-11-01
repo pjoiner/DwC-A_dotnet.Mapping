@@ -4,6 +4,6 @@ namespace DwcaCodegen
 {
     public interface IGenerator
     {
-        void Generate(string archive, string @namespace, bool? pascalCase, TermAttributeType? termAttribute, string output);
+        void Generate(string archive, string @namespace, bool pascalCase, TermAttributeType termAttribute, string output);
     }
 }

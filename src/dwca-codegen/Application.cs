@@ -26,8 +26,8 @@ namespace DwcaCodegen
 
         public void Generate(string archive,
             string @namespace,
-            bool? pascalCase,
-            TermAttributeType? termAttribute,
+            bool pascalCase,
+            TermAttributeType termAttribute,
             string output)
         {
             Console.WriteLine($"Generating files for archive {archive} using configuration:");

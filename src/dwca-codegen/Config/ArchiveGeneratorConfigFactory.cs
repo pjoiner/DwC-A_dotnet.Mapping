@@ -17,23 +17,23 @@ namespace DwcaCodegen.Config
 
         public IArchiveGeneratorConfiguration BuildConfiguration()
         {
-            var @namespace = config.GetString("default", "namespace");
-            var pascalCase = config.GetBoolean("default", "pascalCase");
-            var termAttribute = Enum.Parse<TermAttributeType>(config.GetString("default", "termAttribute"));
-            var output = config.GetString("default", "output");
+            var @namespace = config.GetString("default", "namespace") ?? "DwC";
+            var pascalCase = config.GetBoolean("default", "pascalCase") ?? true;
+            var termAttribute = Enum.Parse<TermAttributeType>(config.GetString("default", "termAttribute") ?? "none");
+            var output = config.GetString("default", "output") ?? ".";
             return BuildConfiguration(@namespace, pascalCase, termAttribute, output);
         }
 
         public IArchiveGeneratorConfiguration BuildConfiguration(
             string @namespace,
-            bool? pascalCase,
-            TermAttributeType? termAttribute,
+            bool pascalCase,
+            TermAttributeType termAttribute,
             string output)
         {
             var archiveGeneratorConfiguration = new ArchiveGeneratorConfiguration()
                 .AddNamespace(@namespace)
-                .AddPascalCase(pascalCase ?? true)
-                .AddTermAttribute(termAttribute ?? TermAttributeType.none)
+                .AddPascalCase(pascalCase)
+                .AddTermAttribute(termAttribute)
                 .AddOutput(output);
 
             var usingEntries = config.GetAll("default", "usings", "using")

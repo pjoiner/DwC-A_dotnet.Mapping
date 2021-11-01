@@ -8,17 +8,17 @@ namespace DwcaCodegen.CommandLine
 {
     class GenerateCommand : Command
     {
-        public GenerateCommand(IGenerator generator) 
+        public GenerateCommand(IGenerator generator, OptionBuilder optionBuilder) 
             : base("generate", "Generate class files from Darwin Core Archive meta data")
         {
             AddAlias("gen");
             AddArgument(BuildArchiveArgument());
-            AddOption(OptionBuilder.BuildNamespaceOption());
-            AddOption(OptionBuilder.BuildPascalCaseOption());
-            AddOption(OptionBuilder.BuildOutputOption());
-            AddOption(OptionBuilder.BuildTermAttributeOption());
+            AddOption(optionBuilder.BuildNamespaceOption());
+            AddOption(optionBuilder.BuildPascalCaseOption());
+            AddOption(optionBuilder.BuildOutputOption());
+            AddOption(optionBuilder.BuildTermAttributeOption());
 
-            Handler = CommandHandler.Create<string, string, bool?, TermAttributeType?, string>((archive, @namespace, pascalCase, termAttribute, output) =>
+            Handler = CommandHandler.Create<string, string, bool, TermAttributeType, string>((archive, @namespace, pascalCase, termAttribute, output) =>
             {
                 generator.Generate(archive, @namespace, pascalCase, termAttribute, output);  
             });

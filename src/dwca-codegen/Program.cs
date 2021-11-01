@@ -33,6 +33,7 @@ namespace DwcaCodegen
             {
                 return DotNetConfig.Config.Build(ConfigUtils.FullConfigFilePath);
             });
+            services.AddTransient<OptionBuilder>();
             services.AddCliCommands();
         }
 
