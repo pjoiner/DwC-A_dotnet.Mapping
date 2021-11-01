@@ -2,12 +2,11 @@
 
 [default]
 	pascalCase = true
-	termAttribute = index
-	namespace = DWC_A.DwC
+	termAttribute = none
+	namespace = DwC
 	output = .
 [default "usings"]
 	using = System
-	using = DwC_A.Terms
 [properties "http://rs.tdwg.org/dwc/terms/coordinatePrecision"]
 	typeName = double?
 	include = true

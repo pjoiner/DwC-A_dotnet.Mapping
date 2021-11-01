@@ -54,11 +54,11 @@ namespace DwcaCodegen.Config
                 .Distinct();
             foreach (var key in keys)
             {
-                archiveGeneratorConfiguration.AddPropertyConfig(key, (cfg) =>
+                archiveGeneratorConfiguration.Properties.Add(key, new PropertyConfiguration()
                 {
-                    cfg.Include = config.GetBoolean("properties", key, "include") ?? true;
-                    cfg.TypeName = config.GetString("properties", key, "typeName");
-                    cfg.PropertyName = config.GetString("properties", key, "propertyName");
+                    Include = config.GetBoolean("properties", key, "include") ?? true,
+                    TypeName = config.GetString("properties", key, "typeName"),
+                    PropertyName = config.GetString("properties", key, "propertyName")
                 });
             }
 

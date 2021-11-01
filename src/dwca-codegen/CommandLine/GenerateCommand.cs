@@ -18,9 +18,9 @@ namespace DwcaCodegen.CommandLine
             AddOption(OptionBuilder.BuildOutputOption());
             AddOption(OptionBuilder.BuildTermAttributeOption());
 
-            Handler = CommandHandler.Create<string, string, bool?, TermAttributeType?, string, string>((archive, @namespace, pascalCase, termAttribute, output, configName) =>
+            Handler = CommandHandler.Create<string, string, bool?, TermAttributeType?, string>((archive, @namespace, pascalCase, termAttribute, output) =>
             {
-                generator.Generate(archive, @namespace, pascalCase, termAttribute, output, configName);  
+                generator.Generate(archive, @namespace, pascalCase, termAttribute, output);  
             });
         }
 

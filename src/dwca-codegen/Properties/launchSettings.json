@@ -2,7 +2,7 @@
   "profiles": {
     "dwca-codegen": {
       "commandName": "Project",
-      "commandLineArgs": "gen -o code  C:\\Users\\pjoin\\Documents\\Data\\dwca-mvzobs_bird-v34.48"
+      "commandLineArgs": "gen -o code  ..\\..\\..\\..\\Tests\\resources\\dwca-mvzobs_bird-v34.48"
     }
   }
 }

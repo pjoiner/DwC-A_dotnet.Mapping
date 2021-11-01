@@ -2,8 +2,8 @@
 {
     public class PropertyConfiguration
     {
-        public bool Include { get; set; } = true;
-        public string TypeName { get; set; } = "string";
-        public string PropertyName { get; set; } = default;
+        public bool Include { get; init; } = true;
+        public string TypeName { get; init; } = "string";
+        public string PropertyName { get; init; } = default;
     }
 }

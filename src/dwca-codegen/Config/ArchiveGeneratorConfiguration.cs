@@ -23,18 +23,6 @@ namespace DwcaCodegen.Config
                     ? Properties[term]
                     : new PropertyConfiguration();
 
-        public ArchiveGeneratorConfiguration AddPropertyConfig(string term,
-            Action<PropertyConfiguration> configFunc)
-        {
-            if (configFunc != null)
-            {
-                var propertyConfig = new PropertyConfiguration();
-                configFunc(propertyConfig);
-                Properties.Add(term, propertyConfig);
-            }
-            return this;
-        }
-
         public ArchiveGeneratorConfiguration AddNamespace(string namespaceName)
         {
             this.@namespace = namespaceName;
@@ -64,17 +52,5 @@ namespace DwcaCodegen.Config
             this.output = output;
             return this;
         }
-
-        //public void OverrideConfiguration(string @namespace,
-        //    bool? pascalCase,
-        //    TermAttributeType? termAttribute,
-        //    string output)
-        //{
-        //    //This goes in the factory build method
-        //    if (termAttributeType != TermAttributeType.none && !usings.Contains(TermAttributeNamespaceName))
-        //    {
-        //        usings.Add(TermAttributeNamespaceName);
-        //    }
-        //}
     }
 }
