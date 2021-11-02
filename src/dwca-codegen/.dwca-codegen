@@ -1,11 +1,11 @@
 # Example default configuration for dwca-generator
 
-[default]
+[dwca-codegen]
 	pascalCase = true
 	termAttribute = none
 	namespace = DwC
 	output = .
-[default "usings"]
+[dwca-codegen "usings"]
 	using = System
 [properties "http://rs.tdwg.org/dwc/terms/coordinatePrecision"]
 	typeName = double?

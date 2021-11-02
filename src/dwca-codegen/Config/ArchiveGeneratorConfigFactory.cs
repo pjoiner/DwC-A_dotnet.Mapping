@@ -36,18 +36,15 @@ namespace DwcaCodegen.Config
                 .AddTermAttribute(termAttribute)
                 .AddOutput(output);
 
-            var usingEntries = config.GetAll("default", "usings", "using")
-                .Select(n => n.RawValue);
-            foreach (var entry in usingEntries)
-            {
-                archiveGeneratorConfiguration.AddUsing(entry);
-            }
-            if (archiveGeneratorConfiguration.TermAttribute != TermAttributeType.none 
-                && !archiveGeneratorConfiguration.Usings.Contains(TermAttributeNamespaceName))
-            {
-                archiveGeneratorConfiguration.AddUsing(TermAttributeNamespaceName);
-            }
+            BuildUsings(archiveGeneratorConfiguration);
 
+            BuildProperties(archiveGeneratorConfiguration);
+
+            return archiveGeneratorConfiguration;
+        }
+
+        private void BuildProperties(ArchiveGeneratorConfiguration archiveGeneratorConfiguration)
+        {
             var props = config.GetRegex("properties");
             var keys = props
                 .Select(n => n.Subsection)
@@ -61,8 +58,21 @@ namespace DwcaCodegen.Config
                     PropertyName = config.GetString("properties", key, "propertyName")
                 });
             }
+        }
 
-            return archiveGeneratorConfiguration;
+        private void BuildUsings(ArchiveGeneratorConfiguration archiveGeneratorConfiguration)
+        {
+            var usingEntries = config.GetAll("default", "usings", "using")
+                .Select(n => n.RawValue);
+            foreach (var entry in usingEntries)
+            {
+                archiveGeneratorConfiguration.AddUsing(entry);
+            }
+            if (archiveGeneratorConfiguration.TermAttribute != TermAttributeType.none
+                && !archiveGeneratorConfiguration.Usings.Contains(TermAttributeNamespaceName))
+            {
+                archiveGeneratorConfiguration.AddUsing(TermAttributeNamespaceName);
+            }
         }
     }
 }

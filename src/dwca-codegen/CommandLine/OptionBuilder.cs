@@ -53,6 +53,7 @@ namespace DwcaCodegen.CommandLine
                     return argument.Value;
                 },
                 description: "Add Term attribute to properties");
+            opt.SetDefaultValue(config.TermAttribute);
             return opt;
         }
 

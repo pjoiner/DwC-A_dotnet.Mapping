@@ -29,6 +29,7 @@ namespace DwcaCodegen
             services.AddTransient<IArchiveSourceGenerator, ArchiveSourceGenerator>();
             services.AddTransient<ClassGenerator>();
             services.AddTransient<ArchiveGeneratorConfigFactory>();
+            services.AddTransient<DefaultConfigurationBuilder>();
             services.AddTransient<DotNetConfig.Config>((c) =>
             {
                 return DotNetConfig.Config.Build(ConfigUtils.FullConfigFilePath);
@@ -47,7 +48,7 @@ namespace DwcaCodegen
             }
 
             var config = serviceProvider.GetService<DotNetConfig.Config>();
-            rootCommand = rootCommand.WithConfigurableDefaults("default", config);
+            rootCommand = rootCommand.WithConfigurableDefaults("dwca-codegen", config);
             
             var commandLineBuilder = new CommandLineBuilder(rootCommand);
 

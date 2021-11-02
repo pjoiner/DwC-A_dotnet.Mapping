@@ -14,6 +14,7 @@ namespace DwcaCodegen.CommandLine
             this.configApp = configApp;
             AddAlias("config");
             AddCommand(BuildListCommand());
+            AddCommand(BuildInitCommand());
         }
 
         private Command BuildListCommand()
@@ -24,6 +25,16 @@ namespace DwcaCodegen.CommandLine
                 configApp.ConfigList();
             });
             return list;
+        }
+
+        private Command BuildInitCommand()
+        {
+            var init = new Command("init", "Create new configuration file");
+            init.Handler = CommandHandler.Create(() =>
+            {
+                configApp.ConfigInit();
+            });
+            return init;
         }
     }
 }

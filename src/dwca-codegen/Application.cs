@@ -9,19 +9,15 @@ namespace DwcaCodegen
     {
         private readonly IArchiveSourceGenerator archiveSourceGenerator;
         private readonly ArchiveGeneratorConfigFactory archiveGeneratorConfigFactory;
+        private readonly DefaultConfigurationBuilder defaultConfigurationBuilder;
 
         public Application(IArchiveSourceGenerator archiveSourceGenerator,
-            ArchiveGeneratorConfigFactory archiveGeneratorConfigFactory)
+            ArchiveGeneratorConfigFactory archiveGeneratorConfigFactory,
+            DefaultConfigurationBuilder defaultConfigurationBuilder)
         {
             this.archiveSourceGenerator = archiveSourceGenerator;
             this.archiveGeneratorConfigFactory = archiveGeneratorConfigFactory;
-        }
-
-        public void ConfigList()
-        {
-            var archiveGeneratorConfiguration = archiveGeneratorConfigFactory
-                .BuildConfiguration();
-            ConfigList(archiveGeneratorConfiguration);
+            this.defaultConfigurationBuilder = defaultConfigurationBuilder;
         }
 
         public void Generate(string archive,
@@ -38,6 +34,13 @@ namespace DwcaCodegen
             ConfigList(archiveGeneratorConfiguration);
             var sourceFiles = archiveSourceGenerator.GenerateSource(archive, archiveGeneratorConfiguration);
             sourceFiles.ToList().ForEach((fileName) => Console.WriteLine($"Created {fileName}"));
+        }
+
+        public void ConfigList()
+        {
+            var archiveGeneratorConfiguration = archiveGeneratorConfigFactory
+                .BuildConfiguration();
+            ConfigList(archiveGeneratorConfiguration);
         }
 
         private void ConfigList(IArchiveGeneratorConfiguration generatorConfiguration)
@@ -57,6 +60,12 @@ namespace DwcaCodegen
                 var propertyConfig = generatorConfiguration.GetPropertyConfiguration(property.Key);
                 Console.WriteLine($"{propertyConfig.PropertyName,-10}{propertyConfig.TypeName,-10}{propertyConfig.Include,-8}{property.Key}");
             }
+        }
+
+        public void ConfigInit()
+        {
+            defaultConfigurationBuilder.Init();
+            Console.WriteLine($"Configuration file {ConfigUtils.FullConfigFilePath} created");
         }
 
     }

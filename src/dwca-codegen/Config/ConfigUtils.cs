@@ -6,7 +6,7 @@ namespace DwcaCodegen.Config
 {
     public static class ConfigUtils
     {
-        private const string ConfigFileName = ".dwca-generator";
+        private const string ConfigFileName = ".dwca-codegen";
 
         public static string Location => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
@@ -28,14 +28,7 @@ namespace DwcaCodegen.Config
                             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                             "dwca-codegen");
                 }
-                var configRoot = Directory.GetCurrentDirectory();
-                var configDirectory = Path.Combine(configRoot, ".config");
-                while (!Directory.Exists(configDirectory))
-                {
-                    configRoot = Directory.GetParent(configRoot).FullName;
-                    configDirectory = Path.Combine(configRoot, ".config");
-                }
-                return configDirectory;
+                return Directory.GetCurrentDirectory();
             }
         }
     }
