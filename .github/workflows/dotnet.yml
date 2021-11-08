@@ -21,5 +21,10 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.2
+      with:
+        name: dwca-codegen.nupkg
+        path: src/DWC_A/bin/Release/dwca-codegen.*.nupkg  
     - name: Test
       run: dotnet test --no-build --verbosity normal
