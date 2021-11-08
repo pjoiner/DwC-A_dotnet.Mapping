@@ -11,28 +11,21 @@ namespace DwcaCodegen.Generator
 {
     public class ClassGenerator
     {
-        private readonly GeneratorConfiguration config;
-
-        public ClassGenerator(GeneratorConfiguration config)
-        {
-            this.config = config;
-        }
-
-        public string GenerateFile(IFileMetaData fileMetaData)
+        public string GenerateFile(IFileMetaData fileMetaData, IArchiveGeneratorConfiguration config)
         {
             var @namespace = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.ParseName(config.Namespace));
             foreach (var usingNamespace in config.Usings)
             {
                 @namespace = @namespace.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(usingNamespace)));
             }
-            var classDeclaration = GenerateClass(fileMetaData);
+            var classDeclaration = GenerateClass(fileMetaData, config);
             @namespace = @namespace.AddMembers(classDeclaration);
             var doc  = Formatter.Format(@namespace, new AdhocWorkspace());
             var code = doc.ToFullString();
             return code;
         }
 
-        private ClassDeclarationSyntax GenerateClass(IFileMetaData fileMetaData)
+        private ClassDeclarationSyntax GenerateClass(IFileMetaData fileMetaData, IArchiveGeneratorConfiguration config)
         {
             var roslynGeneratorUtils = new RoslynGeneratorUtils();
             var className = roslynGeneratorUtils.NormalizeIdentifiers(Path.GetFileNameWithoutExtension(fileMetaData.FileName), 
@@ -48,14 +41,17 @@ namespace DwcaCodegen.Generator
 
                 if (propertyConfiguration.Include)
                 {
-                    var propertyDeclaration = GenerateProperty(metaData, propertyConfiguration, roslynGeneratorUtils);
+                    var propertyDeclaration = GenerateProperty(metaData, propertyConfiguration, roslynGeneratorUtils, config);
                     classDeclaration = classDeclaration.AddMembers(propertyDeclaration);
                 }
             }
             return classDeclaration;
         }
 
-        private PropertyDeclarationSyntax GenerateProperty(FieldType metaData, PropertyConfiguration propertyConfiguration, RoslynGeneratorUtils roslynGeneratorUtils)
+        private PropertyDeclarationSyntax GenerateProperty(FieldType metaData, 
+            PropertyConfiguration propertyConfiguration, 
+            RoslynGeneratorUtils roslynGeneratorUtils,
+            IArchiveGeneratorConfiguration config)
         {
             var propertyName = propertyConfiguration.PropertyName ?? roslynGeneratorUtils.NormalizeIdentifiers(metaData.Term, config.PascalCase);
             var propertyDeclaration = SyntaxFactory
@@ -67,14 +63,14 @@ namespace DwcaCodegen.Generator
 
             if (config.TermAttribute != TermAttributeType.none)
             {
-                AttributeListSyntax attributeList = GenerateTermAttribute(metaData);
+                AttributeListSyntax attributeList = GenerateTermAttribute(metaData, config);
                 propertyDeclaration = propertyDeclaration.AddAttributeLists(attributeList);
             }
 
             return propertyDeclaration;
         }
 
-        private AttributeListSyntax GenerateTermAttribute(FieldType metaData)
+        private AttributeListSyntax GenerateTermAttribute(FieldType metaData, IArchiveGeneratorConfiguration config)
         {
             LiteralExpressionSyntax literalExpression = null;
             switch (config.TermAttribute)

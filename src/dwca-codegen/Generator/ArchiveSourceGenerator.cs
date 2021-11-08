@@ -9,53 +9,46 @@ namespace DwcaCodegen.Generator
 {
     public class ArchiveSourceGenerator : IArchiveSourceGenerator
     {
-        private readonly GeneratorConfiguration config;
-        public ArchiveSourceGenerator(GeneratorConfiguration config)
+        private readonly ClassGenerator roslynClassGenerator;
+
+        public ArchiveSourceGenerator(ClassGenerator classGenerator)
         {
-            if (config == null)
-            {
-                this.config = new GeneratorConfiguration();
-            }
-            else
-            {
-                this.config = config;
-            }
+            roslynClassGenerator = classGenerator;
         }
 
-        public string[] GenerateSource(string fileName)
+        public string[] GenerateSource(string fileName, IArchiveGeneratorConfiguration config)
         {
             IList<string> sourceFiles = new List<string>();
             using (var archive = new ArchiveReader(fileName))
             {
-                var roslynClassGenerator = new ClassGenerator(config);
                 var outputPath = config.Output;
                 if (!Directory.Exists(outputPath))
                 {
                     Directory.CreateDirectory(outputPath);
                 }
-                string sourceFileName = CreateSourceFileName(archive.CoreFile.FileName, outputPath);
+                string sourceFileName = CreateSourceFileName(archive.CoreFile.FileName, outputPath, config);
                 sourceFiles.Add(sourceFileName);
                 var metaData = archive.CoreFile.FileMetaData;
-                var coreSource = roslynClassGenerator.GenerateFile(metaData);
+                var coreSource = roslynClassGenerator.GenerateFile(metaData, config);
                 File.WriteAllText(sourceFileName, coreSource, Encoding.UTF8);
                 foreach (var extension in archive.Extensions.GetFileReaders())
                 {
-                    var extensionFileName = CreateSourceFileName(extension.FileName, outputPath); 
+                    var extensionFileName = CreateSourceFileName(extension.FileName, outputPath, config); 
                     sourceFiles.Add(extensionFileName);
                     var meta = extension.FileMetaData;
-                    var extensionSource = roslynClassGenerator.GenerateFile(meta);
+                    var extensionSource = roslynClassGenerator.GenerateFile(meta, config);
                     File.WriteAllText(extensionFileName, extensionSource, Encoding.UTF8);
                 }
             }
             return sourceFiles.ToArray();
         }
 
-        private string CreateSourceFileName(string fileName, string outputPath)
+        private string CreateSourceFileName(string fileName, string outputPath, IArchiveGeneratorConfiguration config)
         {
             var sourceFileName = Path.GetFileNameWithoutExtension(fileName); 
             if (config.PascalCase)
             {
-                sourceFileName = char.ToUpper(sourceFileName[0]) + sourceFileName.Substring(1);
+                sourceFileName = char.ToUpper(sourceFileName[0]) + sourceFileName[1..];
             }
             return Path.Combine(outputPath, sourceFileName + ".cs");
         }

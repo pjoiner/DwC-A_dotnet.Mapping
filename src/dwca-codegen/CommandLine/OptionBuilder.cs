@@ -6,32 +6,42 @@ using System.Linq;
 
 namespace DwcaCodegen.CommandLine
 {
-    internal static class OptionBuilder
+    internal class OptionBuilder
     {
-        public static Option<string> BuildNamespaceOption()
+        private readonly IArchiveGeneratorConfiguration config;
+
+        public OptionBuilder(ArchiveGeneratorConfigFactory factory)
+        {
+            this.config = factory.BuildConfiguration();
+        }
+
+        public Option<string> BuildNamespaceOption()
         {
             return new Option<string>(
                     aliases: new[] { "-n", "--namespace" },
-                    description: "Namespace of generated source");
+                    description: "Namespace of generated source",
+                    getDefaultValue: () => config.Namespace );
         }
 
-        public static Option<string> BuildOutputOption()
+        public Option<string> BuildOutputOption()
         {
             return new Option<string>(
                     aliases: new[] { "-o", "--output" },
-                    description: "Path to generated source");
+                    description: "Path to generated source",
+                    getDefaultValue: () => config.Output );
         }
 
-        public static Option<bool> BuildPascalCaseOption()
+        public Option<bool> BuildPascalCaseOption()
         {
             return new Option<bool>(
                 aliases: new[] { "-p", "--pascalCase" },
-                description: "Use Pascal Case for property and classnames");
+                description: "Use Pascal Case for property and classnames",
+                getDefaultValue: () => config.PascalCase );
         }
 
-        public static Option<TermAttributeType> BuildTermAttributeOption()
+        public Option<string> BuildTermAttributeOption()
         {
-            var opt = new Option<TermAttributeType>(
+            var opt = new Option<string>(
                 aliases: new[] { "-t", "--termAttribute" },
                 parseArgument: (s) => 
                 {
@@ -40,9 +50,10 @@ namespace DwcaCodegen.CommandLine
                     {
                         s.ErrorMessage = "termAttribute must be one of none, name or index";
                     }
-                    return termAttributeType;
+                    return argument.Value;
                 },
                 description: "Add Term attribute to properties");
+            opt.SetDefaultValue(config.TermAttribute);
             return opt;
         }
 

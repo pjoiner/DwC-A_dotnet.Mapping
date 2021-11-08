@@ -1,52 +1,51 @@
 ﻿using DwcaCodegen.Config;
 using DwcaCodegen.Generator;
-using DwcaCodegen.Utils;
 using System;
-using System.IO;
 using System.Linq;
 
 namespace DwcaCodegen
 {
     public class Application : IGenerator, IConfigApp
     {
-        private readonly ArchiveGeneratorConfiguration archiveGeneratorConfiguration;
-        private readonly ISerializer serializer;
+        private readonly IArchiveSourceGenerator archiveSourceGenerator;
+        private readonly ArchiveGeneratorConfigFactory archiveGeneratorConfigFactory;
+        private readonly DefaultConfigurationBuilder defaultConfigurationBuilder;
 
-        public Application()
+        public Application(IArchiveSourceGenerator archiveSourceGenerator,
+            ArchiveGeneratorConfigFactory archiveGeneratorConfigFactory,
+            DefaultConfigurationBuilder defaultConfigurationBuilder)
         {
-            archiveGeneratorConfiguration = new ArchiveGeneratorConfiguration();
-            serializer = new JsonSerializer();
+            this.archiveSourceGenerator = archiveSourceGenerator;
+            this.archiveGeneratorConfigFactory = archiveGeneratorConfigFactory;
+            this.defaultConfigurationBuilder = defaultConfigurationBuilder;
         }
 
         public void Generate(string archive,
             string @namespace,
-            bool? pascalCase,
-            TermAttributeType? termAttribute,
-            string output,
-            string configName)
+            bool pascalCase,
+            TermAttributeType termAttribute,
+            string output)
         {
-            var configFile = ConfigPath(configName);
-            archiveGeneratorConfiguration.ReadFromFile(configFile, serializer);
-            archiveGeneratorConfiguration.OverrideConfiguration(@namespace, pascalCase, termAttribute, output);
             Console.WriteLine($"Generating files for archive {archive} using configuration:");
-            //TODO: Maybe add a verbose switch to turn this on/off
-            ConfigList(archiveGeneratorConfiguration.Configuration);
 
-            var archiveSourceGenerator = new ArchiveSourceGenerator(archiveGeneratorConfiguration.Configuration);
-            var sourceFiles = archiveSourceGenerator.GenerateSource(archive);
+            var archiveGeneratorConfiguration = archiveGeneratorConfigFactory
+                .BuildConfiguration(@namespace, pascalCase, termAttribute, output);
+            //TODO: Maybe add a verbose switch to turn this on/off
+            ConfigList(archiveGeneratorConfiguration);
+            var sourceFiles = archiveSourceGenerator.GenerateSource(archive, archiveGeneratorConfiguration);
             sourceFiles.ToList().ForEach((fileName) => Console.WriteLine($"Created {fileName}"));
         }
 
-        public void ConfigList(string configName)
+        public void ConfigList()
         {
-            var configFile = ConfigPath(configName);
-            archiveGeneratorConfiguration.ReadFromFile(configFile, serializer);
-            Console.WriteLine($"Configuration File: {configFile}");
-            ConfigList(archiveGeneratorConfiguration.Configuration);
+            var archiveGeneratorConfiguration = archiveGeneratorConfigFactory
+                .BuildConfiguration();
+            ConfigList(archiveGeneratorConfiguration);
         }
 
-        private void ConfigList(GeneratorConfiguration generatorConfiguration)
+        private void ConfigList(IArchiveGeneratorConfiguration generatorConfiguration)
         {
+            Console.WriteLine($"Config File: {ConfigUtils.FullConfigFilePath}");
             Console.WriteLine($"Namespace:  {generatorConfiguration.Namespace}");
             Console.WriteLine($"PascalCase: {generatorConfiguration.PascalCase}");
             Console.WriteLine($"Term Attribute: {generatorConfiguration.TermAttribute}");
@@ -63,80 +62,11 @@ namespace DwcaCodegen
             }
         }
 
-        public void ConfigAdd(string configName,
-            string term,
-            string name,
-            bool include,
-            string type)
+        public void ConfigInit()
         {
-            var configFile = ConfigPath(configName);
-            archiveGeneratorConfiguration.ReadFromFile(configFile, serializer);
-            if (archiveGeneratorConfiguration.Properties.ContainsKey(term))
-            {
-                Console.WriteLine($"Configuration for term {term} already exists.  Delete the term first before adding.");
-                return;
-            }
-            var propertyConfiguration = new PropertyConfiguration()
-            {
-                Include = include,
-                PropertyName = name,
-                TypeName = type
-            };
-            archiveGeneratorConfiguration.Properties.Add(term, propertyConfiguration);
-            archiveGeneratorConfiguration.WriteToFile(configFile, serializer);
-            Console.WriteLine($"Configuration for term {term} added to file {configFile}");
+            defaultConfigurationBuilder.Init();
+            Console.WriteLine($"Configuration file {ConfigUtils.FullConfigFilePath} created");
         }
 
-        public void ConfigDelete(string configName, string term)
-        {
-            var configFile = ConfigPath(configName);
-            archiveGeneratorConfiguration.ReadFromFile(configFile, serializer);
-            if (archiveGeneratorConfiguration.Properties.ContainsKey(term))
-            {
-                archiveGeneratorConfiguration.Properties.Remove(term);
-            }
-            archiveGeneratorConfiguration.WriteToFile(configFile, serializer);
-            Console.WriteLine($"Configuration for term {term} deleted from file {configFile}");
-        }
-
-        public void ConfigNew(string configName, 
-            bool empty, 
-            string @namespace, 
-            string output, 
-            bool? pascalCase, 
-            TermAttributeType? termAttribute)
-        {
-            var configFile = ConfigPath(configName);
-            if(!empty)
-            {
-                archiveGeneratorConfiguration.ReadFromFile(ConfigUtils.DefaultConfig, serializer);
-            }
-            archiveGeneratorConfiguration.OverrideConfiguration(@namespace, pascalCase, termAttribute, output);
-            archiveGeneratorConfiguration.WriteToFile(configFile, serializer);
-            Console.WriteLine($"Configuration file {configFile} created");
-        }
-
-        public string ConfigPath(string configName)
-        {
-            if(string.IsNullOrEmpty(configName))
-            {
-                configName = "default";
-            }
-            if(!Path.HasExtension(configName))
-            {
-                configName = Path.ChangeExtension(configName, ".json");
-            }
-            var rootConfigPath = ConfigUtils.ConfigLocation;
-            return Path.Combine(rootConfigPath, configName);
-        }
-
-        public void ConfigAddUsing(string configName, string namespaceName)
-        {
-            var configFile = ConfigPath(configName);
-            archiveGeneratorConfiguration.ReadFromFile(configFile, serializer);
-            archiveGeneratorConfiguration.Usings.Add(namespaceName);
-            archiveGeneratorConfiguration.WriteToFile(configFile, serializer);
-            Console.WriteLine($"Namespace {namespaceName} added to configuration {configName}");
-        }
     }
 }
