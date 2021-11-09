@@ -27,4 +27,4 @@ jobs:
         name: dwca-codegen.nupkg
         path: src/dwca-codegen/bin/Release/dwca-codegen.*.nupkg  
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --verbosity normal -p:CollectCoverage=true
