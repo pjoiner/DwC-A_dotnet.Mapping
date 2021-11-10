@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>DwC_A</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DwC-A_dotnet" Version="0.5.2">
+      <Aliases>Core</Aliases>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>
