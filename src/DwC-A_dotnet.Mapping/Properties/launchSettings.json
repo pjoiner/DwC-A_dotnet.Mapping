@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DwC-A_dotnet.Mapping": {
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "..\\Tests\\Tests.csproj"
+    }
+  }
+}

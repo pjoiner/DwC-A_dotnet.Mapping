@@ -13,7 +13,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DwC-A_dotnet.Mapping\DwC-A_dotnet.Mapping.csproj" />
+    <ProjectReference Include="..\DwC-A_dotnet.Mapping\DwC-A_dotnet.Mapping.csproj" OutputItemType="Analyzer"/>
   </ItemGroup>
   <ItemGroup>
     <None Update="resources\dwca-mvzobs_bird-v34.48\eml.xml">
