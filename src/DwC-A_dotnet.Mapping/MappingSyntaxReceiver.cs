@@ -1,34 +1,31 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SourceGeneratorLib
 {
     public class MappingSyntaxReceiver : ISyntaxReceiver
     {
-        private readonly HashSet<SyntaxNode> candidates = new HashSet<SyntaxNode>();
+        private readonly List<SyntaxNode> candidates = new List<SyntaxNode>();
 
-        public HashSet<SyntaxNode> Candidates => candidates;
+        public List<SyntaxNode> Candidates => candidates;
 
         public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
         {
-            if(syntaxNode is AttributeSyntax attribute)
+            if(syntaxNode is ClassDeclarationSyntax classDeclaration)
             {
-                if(attribute.Name is IdentifierNameSyntax identifier)
+                var hasTermAttribute = classDeclaration.ChildNodes()
+                    .OfType<PropertyDeclarationSyntax>()
+                    .SelectMany(p => p.AttributeLists)
+                    .SelectMany(a => a.Attributes)
+                    .Select(a => a.Name)
+                    .OfType<IdentifierNameSyntax>()
+                    .Any(i => i.Identifier.Text == "Term");
+
+                if(hasTermAttribute)
                 {
-                    if(identifier.Identifier.Text == "Term")
-                    {
-                        var node = syntaxNode;
-                        while(!node.IsKind(SyntaxKind.ClassDeclaration))
-                        {
-                            node = node.Parent;
-                        }
-                        if(node != null)
-                        {
-                            candidates.Add(node);
-                        }
-                    }
+                    candidates.Add(syntaxNode);
                 }
             }
         }

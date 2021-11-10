@@ -11,7 +11,6 @@ namespace SourceGeneratorLib
     {
         public void Execute(GeneratorExecutionContext context)
         {
-
             var syntaxReceiver = context.SyntaxReceiver as MappingSyntaxReceiver;
             foreach(ClassDeclarationSyntax classDeclaration in syntaxReceiver.Candidates)
             {

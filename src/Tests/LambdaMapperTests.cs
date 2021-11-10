@@ -9,7 +9,7 @@ namespace Tests
 {
     public class LambdaMapperTests
     {
-        ArchiveReader archive = new ArchiveReader("resources/dwca-mvzobs_bird-v34.48");
+        private readonly ArchiveReader archive = new ArchiveReader("resources/dwca-mvzobs_bird-v34.48");
 
         [Fact]
         public void ShoulMapOccurrenceRow()
