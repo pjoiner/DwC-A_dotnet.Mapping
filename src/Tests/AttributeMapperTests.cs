@@ -1,4 +1,5 @@
 ﻿using DwC_A;
+using DwC_A.Mapping;
 using System.Linq;
 using Tests.Models;
 using Xunit;
@@ -32,6 +33,19 @@ namespace Tests
 
             var occurrence = new OccurrenceProxy();
             occurrence.MapRow(row);
+
+            Assert.NotNull(occurrence.ScientificName);
+        }
+
+        [Fact]
+        public void ShouldCreateMapper()
+        {
+            var row = archive.CoreFile
+                .DataRows
+                .First();
+            IMapper<OccurrenceProxy> mapper = MapperFactory.CreateMapper<OccurrenceProxy>((o, row) => o.MapRow(row));
+
+            var occurrence = row.Map<OccurrenceProxy>(mapper);
 
             Assert.NotNull(occurrence.ScientificName);
         }
