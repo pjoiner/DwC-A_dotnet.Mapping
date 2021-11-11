@@ -18,9 +18,14 @@
     <Version>1.0.8</Version>
     <NoDefaultExcludes>true</NoDefaultExcludes>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <PackageReference Include="DotNetConfig" Version="1.0.6" />
     <PackageReference Include="DotNetConfig.CommandLine" Version="1.0.6" />
     <PackageReference Include="DwC-A_dotnet" Version="0.5.0" />
@@ -29,7 +34,7 @@
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="3.11.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
-	<None Include="README.md" Pack="true" PackagePath="\"/>
+	<None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>

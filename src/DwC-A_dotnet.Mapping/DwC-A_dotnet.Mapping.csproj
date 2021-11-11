@@ -12,6 +12,7 @@
     <PackageProjectUrl>https://github.com/pjoiner/DwC-A_dotnet.Mapping/tree/master/src/DwC-A_dotnet.Mapping</PackageProjectUrl>
     <RepositoryUrl>https://github.com/pjoiner/DwC-A_dotnet.Mapping</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -19,6 +20,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <PackageReference Include="DwC-A_dotnet" Version="0.5.2">
       <Aliases>Core</Aliases>
     </PackageReference>
@@ -27,7 +32,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.11.0" />
-    <None Include="README.md" Pack="true" PackagePath="\"/>
+    <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
