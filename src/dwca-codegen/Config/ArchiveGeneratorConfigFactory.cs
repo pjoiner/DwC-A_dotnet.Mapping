@@ -7,7 +7,7 @@ namespace DwcaCodegen.Config
 {
     public class ArchiveGeneratorConfigFactory
     {
-        private const string TermAttributeNamespaceName = "DwC_A.Terms";
+        private const string TermAttributeNamespaceName = "DwC_A.Attributes";
         private readonly DotNetConfig.Config config;
 
         public ArchiveGeneratorConfigFactory(DotNetConfig.Config config)

@@ -1,10 +1,8 @@
 ﻿extern alias Core;
-
-using DwC_A.Mapping;
 using System;
 using Core.DwC_A;
 
-namespace DwC_A
+namespace DwC_A.Mapping
 {
     public static class MapperFactory
     {

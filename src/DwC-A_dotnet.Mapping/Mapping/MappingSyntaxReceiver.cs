@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SourceGeneratorLib
+namespace DwC_A.Mapping
 {
     public class MappingSyntaxReceiver : ISyntaxReceiver
     {
@@ -13,7 +13,7 @@ namespace SourceGeneratorLib
 
         public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
         {
-            if(syntaxNode is ClassDeclarationSyntax classDeclaration)
+            if (syntaxNode is ClassDeclarationSyntax classDeclaration)
             {
                 var hasTermAttribute = classDeclaration.ChildNodes()
                     .OfType<PropertyDeclarationSyntax>()
@@ -23,7 +23,7 @@ namespace SourceGeneratorLib
                     .OfType<IdentifierNameSyntax>()
                     .Any(i => i.Identifier.Text == "Term");
 
-                if(hasTermAttribute)
+                if (hasTermAttribute)
                 {
                     candidates.Add(syntaxNode);
                 }

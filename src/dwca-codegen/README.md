@@ -1,6 +1,6 @@
 # dwca-codegen Documentation
 
-dwca-codegen in a dotnet command line tool that can be used to generate class files for mapping Darwin Core Archive files to strongly typed classes.
+dwca-codegen is a dotnet command line tool that Darwin Core Archive meta-data to generate class files for mapping biodiversity datasets to strongly typed classes.
 
 ## Installation
 
@@ -176,7 +176,7 @@ dwca-codegen -o code -t name ./data/dwca-mvzobs_bird-v34.48.zip
 ```csharp
 namespace DwC
 {
-    using DwC_A.Terms;
+    using DwC_A.Attributes;
 
     public partial class Multimedia
     {

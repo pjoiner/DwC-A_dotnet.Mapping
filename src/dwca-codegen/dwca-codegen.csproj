@@ -7,16 +7,17 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Paul Joiner</Authors>
     <Description>Code generation tool for mapping of Darwin Core Archive files to strongly typed classes.</Description>
-    <Copyright>Copyright © Paul Joiner 2020</Copyright>
+    <Copyright>Copyright © Paul Joiner 2021</Copyright>
     <RepositoryType>git</RepositoryType>
     <PackageTags>DwC-A darwin-core Biodiversity</PackageTags>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>dwca-codegen</ToolCommandName>
     <Nullable>disable</Nullable>
-    <PackageProjectUrl>https://github.com/pjoiner/DwC-A_Mapping</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/pjoiner/DwC-A_Mapping</RepositoryUrl>
-    <Version>1.0.7</Version>
+    <PackageProjectUrl>https://github.com/pjoiner/DwC-A_dotnet.Mapping</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/pjoiner/DwC-A_dotnet.Mapping/tree/master/src/dwca-codegen</RepositoryUrl>
+    <Version>1.0.8</Version>
     <NoDefaultExcludes>true</NoDefaultExcludes>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,11 +29,15 @@
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="3.11.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
+	<None Include="README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
   <ItemGroup>
     <None Update=".dwca-codegen">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="README.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

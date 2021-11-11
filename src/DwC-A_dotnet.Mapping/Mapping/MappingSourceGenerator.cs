@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SourceGeneratorLib
+namespace DwC_A.Mapping
 {
     [Generator]
     public class MappingSourceGenerator : ISourceGenerator
@@ -12,10 +12,10 @@ namespace SourceGeneratorLib
         public void Execute(GeneratorExecutionContext context)
         {
             var syntaxReceiver = context.SyntaxReceiver as MappingSyntaxReceiver;
-            foreach(ClassDeclarationSyntax classDeclaration in syntaxReceiver.Candidates)
+            foreach (ClassDeclarationSyntax classDeclaration in syntaxReceiver.Candidates)
             {
                 SyntaxNode node = classDeclaration;
-                while(!node.IsKind(SyntaxKind.NamespaceDeclaration))
+                while (!node.IsKind(SyntaxKind.NamespaceDeclaration))
                 {
                     node = node.Parent;
                 }
@@ -42,15 +42,15 @@ namespace SourceGeneratorLib
                 };
 
                 var statements = new List<StatementSyntax>();
-                foreach(var propertySyntax in classDeclaration.Members.OfType<PropertyDeclarationSyntax>())
+                foreach (var propertySyntax in classDeclaration.Members.OfType<PropertyDeclarationSyntax>())
                 {
-                    foreach(var attributeList in propertySyntax.AttributeLists)
+                    foreach (var attributeList in propertySyntax.AttributeLists)
                     {
-                        foreach(var attribute in attributeList.Attributes)
+                        foreach (var attribute in attributeList.Attributes)
                         {
-                            if(attribute.Name is IdentifierNameSyntax identifier)
+                            if (attribute.Name is IdentifierNameSyntax identifier)
                             {
-                                if(identifier.Identifier.Text == "Term")
+                                if (identifier.Identifier.Text == "Term")
                                 {
                                     //What goes here?
                                     var paramString = attribute.ArgumentList.Arguments.First().Expression.ToFullString();
@@ -78,7 +78,7 @@ namespace SourceGeneratorLib
                 context.AddSource($"{className}.g.cs", sourceCode);
             }
         }
-    
+
 
         public void Initialize(GeneratorInitializationContext context)
         {
