@@ -22,6 +22,7 @@ namespace DwC_A.Mapping
                 NamespaceDeclarationSyntax encloseingNamespace = node as NamespaceDeclarationSyntax;
                 var @namespace = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.ParseName("DwC_A"));
                 @namespace = @namespace.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("DwC_A")))
+                    .AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("DwC_A.Extensions")))
                     .AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("System")))
                     .AddUsings(SyntaxFactory.UsingDirective(encloseingNamespace.Name));
 
@@ -52,9 +53,27 @@ namespace DwC_A.Mapping
                             {
                                 if (identifier.Identifier.Text == "Term")
                                 {
+                                    StatementSyntax statement;
                                     //What goes here?
                                     var paramString = attribute.ArgumentList.Arguments.First().Expression.ToFullString();
-                                    var statement = SyntaxFactory.ParseStatement($"obj.{propertySyntax.Identifier.Text} = row[{paramString}];");
+                                    if(propertySyntax.Type.IsKind(SyntaxKind.StringKeyword))
+                                    {
+                                        statement = SyntaxFactory.ParseStatement($"obj.{propertySyntax.Identifier.Text} = row[{paramString}];");
+                                    }
+                                    else if (propertySyntax.Type.IsKind(SyntaxKind.NullableType))
+                                    {
+                                        var type = propertySyntax
+                                            .Type
+                                            .WithoutTrivia()
+                                            .ToFullString();
+                                        type = type.Replace('?', ' ').Trim();
+                                        statement = SyntaxFactory.ParseStatement($"obj.{propertySyntax.Identifier.Text} = row.ConvertNullable<{type}>({paramString});");
+                                    }
+                                    else
+                                    {
+                                        var type = propertySyntax.Type.ToFullString();
+                                        statement = SyntaxFactory.ParseStatement($"obj.{propertySyntax.Identifier.Text} = row.Convert<{type}>({paramString});");
+                                    }
                                     statements.Add(statement);
                                 }
                             }

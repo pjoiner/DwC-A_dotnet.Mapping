@@ -1,6 +1,7 @@
 ﻿namespace Tests.Models
 {
     using DwC_A.Attributes;
+    using System;
 
     public partial class Multimedia
     {
@@ -15,7 +16,7 @@
         [Term("http://purl.org/dc/terms/title")]
         public string Title { get; set; }
         [Term("http://purl.org/dc/terms/modified")]
-        public string Modified { get; set; }
+        public DateTime Modified { get; set; }
         [Term("http://ns.adobe.com/xap/1.0/rights/WebStatement")]
         public string WebStatement { get; set; }
         [Term("http://purl.org/dc/elements/1.1/source")]
@@ -29,7 +30,7 @@
         [Term("http://purl.org/dc/terms/description")]
         public string Description { get; set; }
         [Term("http://ns.adobe.com/xap/1.0/CreateDate")]
-        public string CreateDate { get; set; }
+        public DateTime CreateDate { get; set; }
         [Term("http://rs.tdwg.org/ac/terms/accessURI")]
         public string AccessURI { get; set; }
         [Term("http://purl.org/dc/elements/1.1/format")]

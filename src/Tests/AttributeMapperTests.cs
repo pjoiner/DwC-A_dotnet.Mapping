@@ -31,7 +31,7 @@ namespace Tests
                 .DataRows
                 .First();
 
-            var occurrence = new OccurrenceProxy();
+            var occurrence = new OccurrenceAnnotatedWithIndex();
             occurrence.MapRow(row);
 
             Assert.NotNull(occurrence.ScientificName);
@@ -43,9 +43,9 @@ namespace Tests
             var row = archive.CoreFile
                 .DataRows
                 .First();
-            IMapper<OccurrenceProxy> mapper = MapperFactory.CreateMapper<OccurrenceProxy>((o, row) => o.MapRow(row));
+            IMapper<OccurrenceAnnotatedWithIndex> mapper = MapperFactory.CreateMapper<OccurrenceAnnotatedWithIndex>((o, row) => o.MapRow(row));
 
-            var occurrence = row.Map<OccurrenceProxy>(mapper);
+            var occurrence = row.Map<OccurrenceAnnotatedWithIndex>(mapper);
 
             Assert.NotNull(occurrence.ScientificName);
         }

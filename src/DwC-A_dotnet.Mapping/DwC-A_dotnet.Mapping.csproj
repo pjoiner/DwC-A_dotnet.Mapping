@@ -24,7 +24,7 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-    <PackageReference Include="DwC-A_dotnet" Version="0.5.2">
+    <PackageReference Include="DwC-A_dotnet" Version="0.6.0">
       <Aliases>Core</Aliases>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">

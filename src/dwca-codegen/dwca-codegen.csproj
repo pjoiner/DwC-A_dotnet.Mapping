@@ -28,7 +28,7 @@
     </None>
     <PackageReference Include="DotNetConfig" Version="1.0.6" />
     <PackageReference Include="DotNetConfig.CommandLine" Version="1.0.6" />
-    <PackageReference Include="DwC-A_dotnet" Version="0.5.0" />
+    <PackageReference Include="DwC-A_dotnet" Version="0.6.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.11.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.11.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="3.11.0" />

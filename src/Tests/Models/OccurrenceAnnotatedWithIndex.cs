@@ -1,15 +1,16 @@
 ﻿namespace Tests.Models
 {
     using DwC_A.Attributes;
+    using System;
 
-    public partial class OccurrenceProxy
+    public partial class OccurrenceAnnotatedWithIndex
     {
         [Term(0)]
         public string Id { get; set; }
         [Term(1)]
         public string Type { get; set; }
         [Term(2)]
-        public string Modified { get; set; }
+        public DateTime Modified { get; set; }
         [Term(3)]
         public string Language { get; set; }
         [Term(4)]
@@ -43,7 +44,7 @@
         [Term(18)]
         public string RecordedBy { get; set; }
         [Term(19)]
-        public string IndividualCount { get; set; }
+        public int? IndividualCount { get; set; }
         [Term(20)]
         public string Sex { get; set; }
         [Term(21)]
@@ -75,11 +76,11 @@
         [Term(34)]
         public string EndDayOfYear { get; set; }
         [Term(35)]
-        public string Year { get; set; }
+        public int Year { get; set; }
         [Term(36)]
-        public string Month { get; set; }
+        public int Month { get; set; }
         [Term(37)]
-        public string Day { get; set; }
+        public int Day { get; set; }
         [Term(38)]
         public string VerbatimEventDate { get; set; }
         [Term(39)]
@@ -125,9 +126,9 @@
         [Term(59)]
         public string VerbatimCoordinateSystem { get; set; }
         [Term(60)]
-        public string DecimalLatitude { get; set; }
+        public double DecimalLatitude { get; set; }
         [Term(61)]
-        public string DecimalLongitude { get; set; }
+        public double DecimalLongitude { get; set; }
         [Term(62)]
         public string GeodeticDatum { get; set; }
         [Term(63)]
