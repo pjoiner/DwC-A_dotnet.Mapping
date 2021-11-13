@@ -2,7 +2,6 @@
 using DwC_A.Mapping;
 using DwC_A.Terms;
 using System.Linq;
-using Tests.Models;
 using Xunit;
 
 namespace Tests
@@ -11,7 +10,7 @@ namespace Tests
     {
         private readonly ArchiveReader archive = new ArchiveReader("resources/dwca-mvzobs_bird-v34.48");
 
-        private readonly IMapper<Occurrence> mapper = MapperFactory.CreateMapper<Occurrence>((o, row) =>
+        private readonly IMapper<Models.Occurrence> mapper = MapperFactory.CreateMapper<Models.Occurrence>((o, row) =>
         {
             o.Id = row["id"];
             o.DecimalLatitude = row[Terms.decimalLatitude] == null ? null : double.Parse(row[Terms.decimalLatitude]);
@@ -37,7 +36,7 @@ namespace Tests
         public void ShoulMapOccurrenceRow()
         {
             var row = archive.CoreFile.DataRows.First();
-            var occurrence = row.Map<Occurrence>(mapper);
+            var occurrence = row.Map<Models.Occurrence>(mapper);
 
             double expected = 42.2089;
             Assert.Equal(expected, occurrence.DecimalLatitude.Value, 4);
@@ -46,10 +45,10 @@ namespace Tests
         [Fact]
         public void ShouldReturnClassOnNullLambda()
         {
-            IMapper<Occurrence> mapper1 = MapperFactory.CreateMapper<Occurrence>(null);
+            IMapper<Models.Occurrence> mapper1 = MapperFactory.CreateMapper<Models.Occurrence>(null);
 
             var row = archive.CoreFile.DataRows.First();
-            var occurrence = row.Map<Occurrence>(mapper1);
+            var occurrence = row.Map<Models.Occurrence>(mapper1);
 
             Assert.NotNull(occurrence);
             Assert.Equal(default, occurrence.DecimalLongitude);
@@ -61,7 +60,7 @@ namespace Tests
             var actual = archive.CoreFile
                 .DataRows
                 .Take(10)
-                .Map<Occurrence>(mapper)
+                .Map<Models.Occurrence>(mapper)
                 .Select(o => o.DecimalLatitude);
 
             Assert.Equal(expectedLatitudes, actual);
@@ -73,7 +72,7 @@ namespace Tests
             var actual = archive.CoreFile
                 .DataRows
                 .Take(10)
-                .Map<Occurrence>(mapper)
+                .Map<Models.Occurrence>(mapper)
                 .Select(o => o.DecimalLatitude);
 
             Assert.Equal(expectedLatitudes, actual);

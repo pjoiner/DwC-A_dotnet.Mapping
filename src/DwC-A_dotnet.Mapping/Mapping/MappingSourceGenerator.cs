@@ -9,6 +9,8 @@ namespace DwC_A.Mapping
     [Generator]
     public class MappingSourceGenerator : ISourceGenerator
     {
+        private readonly IList<string> classes = new List<string>();
+
         public void Execute(GeneratorExecutionContext context)
         {
             var syntaxReceiver = context.SyntaxReceiver as MappingSyntaxReceiver;
@@ -20,13 +22,19 @@ namespace DwC_A.Mapping
                     node = node.Parent;
                 }
                 NamespaceDeclarationSyntax encloseingNamespace = node as NamespaceDeclarationSyntax;
-                var @namespace = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.ParseName("DwC_A"));
+                var @namespace = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.ParseName("DwC_A.Mapping"));
                 @namespace = @namespace.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("DwC_A")))
                     .AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("DwC_A.Extensions")))
                     .AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("System")))
                     .AddUsings(SyntaxFactory.UsingDirective(encloseingNamespace.Name));
 
                 var className = $"{classDeclaration.Identifier.Text}Extensions";
+                int x = 1;
+                while (classes.Contains(className))
+                {
+                    className = $"{className}{x++}";
+                }
+                classes.Add(className);
 
                 var extensionClassSyntax = SyntaxFactory.ClassDeclaration(className)
                     .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword),
@@ -54,9 +62,9 @@ namespace DwC_A.Mapping
                                 if (identifier.Identifier.Text == "Term")
                                 {
                                     StatementSyntax statement;
-                                    //What goes here?
                                     var paramString = attribute.ArgumentList.Arguments.First().Expression.ToFullString();
-                                    if(propertySyntax.Type.IsKind(SyntaxKind.StringKeyword))
+                                    if(propertySyntax.Type is PredefinedTypeSyntax pts && 
+                                        pts.Keyword.IsKind(SyntaxKind.StringKeyword))
                                     {
                                         statement = SyntaxFactory.ParseStatement($"obj.{propertySyntax.Identifier.Text} = row[{paramString}];");
                                     }
@@ -94,7 +102,8 @@ namespace DwC_A.Mapping
                 var sourceCode = @namespace
                     .NormalizeWhitespace()
                     .ToFullString();
-                context.AddSource($"{className}.g.cs", sourceCode);
+                var sourceFileName = $"{className}.g.cs";
+                context.AddSource(sourceFileName, sourceCode);
             }
         }
 

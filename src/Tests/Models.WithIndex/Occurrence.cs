@@ -1,16 +1,16 @@
-﻿namespace Tests.Models
+﻿namespace Tests.Models.WithIndex
 {
     using DwC_A.Attributes;
     using System;
 
-    public partial class OccurrenceAnnotatedWithIndex
+    public partial class Occurrence
     {
         [Term(0)]
         public string Id { get; set; }
         [Term(1)]
         public string Type { get; set; }
         [Term(2)]
-        public DateTime Modified { get; set; }
+        public string Modified { get; set; }
         [Term(3)]
         public string Language { get; set; }
         [Term(4)]
@@ -74,13 +74,13 @@
         [Term(33)]
         public string EventTime { get; set; }
         [Term(34)]
-        public string EndDayOfYear { get; set; }
+        public int? EndDayOfYear { get; set; }
         [Term(35)]
-        public int Year { get; set; }
+        public int? Year { get; set; }
         [Term(36)]
-        public int Month { get; set; }
+        public int? Month { get; set; }
         [Term(37)]
-        public int Day { get; set; }
+        public int? Day { get; set; }
         [Term(38)]
         public string VerbatimEventDate { get; set; }
         [Term(39)]
@@ -110,13 +110,13 @@
         [Term(51)]
         public string VerbatimLocality { get; set; }
         [Term(52)]
-        public string MinimumElevationInMeters { get; set; }
+        public double? MinimumElevationInMeters { get; set; }
         [Term(53)]
         public string MaximumElevationInMeters { get; set; }
         [Term(54)]
         public string MinimumDepthInMeters { get; set; }
         [Term(55)]
-        public string MaximumDepthInMeters { get; set; }
+        public double? MaximumDepthInMeters { get; set; }
         [Term(56)]
         public string LocationAccordingTo { get; set; }
         [Term(57)]
@@ -126,13 +126,13 @@
         [Term(59)]
         public string VerbatimCoordinateSystem { get; set; }
         [Term(60)]
-        public double DecimalLatitude { get; set; }
+        public double? DecimalLatitude { get; set; }
         [Term(61)]
-        public double DecimalLongitude { get; set; }
+        public double? DecimalLongitude { get; set; }
         [Term(62)]
         public string GeodeticDatum { get; set; }
         [Term(63)]
-        public string CoordinateUncertaintyInMeters { get; set; }
+        public double? CoordinateUncertaintyInMeters { get; set; }
         [Term(64)]
         public string GeoreferencedBy { get; set; }
         [Term(65)]
@@ -162,7 +162,7 @@
         [Term(77)]
         public string IdentifiedBy { get; set; }
         [Term(78)]
-        public string DateIdentified { get; set; }
+        public DateTime? DateIdentified { get; set; }
         [Term(79)]
         public string IdentificationReferences { get; set; }
         [Term(80)]
