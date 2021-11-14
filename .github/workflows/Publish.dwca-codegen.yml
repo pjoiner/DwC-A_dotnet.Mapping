@@ -29,4 +29,4 @@ jobs:
           PROJECT_FILE_PATH: src/dwca-codegen/dwca-codegen.csproj 
           # NuGet package id, used for version detection & defaults to project name
           # API key to authenticate with NuGet server
-          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_KEY: ${{ secrets.TOOLS_NUGET_API_KEY }}
