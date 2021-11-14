@@ -5,11 +5,11 @@ using System;
 
 namespace DwC_A.Mapping
 {
-    public class LambdaMapper<T> : IMapper<T> where T : new()
+    internal class Mapper<T> : IMapper<T> where T : new()
     {
         private readonly Action<T, IRow> rowMapFunc;
 
-        public LambdaMapper(Action<T, IRow> rowMapFunc)
+        public Mapper(Action<T, IRow> rowMapFunc)
         {
             this.rowMapFunc = rowMapFunc;
         }
@@ -20,6 +20,5 @@ namespace DwC_A.Mapping
             rowMapFunc?.Invoke(obj, row);
             return obj;
         }
-
     }
 }

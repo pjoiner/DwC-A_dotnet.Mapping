@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DwC-A_dotnet" Version="0.5.2" />
+    <PackageReference Include="DwC-A_dotnet" Version="0.6.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -13,7 +13,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DwC-A_dotnet.Mapping\DwC-A_dotnet.Mapping.csproj" />
+    <ProjectReference Include="..\DwC-A_dotnet.Mapping\DwC-A_dotnet.Mapping.csproj" OutputItemType="Analyzer" />
   </ItemGroup>
   <ItemGroup>
     <None Update="resources\dwca-mvzobs_bird-v34.48\eml.xml">

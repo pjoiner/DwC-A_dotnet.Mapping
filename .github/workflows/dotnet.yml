@@ -24,6 +24,11 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.2
       with:
+        name: DwC-A_dotnet.Mapping.nupkg
+        path: src/DwC-A_dotnet.Mapping/bin/Release/DwC-A_dotnet.Mapping.*.nupkg  
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.2
+      with:
         name: dwca-codegen.nupkg
         path: src/dwca-codegen/bin/Release/dwca-codegen.*.nupkg  
     - name: Test
