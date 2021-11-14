@@ -5,7 +5,7 @@ using System;
 
 namespace DwC_A.Mapping
 {
-    public class Mapper<T> : IMapper<T> where T : new()
+    internal class Mapper<T> : IMapper<T> where T : new()
     {
         private readonly Action<T, IRow> rowMapFunc;
 

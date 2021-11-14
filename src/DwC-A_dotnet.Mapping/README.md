@@ -34,11 +34,11 @@ public class Occurrence
 A mapper should be set up as follows
 
 ```csharp
-IMapper<Occurrence> mapper = new LambdaMapper<Occurrence>((o, row) =>
+IMapper<Occurrence> mapper = MapperFactory.CreateMapper<Occurrence>((o, row) =>
 {
     o.Id = row["id"];
-    o.DecimalLatitude = double.Parse(row[Terms.decimalLatitude]);
-    o.DecimalLongitude = double.Parse(row[Terms.decimalLongitude]);
+    o.DecimalLatitude = row.Convert<double>(Terms.decimalLatitude);
+    o.DecimalLongitude = row.Convert<double>(Terms.decimalLongitude);
     o.ScientificName = row[Terms.scientificName];
 });
 ```
@@ -82,23 +82,62 @@ public class Occurrence
 }
 ```
 
-The DwC-A_dotnet library then uses a Source Generator to add a map method to the annotated class which can be used as follows.
+The DwC-A_dotnet library then uses a Source Generator to add a map method to the annotated class which can be used to define a mapper as follows.
 
 ```csharp
-using DwC_A;
-using DwC_A.Mapping;
-using DwC_A.Terms;
+IMapper<Occurrence> mapper = MapperFactory.CreateMapper<Occurrence>((o, row) => o.MapRow(row));
 
+```
+
+### Mapping Extensions
+
+Once an IMapper instance has been created it can be used to map an individual row or an enumeration in one of the following ways.
+
+#### Single Row
+
+```csharp
+Occurrence occurrence = row.Map<Occurrence>(mapper);
+```
+
+OR
+
+```csharp
+Occurrence occurrence = mapper.MapRow(row);
+```
+
+Also, if you are using Attribute Mapping the source generator will add a MapRow extension method to your class so you can map it as follows.
+
+```csharp
+Occurrence occurrence = new Occurrence();
+occurrence.MapRow(row);
+```
+
+#### FileReader DataRows Enumeration
+```csharp
 using(ArchiveReader archive = new ArchiveReader("archivePath"))
 {
-    foreach(var row in archive.CoreFile.DataRows)
+    foreach(var occurrence in archive.CoreFile.Map<Occurrence>(mapper))
     {
-        var occurrence = new Occurrence();
-        occurrence.Map(row);
         ...
     }
 }
 ```
 
+#### Enumeration of IRow
 
+Use this technique to filter rows before mapping for improved performance
+
+```csharp
+using(ArchiveReader archive = new ArchiveReader("archivePath"))
+{
+    foreach(var occurrence in archive.CoreFile.Take(10).Map<Occurrence>(mapper))
+    {
+        ...
+    }
+}
+```
+
+## Class Generation
+
+To ease the creation of class definitions for large files the [dwca-codegen](https://github.com/pjoiner/DwC-A_dotnet.Mapping/tree/AttributeMapper/src/dwca-codegen) CLI tool was created and can also be downloaded from NuGet.  See the [dwca-codegen](https://github.com/pjoiner/DwC-A_dotnet.Mapping/tree/AttributeMapper/src/dwca-codegen) documentation for more information.
 

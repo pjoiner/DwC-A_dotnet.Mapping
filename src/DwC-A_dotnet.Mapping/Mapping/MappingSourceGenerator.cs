@@ -13,34 +13,52 @@ namespace DwC_A.Mapping
 
         public void Execute(GeneratorExecutionContext context)
         {
-            var syntaxReceiver = context.SyntaxReceiver as MappingSyntaxReceiver;
-            foreach (ClassDeclarationSyntax classDeclaration in syntaxReceiver.Candidates)
+            if (context.SyntaxReceiver is MappingSyntaxReceiver syntaxReceiver)
             {
-                SyntaxNode node = classDeclaration;
-                while (!node.IsKind(SyntaxKind.NamespaceDeclaration))
+                foreach (ClassDeclarationSyntax classDeclaration in syntaxReceiver.Candidates)
                 {
-                    node = node.Parent;
+                    SyntaxNode node = classDeclaration;
+                    while (!node.IsKind(SyntaxKind.NamespaceDeclaration))
+                    {
+                        node = node.Parent;
+                    }
+                    NamespaceDeclarationSyntax encloseingNamespace = node as NamespaceDeclarationSyntax;
+                    var @namespace = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.ParseName("DwC_A.Mapping"));
+                    @namespace = @namespace.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("DwC_A")))
+                        .AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("DwC_A.Extensions")))
+                        .AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("System")))
+                        .AddUsings(SyntaxFactory.UsingDirective(encloseingNamespace.Name));
+
+                    var className = $"{classDeclaration.Identifier.Text}Extensions";
+                    int x = 1;
+                    while (classes.Contains(className))
+                    {
+                        className = $"{className}{x++}";
+                    }
+                    classes.Add(className);
+
+                    var extensionClassSyntax = SyntaxFactory.ClassDeclaration(className)
+                        .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword),
+                            SyntaxFactory.Token(SyntaxKind.StaticKeyword)));
+
+                    MethodDeclarationSyntax methodSyntax = MapMethodSyntax(classDeclaration);
+
+                    extensionClassSyntax = extensionClassSyntax.AddMembers(methodSyntax);
+
+                    @namespace = @namespace.AddMembers(extensionClassSyntax);
+
+                    var sourceCode = @namespace
+                        .NormalizeWhitespace()
+                        .ToFullString();
+                    var sourceFileName = $"{className}.g.cs";
+                    context.AddSource(sourceFileName, sourceCode);
                 }
-                NamespaceDeclarationSyntax encloseingNamespace = node as NamespaceDeclarationSyntax;
-                var @namespace = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.ParseName("DwC_A.Mapping"));
-                @namespace = @namespace.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("DwC_A")))
-                    .AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("DwC_A.Extensions")))
-                    .AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("System")))
-                    .AddUsings(SyntaxFactory.UsingDirective(encloseingNamespace.Name));
+            }
+        }
 
-                var className = $"{classDeclaration.Identifier.Text}Extensions";
-                int x = 1;
-                while (classes.Contains(className))
-                {
-                    className = $"{className}{x++}";
-                }
-                classes.Add(className);
-
-                var extensionClassSyntax = SyntaxFactory.ClassDeclaration(className)
-                    .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword),
-                        SyntaxFactory.Token(SyntaxKind.StaticKeyword)));
-
-                var parameterList = new List<ParameterSyntax>()
+        private static MethodDeclarationSyntax MapMethodSyntax(ClassDeclarationSyntax classDeclaration)
+        {
+            var parameterList = new List<ParameterSyntax>()
                 {
                     SyntaxFactory.Parameter(SyntaxFactory.Identifier("obj"))
                         .WithType(SyntaxFactory.ParseTypeName(classDeclaration.Identifier.Text))
@@ -50,63 +68,57 @@ namespace DwC_A.Mapping
                         .WithType(SyntaxFactory.ParseTypeName("IRow"))
                 };
 
-                var statements = new List<StatementSyntax>();
-                foreach (var propertySyntax in classDeclaration.Members.OfType<PropertyDeclarationSyntax>())
+            var statements = new List<StatementSyntax>();
+            foreach (var propertySyntax in classDeclaration.Members.OfType<PropertyDeclarationSyntax>())
+            {
+                AssignPropertyStatement(statements, propertySyntax);
+            }
+
+            var methodSyntax = SyntaxFactory.MethodDeclaration(SyntaxFactory.ParseTypeName("void"), "MapRow")
+                .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
+                .AddModifiers(SyntaxFactory.Token(SyntaxKind.StaticKeyword))
+                .AddParameterListParameters(parameterList.ToArray())
+                .WithBody(SyntaxFactory.Block(statements.ToArray()));
+            return methodSyntax;
+        }
+
+        private static void AssignPropertyStatement(List<StatementSyntax> statements, PropertyDeclarationSyntax propertySyntax)
+        {
+            foreach (var attributeList in propertySyntax.AttributeLists)
+            {
+                foreach (var attribute in attributeList.Attributes)
                 {
-                    foreach (var attributeList in propertySyntax.AttributeLists)
+                    if (attribute.Name is IdentifierNameSyntax identifier)
                     {
-                        foreach (var attribute in attributeList.Attributes)
+                        if (identifier.Identifier.Text == "Term")
                         {
-                            if (attribute.Name is IdentifierNameSyntax identifier)
+                            StatementSyntax statement;
+                            var paramString = attribute.ArgumentList.Arguments.First().Expression.ToFullString();
+                            if (propertySyntax.Type is PredefinedTypeSyntax pts &&
+                                pts.Keyword.IsKind(SyntaxKind.StringKeyword))
                             {
-                                if (identifier.Identifier.Text == "Term")
-                                {
-                                    StatementSyntax statement;
-                                    var paramString = attribute.ArgumentList.Arguments.First().Expression.ToFullString();
-                                    if(propertySyntax.Type is PredefinedTypeSyntax pts && 
-                                        pts.Keyword.IsKind(SyntaxKind.StringKeyword))
-                                    {
-                                        statement = SyntaxFactory.ParseStatement($"obj.{propertySyntax.Identifier.Text} = row[{paramString}];");
-                                    }
-                                    else if (propertySyntax.Type.IsKind(SyntaxKind.NullableType))
-                                    {
-                                        var type = propertySyntax
-                                            .Type
-                                            .WithoutTrivia()
-                                            .ToFullString();
-                                        type = type.Replace('?', ' ').Trim();
-                                        statement = SyntaxFactory.ParseStatement($"obj.{propertySyntax.Identifier.Text} = row.ConvertNullable<{type}>({paramString});");
-                                    }
-                                    else
-                                    {
-                                        var type = propertySyntax.Type.ToFullString();
-                                        statement = SyntaxFactory.ParseStatement($"obj.{propertySyntax.Identifier.Text} = row.Convert<{type}>({paramString});");
-                                    }
-                                    statements.Add(statement);
-                                }
+                                statement = SyntaxFactory.ParseStatement($"obj.{propertySyntax.Identifier.Text} = row[{paramString}];");
                             }
+                            else if (propertySyntax.Type.IsKind(SyntaxKind.NullableType))
+                            {
+                                var type = propertySyntax
+                                    .Type
+                                    .WithoutTrivia()
+                                    .ToFullString();
+                                type = type.Replace('?', ' ').Trim();
+                                statement = SyntaxFactory.ParseStatement($"obj.{propertySyntax.Identifier.Text} = row.ConvertNullable<{type}>({paramString});");
+                            }
+                            else
+                            {
+                                var type = propertySyntax.Type.ToFullString();
+                                statement = SyntaxFactory.ParseStatement($"obj.{propertySyntax.Identifier.Text} = row.Convert<{type}>({paramString});");
+                            }
+                            statements.Add(statement);
                         }
                     }
                 }
-
-                var methodSyntax = SyntaxFactory.MethodDeclaration(SyntaxFactory.ParseTypeName("void"), "MapRow")
-                    .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
-                    .AddModifiers(SyntaxFactory.Token(SyntaxKind.StaticKeyword))
-                    .AddParameterListParameters(parameterList.ToArray())
-                    .WithBody(SyntaxFactory.Block(statements.ToArray()));
-
-                extensionClassSyntax = extensionClassSyntax.AddMembers(methodSyntax);
-
-                @namespace = @namespace.AddMembers(extensionClassSyntax);
-
-                var sourceCode = @namespace
-                    .NormalizeWhitespace()
-                    .ToFullString();
-                var sourceFileName = $"{className}.g.cs";
-                context.AddSource(sourceFileName, sourceCode);
             }
         }
-
 
         public void Initialize(GeneratorInitializationContext context)
         {

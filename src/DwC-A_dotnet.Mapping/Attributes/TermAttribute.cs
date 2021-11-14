@@ -12,11 +12,19 @@ namespace DwC_A.Attributes
 
         private readonly int index;
 
+        /// <summary>
+        /// Map this property using the name of the term
+        /// </summary>
+        /// <param name="term">Fully qualified term IRI</param>
         public TermAttribute(string term)
         {
             this.term = term;
         }
 
+        /// <summary>
+        /// Map this property using the index of the row
+        /// </summary>
+        /// <param name="index">Zero based index to the column in the data file</param>
         public TermAttribute(int index)
         {
             this.index = index;

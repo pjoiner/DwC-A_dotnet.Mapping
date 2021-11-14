@@ -43,6 +43,16 @@ namespace Tests
         }
 
         [Fact]
+        public void ShouldMapFromMapper()
+        {
+            var row = archive.CoreFile.DataRows.First();
+            var occurrence = mapper.MapRow(row);
+
+            double expected = 42.2089;
+            Assert.Equal(expected, occurrence.DecimalLatitude.Value, 4);
+        }
+
+        [Fact]
         public void ShouldReturnClassOnNullLambda()
         {
             IMapper<Models.Occurrence> mapper1 = MapperFactory.CreateMapper<Models.Occurrence>(null);

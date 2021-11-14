@@ -1,23 +1,8 @@
 # Readme [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-dwca-codegen is a dotnet CLI tool for generating class source files in C# from Darwin Core Archive files.
+DwC-A_dotnet.Mapping is a collection of tools for mapping Darwin Core Archive files to strongly typed classes. This project includes the following.
 
-## Install
+* [DwC-A_dotnet.Mapping](https://github.com/pjoiner/DwC-A_dotnet.Mapping/tree/AttributeMapper/src/DwC-A_dotnet.Mapping) - A library for mapping [DwC-A_dotnet](https://github.com/pjoiner/DwC-A_dotnet) IRow rows to strongly typed classes.
+* [dwca-codegen](https://github.com/pjoiner/DwC-A_dotnet.Mapping/tree/AttributeMapper/src/dwca-codegen) - A dotnet CLI tool for generating class source files in C# from Darwin Core Archive file meta data.
 
-### Local Install
-
-> :bulb: **NOTE:**  Note: To install a tool locally you must first create a [tool manifest as described here](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools)
-
-To install the dwca-codegen tool locally open a command prompt in your project folder and enter
-
-    dotnet tool install dwca-codegen
-
-### Global Install
-
-To install dwca-codegen globally open a command prompt and enter
-
-    dotnet tool install -g dwca-codegen
-    
-## Usage
-
-More information can be found in the [Documentation Wiki](https://github.com/pjoiner/DwC-A_Mapping/wiki).
+Both tools are available on NuGet.  For more information and documentation follow the links above.
