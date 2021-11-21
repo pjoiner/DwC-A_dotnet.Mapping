@@ -18,6 +18,7 @@ namespace DwcaCodegen.Config
         public void Init()
         {
             config.SetBoolean(DefaultSection, "pascalCase", true)
+                .SetBoolean(DefaultSection, "mapMethod", false)
                 .SetString(DefaultSection, "termAttribute", "none")
                 .SetString(DefaultSection, "namespace", "DwC")
                 .SetString(DefaultSection, "output", ".")

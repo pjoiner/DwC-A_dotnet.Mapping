@@ -14,6 +14,7 @@ namespace DwcaCodegen.Config
         string Namespace { get; }
         string Output { get; }
         bool PascalCase { get; }
+        bool MapMethod { get; }
         IDictionary<string, PropertyConfiguration> Properties { get; }
         TermAttributeType TermAttribute { get; }
         IList<string> Usings { get; }

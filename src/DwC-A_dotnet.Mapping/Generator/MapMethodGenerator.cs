@@ -1,4 +1,8 @@
-﻿using Microsoft.CodeAnalysis;
+﻿extern alias Core;
+
+using Core::DwC_A.Meta;
+using DwcaCodegen.Config;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
@@ -8,6 +12,8 @@ namespace DwC_A.Generator
 {
     public class MapMethodGenerator
     {
+        //TODO: Add a MapStaticInstanceMethodSyntax generator method that accepts a IFileMetaData
+
         public static MethodDeclarationSyntax MapStaticInstanceMethodSyntax(ClassDeclarationSyntax classDeclaration)
         {
             return MapMethodSyntax(classDeclaration, false);

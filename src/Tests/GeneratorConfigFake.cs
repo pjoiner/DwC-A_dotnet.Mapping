@@ -11,6 +11,8 @@ namespace Tests
 
         public bool PascalCase => true;
 
+        public bool MapMethod => false;
+
         public IDictionary<string, PropertyConfiguration> Properties => new Dictionary<string, PropertyConfiguration>();
 
         public TermAttributeType TermAttribute => TermAttributeType.name;

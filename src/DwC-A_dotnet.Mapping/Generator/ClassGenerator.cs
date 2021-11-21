@@ -1,6 +1,7 @@
 ﻿extern alias Core;
 
 using Core::DwC_A.Meta;
+using DwC_A.Generator;
 using DwcaCodegen.Config;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -15,14 +16,31 @@ namespace DwcaCodegen.Generator
     {
         public string GenerateFile(IFileMetaData fileMetaData, IArchiveGeneratorConfiguration config)
         {
+            var classDeclaration = GeneratClassSyntax(fileMetaData, config);
+            if(config.MapMethod)
+            {
+                //TODO: At the moment this only works if -t name or -t index
+                //      If termAttribue is none then we need to call the new MapStaticInstanceMethod with fileMetaData
+                var staticMethodSyntax = MapMethodGenerator.MapStaticInstanceMethodSyntax(classDeclaration);
+                classDeclaration = classDeclaration.AddMembers(staticMethodSyntax);
+            }
+            if(string.IsNullOrEmpty(config.Namespace))
+            {
+                //TODO: Need to tack on some usings at the beginning of the returned source
+                return FormatDeclarationSyntax(classDeclaration);
+            }
             var @namespace = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.ParseName(config.Namespace));
             foreach (var usingNamespace in config.Usings)
             {
                 @namespace = @namespace.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(usingNamespace)));
             }
-            var classDeclaration = GeneratClassSyntax(fileMetaData, config);
             @namespace = @namespace.AddMembers(classDeclaration);
-            var doc  = Formatter.Format(@namespace, new AdhocWorkspace());
+            return FormatDeclarationSyntax(@namespace);
+        }
+
+        private static string FormatDeclarationSyntax(SyntaxNode @namespace)
+        {
+            var doc = Formatter.Format(@namespace, new AdhocWorkspace());
             var code = doc.ToFullString();
             return code;
         }

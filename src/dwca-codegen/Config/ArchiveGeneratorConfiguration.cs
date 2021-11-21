@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DwcaCodegen.Config
 {
@@ -9,6 +8,7 @@ namespace DwcaCodegen.Config
         private string output = ".";
         private bool pascalCase = true;
         private TermAttributeType termAttributeType = TermAttributeType.none;
+        private bool mapMethod = false;
         private readonly IList<string> usings = new List<string>();
         private readonly IDictionary<string, PropertyConfiguration> properties = new Dictionary<string, PropertyConfiguration>();
 
@@ -16,6 +16,7 @@ namespace DwcaCodegen.Config
         public string Output => output;
         public bool PascalCase => pascalCase;
         public TermAttributeType TermAttribute => termAttributeType;
+        public bool MapMethod => mapMethod;
         public IList<string> Usings => usings;
         public IDictionary<string, PropertyConfiguration> Properties => properties;
 
@@ -50,6 +51,12 @@ namespace DwcaCodegen.Config
         public ArchiveGeneratorConfiguration AddOutput(string output)
         {
             this.output = output;
+            return this;
+        }
+
+        public ArchiveGeneratorConfiguration AddMapMethod(bool mapMethod)
+        {
+            this.mapMethod = mapMethod;
             return this;
         }
     }
