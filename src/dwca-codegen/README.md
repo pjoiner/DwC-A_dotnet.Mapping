@@ -50,7 +50,7 @@ The layout of the file will appear similar to the following
 	termAttribute = none
 	namespace = DwC
 	output = .
-    mapMethod = false
+	mapMethod = false
 [dwca-codegen "usings"]
 	using = System
 [properties "http://rs.tdwg.org/dwc/terms/coordinatePrecision"]
