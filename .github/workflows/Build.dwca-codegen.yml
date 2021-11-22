@@ -24,4 +24,4 @@ jobs:
       uses: actions/upload-artifact@v2.2.2
       with:
         name: DwC-A_dotnet.Mapping.nupkg
-        path: src/DwC-A_dotnet.Mapping/bin/Release/dwca-codegen.*.nupkg  
+        path: src/dwca-codegen/bin/Release/dwca-codegen.*.nupkg  
