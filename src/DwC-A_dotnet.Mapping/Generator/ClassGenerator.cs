@@ -19,9 +19,9 @@ namespace DwcaCodegen.Generator
             var classDeclaration = GeneratClassSyntax(fileMetaData, config);
             if(config.MapMethod)
             {
-                //TODO: At the moment this only works if -t name or -t index
-                //      If termAttribue is none then we need to call the new MapStaticInstanceMethod with fileMetaData
-                var staticMethodSyntax = MapMethodGenerator.MapStaticInstanceMethodSyntax(classDeclaration);
+                var staticMethodSyntax = config.TermAttribute == TermAttributeType.none ? 
+                      MapMethodGenerator.MapStaticInstanceMethodSyntax(fileMetaData, config)
+                    : MapMethodGenerator.MapStaticInstanceMethodSyntax(classDeclaration);
                 classDeclaration = classDeclaration.AddMembers(staticMethodSyntax);
             }
             if(string.IsNullOrEmpty(config.Namespace))
