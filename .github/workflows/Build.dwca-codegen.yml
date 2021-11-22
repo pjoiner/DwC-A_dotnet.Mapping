@@ -1,0 +1,27 @@
+name: Build dwca-codegen
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore src/dwca-codegen
+    - name: Build
+      run: dotnet build -c Release --no-restore src/dwca-codegen
+    - name: Test
+      run: dotnet test --verbosity normal -p:CollectCoverage=true
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.2
+      with:
+        name: DwC-A_dotnet.Mapping.nupkg
+        path: src/DwC-A_dotnet.Mapping/bin/Release/dwca-codegen.*.nupkg  
