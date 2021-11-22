@@ -50,6 +50,7 @@ The layout of the file will appear similar to the following
 	termAttribute = none
 	namespace = DwC
 	output = .
+    mapMethod = false
 [dwca-codegen "usings"]
 	using = System
 [properties "http://rs.tdwg.org/dwc/terms/coordinatePrecision"]
@@ -81,6 +82,7 @@ The following explains some of the options and what they do
 ||termAttribute|none/name/index|When name or index this will add a Term attribute to each property along with the term or index that should be mapped to that property (e.g. [Term("http://rs.tdwg.org/dwc/terms/day")]).|
 ||namespace|string|Sets the namespace for the generated class|
 ||output|string|Output path to write generated class files to|
+||mapMethod|boolean|Adds a static mapRow method to the class definition to assign values from an IRow to each property of the class|
 |**dwca-codegen usings**|using|string|This is a list of usings that should be added to the generated source file. **Note:** If termAttribute is set to name or index then the DwC_A.Terms namespace will be added to the usings.
 |**properties**||string|This is a list of property definitions for each term.  The name of the property should be the term IRI for that property. See [List of Darwin Core terms](https://dwc.tdwg.org/list/) for a list of term IRIs|
 ||typeName|string|Type that should be used for this property.  If terms are not defined here they will default to type string|
