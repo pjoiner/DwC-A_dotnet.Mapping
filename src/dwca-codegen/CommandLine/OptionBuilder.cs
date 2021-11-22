@@ -57,5 +57,13 @@ namespace DwcaCodegen.CommandLine
             return opt;
         }
 
+        public Option<bool> BuildIncludeMapMethodOption()
+        {
+            return new Option<bool>(
+                aliases: new[] { "-m", "--mapMethod" },
+                description: "Include MapRow method",
+                getDefaultValue: () => config.MapMethod);
+        }
+
     }
 }

@@ -24,12 +24,13 @@ namespace DwcaCodegen
             string @namespace,
             bool pascalCase,
             TermAttributeType termAttribute,
-            string output)
+            string output,
+            bool mapMethod)
         {
             Console.WriteLine($"Generating files for archive {archive} using configuration:");
 
             var archiveGeneratorConfiguration = archiveGeneratorConfigFactory
-                .BuildConfiguration(@namespace, pascalCase, termAttribute, output);
+                .BuildConfiguration(@namespace, pascalCase, termAttribute, output, mapMethod);
             //TODO: Maybe add a verbose switch to turn this on/off
             ConfigList(archiveGeneratorConfiguration);
             var sourceFiles = archiveSourceGenerator.GenerateSource(archive, archiveGeneratorConfiguration);

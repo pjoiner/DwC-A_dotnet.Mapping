@@ -17,10 +17,11 @@ namespace DwcaCodegen.CommandLine
             AddOption(optionBuilder.BuildPascalCaseOption());
             AddOption(optionBuilder.BuildOutputOption());
             AddOption(optionBuilder.BuildTermAttributeOption());
+            AddOption(optionBuilder.BuildIncludeMapMethodOption());
 
-            Handler = CommandHandler.Create<string, string, bool, TermAttributeType, string>((archive, @namespace, pascalCase, termAttribute, output) =>
+            Handler = CommandHandler.Create<string, string, bool, TermAttributeType, string, bool>((archive, @namespace, pascalCase, termAttribute, output, mapMethod) =>
             {
-                generator.Generate(archive, @namespace, pascalCase, termAttribute, output);  
+                generator.Generate(archive, @namespace, pascalCase, termAttribute, output, mapMethod);  
             });
         }
 

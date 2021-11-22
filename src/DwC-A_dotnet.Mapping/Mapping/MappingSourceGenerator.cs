@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using DwC_A.Generator;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ namespace DwC_A.Mapping
                         .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword),
                             SyntaxFactory.Token(SyntaxKind.StaticKeyword)));
 
-                    MethodDeclarationSyntax methodSyntax = MapMethodSyntax(classDeclaration);
+                    MethodDeclarationSyntax methodSyntax = MapMethodGenerator.MapExtensionMethodSyntax(classDeclaration);
 
                     extensionClassSyntax = extensionClassSyntax.AddMembers(methodSyntax);
 
@@ -52,70 +53,6 @@ namespace DwC_A.Mapping
                         .ToFullString();
                     var sourceFileName = $"{className}.g.cs";
                     context.AddSource(sourceFileName, sourceCode);
-                }
-            }
-        }
-
-        private static MethodDeclarationSyntax MapMethodSyntax(ClassDeclarationSyntax classDeclaration)
-        {
-            var parameterList = new List<ParameterSyntax>()
-                {
-                    SyntaxFactory.Parameter(SyntaxFactory.Identifier("obj"))
-                        .WithType(SyntaxFactory.ParseTypeName(classDeclaration.Identifier.Text))
-                        .AddModifiers(SyntaxFactory.Token(SyntaxKind.ThisKeyword)),
-
-                    SyntaxFactory.Parameter(SyntaxFactory.Identifier("row"))
-                        .WithType(SyntaxFactory.ParseTypeName("IRow"))
-                };
-
-            var statements = new List<StatementSyntax>();
-            foreach (var propertySyntax in classDeclaration.Members.OfType<PropertyDeclarationSyntax>())
-            {
-                AssignPropertyStatement(statements, propertySyntax);
-            }
-
-            var methodSyntax = SyntaxFactory.MethodDeclaration(SyntaxFactory.ParseTypeName("void"), "MapRow")
-                .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
-                .AddModifiers(SyntaxFactory.Token(SyntaxKind.StaticKeyword))
-                .AddParameterListParameters(parameterList.ToArray())
-                .WithBody(SyntaxFactory.Block(statements.ToArray()));
-            return methodSyntax;
-        }
-
-        private static void AssignPropertyStatement(List<StatementSyntax> statements, PropertyDeclarationSyntax propertySyntax)
-        {
-            foreach (var attributeList in propertySyntax.AttributeLists)
-            {
-                foreach (var attribute in attributeList.Attributes)
-                {
-                    if (attribute.Name is IdentifierNameSyntax identifier)
-                    {
-                        if (identifier.Identifier.Text == "Term")
-                        {
-                            StatementSyntax statement;
-                            var paramString = attribute.ArgumentList.Arguments.First().Expression.ToFullString();
-                            if (propertySyntax.Type is PredefinedTypeSyntax pts &&
-                                pts.Keyword.IsKind(SyntaxKind.StringKeyword))
-                            {
-                                statement = SyntaxFactory.ParseStatement($"obj.{propertySyntax.Identifier.Text} = row[{paramString}];");
-                            }
-                            else if (propertySyntax.Type.IsKind(SyntaxKind.NullableType))
-                            {
-                                var type = propertySyntax
-                                    .Type
-                                    .WithoutTrivia()
-                                    .ToFullString();
-                                type = type.Replace('?', ' ').Trim();
-                                statement = SyntaxFactory.ParseStatement($"obj.{propertySyntax.Identifier.Text} = row.ConvertNullable<{type}>({paramString});");
-                            }
-                            else
-                            {
-                                var type = propertySyntax.Type.ToFullString();
-                                statement = SyntaxFactory.ParseStatement($"obj.{propertySyntax.Identifier.Text} = row.Convert<{type}>({paramString});");
-                            }
-                            statements.Add(statement);
-                        }
-                    }
                 }
             }
         }

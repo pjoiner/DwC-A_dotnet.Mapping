@@ -1,4 +1,7 @@
-﻿using DwC_A.Meta;
+﻿extern alias Core;
+
+using Core::DwC_A.Meta;
+using DwC_A.Generator;
 using DwcaCodegen.Config;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -13,19 +16,44 @@ namespace DwcaCodegen.Generator
     {
         public string GenerateFile(IFileMetaData fileMetaData, IArchiveGeneratorConfiguration config)
         {
+            var classDeclaration = GeneratClassSyntax(fileMetaData, config);
+            if(config.MapMethod)
+            {
+                var staticMethodSyntax = config.TermAttribute == TermAttributeType.none ? 
+                      MapMethodGenerator.MapStaticInstanceMethodSyntax(fileMetaData, config)
+                    : MapMethodGenerator.MapStaticInstanceMethodSyntax(classDeclaration);
+                classDeclaration = classDeclaration.AddMembers(staticMethodSyntax);
+            }
+            if(string.IsNullOrEmpty(config.Namespace))
+            {
+                //TODO: Need to tack on some usings at the beginning of the returned source
+                return FormatDeclarationSyntax(classDeclaration);
+            }
             var @namespace = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.ParseName(config.Namespace));
             foreach (var usingNamespace in config.Usings)
             {
                 @namespace = @namespace.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(usingNamespace)));
             }
-            var classDeclaration = GenerateClass(fileMetaData, config);
             @namespace = @namespace.AddMembers(classDeclaration);
-            var doc  = Formatter.Format(@namespace, new AdhocWorkspace());
+            return FormatDeclarationSyntax(@namespace);
+        }
+
+        private static string FormatDeclarationSyntax(SyntaxNode @namespace)
+        {
+            var doc = Formatter.Format(@namespace, new AdhocWorkspace());
             var code = doc.ToFullString();
             return code;
         }
 
-        private ClassDeclarationSyntax GenerateClass(IFileMetaData fileMetaData, IArchiveGeneratorConfiguration config)
+        public string GenerateClass(IFileMetaData fileMetaData, IArchiveGeneratorConfiguration config)
+        {
+            var classDeclaration = GeneratClassSyntax(fileMetaData, config);
+            var doc = Formatter.Format(classDeclaration, new AdhocWorkspace());
+            var code = doc.ToFullString();
+            return code;
+        }
+
+        public ClassDeclarationSyntax GeneratClassSyntax(IFileMetaData fileMetaData, IArchiveGeneratorConfiguration config)
         {
             var roslynGeneratorUtils = new RoslynGeneratorUtils();
             var className = roslynGeneratorUtils.NormalizeIdentifiers(Path.GetFileNameWithoutExtension(fileMetaData.FileName), 

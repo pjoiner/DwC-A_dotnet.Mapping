@@ -21,20 +21,23 @@ namespace DwcaCodegen.Config
             var pascalCase = config.GetBoolean("default", "pascalCase") ?? true;
             var termAttribute = Enum.Parse<TermAttributeType>(config.GetString("default", "termAttribute") ?? "none");
             var output = config.GetString("default", "output") ?? ".";
-            return BuildConfiguration(@namespace, pascalCase, termAttribute, output);
+            var mapMethod = config.GetBoolean("default", "mapMethod") ?? false;
+            return BuildConfiguration(@namespace, pascalCase, termAttribute, output, mapMethod);
         }
 
         public IArchiveGeneratorConfiguration BuildConfiguration(
             string @namespace,
             bool pascalCase,
             TermAttributeType termAttribute,
-            string output)
+            string output,
+            bool mapMethod)
         {
             var archiveGeneratorConfiguration = new ArchiveGeneratorConfiguration()
                 .AddNamespace(@namespace)
                 .AddPascalCase(pascalCase)
                 .AddTermAttribute(termAttribute)
-                .AddOutput(output);
+                .AddOutput(output)
+                .AddMapMethod(mapMethod);
 
             BuildUsings(archiveGeneratorConfiguration);
 

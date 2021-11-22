@@ -5,7 +5,7 @@
     <RootNamespace>DwC_A</RootNamespace>
     <IsRoslynComponent>true</IsRoslynComponent>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.6.0</Version>
+    <Version>0.6.1</Version>
     <Authors>Paul Joiner</Authors>
     <Description>DwC-A_dotnet.Mapping is an extension library of DwC-A_dotnet for mapping Darwin Core Archive data to strongly typed classes.</Description>
     <Copyright>Copyright  @ Paul Joiner 2021</Copyright>
@@ -32,6 +32,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.11.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.11.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="3.11.0" />
     <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
