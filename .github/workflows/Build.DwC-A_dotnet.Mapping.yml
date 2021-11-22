@@ -1,0 +1,27 @@
+name: .NET
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore src/DwC-A_dotnet.Mapping
+    - name: Build
+      run: dotnet build -c Release --no-restore src/DwC-A_dotnet.Mapping
+    - name: Test
+      run: dotnet test --verbosity normal -p:CollectCoverage=true
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.2
+      with:
+        name: DwC-A_dotnet.Mapping.nupkg
+        path: src/DwC-A_dotnet.Mapping/bin/Release/DwC-A_dotnet.Mapping.*.nupkg  
