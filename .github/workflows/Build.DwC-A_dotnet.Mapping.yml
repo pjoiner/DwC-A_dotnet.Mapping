@@ -1,4 +1,4 @@
-name: .NET
+name: Build DwC-A_dotnet.Mapping
 
 on:
   workflow_dispatch:
