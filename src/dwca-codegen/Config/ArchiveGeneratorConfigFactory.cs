@@ -7,7 +7,10 @@ namespace DwcaCodegen.Config
 {
     public class ArchiveGeneratorConfigFactory
     {
+        private const string DefaultSection = "dwca-codegen";
         private const string TermAttributeNamespaceName = "DwC_A.Attributes";
+        private const string ExtensionsNamespaceName = "DwC_A.Extensions";
+        private const string SystemNamespaceName = "System";
         private readonly DotNetConfig.Config config;
 
         public ArchiveGeneratorConfigFactory(DotNetConfig.Config config)
@@ -17,11 +20,11 @@ namespace DwcaCodegen.Config
 
         public IArchiveGeneratorConfiguration BuildConfiguration()
         {
-            var @namespace = config.GetString("default", "namespace") ?? "DwC";
-            var pascalCase = config.GetBoolean("default", "pascalCase") ?? true;
+            var @namespace = config.GetString(DefaultSection, "namespace") ?? "DwC";
+            var pascalCase = config.GetBoolean(DefaultSection, "pascalCase") ?? true;
             var termAttribute = Enum.Parse<TermAttributeType>(config.GetString("default", "termAttribute") ?? "none");
-            var output = config.GetString("default", "output") ?? ".";
-            var mapMethod = config.GetBoolean("default", "mapMethod") ?? false;
+            var output = config.GetString(DefaultSection, "output") ?? ".";
+            var mapMethod = config.GetBoolean(DefaultSection, "mapMethod") ?? false;
             return BuildConfiguration(@namespace, pascalCase, termAttribute, output, mapMethod);
         }
 
@@ -65,16 +68,20 @@ namespace DwcaCodegen.Config
 
         private void BuildUsings(ArchiveGeneratorConfiguration archiveGeneratorConfiguration)
         {
-            var usingEntries = config.GetAll("default", "usings", "using")
+            var usingEntries = config.GetAll(DefaultSection, "usings", "using")
                 .Select(n => n.RawValue);
             foreach (var entry in usingEntries)
             {
                 archiveGeneratorConfiguration.AddUsing(entry);
             }
-            if (archiveGeneratorConfiguration.TermAttribute != TermAttributeType.none
-                && !archiveGeneratorConfiguration.Usings.Contains(TermAttributeNamespaceName))
+            archiveGeneratorConfiguration.AddUsing(SystemNamespaceName);
+            if (archiveGeneratorConfiguration.TermAttribute != TermAttributeType.none)
             {
                 archiveGeneratorConfiguration.AddUsing(TermAttributeNamespaceName);
+            }
+            if( archiveGeneratorConfiguration.MapMethod)
+            {
+                archiveGeneratorConfiguration.AddUsing(ExtensionsNamespaceName);
             }
         }
     }
