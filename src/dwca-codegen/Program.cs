@@ -1,4 +1,5 @@
-﻿using DwcaCodegen.CommandLine;
+﻿using DwC_A.Generator;
+using DwcaCodegen.CommandLine;
 using DwcaCodegen.Config;
 using DwcaCodegen.Generator;
 using Microsoft.Extensions.DependencyInjection;

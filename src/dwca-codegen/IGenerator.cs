@@ -1,4 +1,4 @@
-﻿using DwcaCodegen.Config;
+﻿using DwC_A.Config;
 
 namespace DwcaCodegen
 {

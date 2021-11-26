@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using DwC_A.Config;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DwcaCodegen.Config
 {
-    public class ArchiveGeneratorConfiguration : IArchiveGeneratorConfiguration
+    public class ArchiveGeneratorConfiguration : IGeneratorConfiguration
     {
         private string @namespace = "DwC";
         private string output = ".";

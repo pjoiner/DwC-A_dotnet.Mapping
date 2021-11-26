@@ -1,5 +1,6 @@
 ﻿using DwC_A;
-using DwcaCodegen.Config;
+using DwC_A.Config;
+using DwC_A.Generator;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace DwcaCodegen.Generator
             roslynClassGenerator = classGenerator;
         }
 
-        public string[] GenerateSource(string fileName, IArchiveGeneratorConfiguration config)
+        public string[] GenerateSource(string fileName, IGeneratorConfiguration config)
         {
             IList<string> sourceFiles = new List<string>();
             using (var archive = new ArchiveReader(fileName))
@@ -43,7 +44,7 @@ namespace DwcaCodegen.Generator
             return sourceFiles.ToArray();
         }
 
-        private string CreateSourceFileName(string fileName, string outputPath, IArchiveGeneratorConfiguration config)
+        private string CreateSourceFileName(string fileName, string outputPath, IGeneratorConfiguration config)
         {
             var sourceFileName = Path.GetFileNameWithoutExtension(fileName); 
             if (config.PascalCase)

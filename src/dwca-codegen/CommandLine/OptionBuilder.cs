@@ -1,4 +1,5 @@
-﻿using DwcaCodegen.Config;
+﻿using DwC_A.Config;
+using DwcaCodegen.Config;
 using System;
 using System.CommandLine;
 using System.CommandLine.Parsing;
@@ -8,7 +9,7 @@ namespace DwcaCodegen.CommandLine
 {
     internal class OptionBuilder
     {
-        private readonly IArchiveGeneratorConfiguration config;
+        private readonly IGeneratorConfiguration config;
 
         public OptionBuilder(ArchiveGeneratorConfigFactory factory)
         {

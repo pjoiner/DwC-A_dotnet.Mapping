@@ -1,4 +1,5 @@
 ﻿using DotNetConfig;
+using DwC_A.Config;
 using System;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace DwcaCodegen.Config
             this.config = config;
         }
 
-        public IArchiveGeneratorConfiguration BuildConfiguration()
+        public IGeneratorConfiguration BuildConfiguration()
         {
             var @namespace = config.GetString(DefaultSection, "namespace") ?? "DwC";
             var pascalCase = config.GetBoolean(DefaultSection, "pascalCase") ?? true;
@@ -28,7 +29,7 @@ namespace DwcaCodegen.Config
             return BuildConfiguration(@namespace, pascalCase, termAttribute, output, mapMethod);
         }
 
-        public IArchiveGeneratorConfiguration BuildConfiguration(
+        public IGeneratorConfiguration BuildConfiguration(
             string @namespace,
             bool pascalCase,
             TermAttributeType termAttribute,
