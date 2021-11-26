@@ -51,6 +51,7 @@ namespace DwcaCodegen
             Console.WriteLine($"PascalCase: {generatorConfiguration.PascalCase}");
             Console.WriteLine($"Term Attribute: {generatorConfiguration.TermAttribute}");
             Console.WriteLine($"Output:     {generatorConfiguration.Output}");
+            Console.WriteLine($"Map method: {generatorConfiguration.MapMethod}");
             Console.WriteLine($"Usings:");
             generatorConfiguration.Usings.ToList().ForEach(n => Console.WriteLine($"          {n}"));
             Console.WriteLine();
