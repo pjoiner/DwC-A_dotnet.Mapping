@@ -1,4 +1,5 @@
-﻿using DwcaCodegen.Config;
+﻿using DwC_A.Config;
+using DwcaCodegen.Config;
 using DwcaCodegen.Generator;
 using System;
 using System.Linq;
@@ -44,7 +45,7 @@ namespace DwcaCodegen
             ConfigList(archiveGeneratorConfiguration);
         }
 
-        private void ConfigList(IArchiveGeneratorConfiguration generatorConfiguration)
+        private void ConfigList(IGeneratorConfiguration generatorConfiguration)
         {
             Console.WriteLine($"Config File: {ConfigUtils.FullConfigFilePath}");
             Console.WriteLine($"Namespace:  {generatorConfiguration.Namespace}");

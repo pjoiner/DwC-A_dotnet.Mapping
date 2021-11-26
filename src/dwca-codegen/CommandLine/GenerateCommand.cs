@@ -1,4 +1,4 @@
-﻿using DwcaCodegen.Config;
+﻿using DwC_A.Config;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.Parsing;
