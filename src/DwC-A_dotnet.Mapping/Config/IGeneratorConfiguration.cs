@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DwcaCodegen.Config
+namespace DwC_A.Config
 {
     public enum TermAttributeType
     {
@@ -9,7 +9,7 @@ namespace DwcaCodegen.Config
         index
     }
 
-    public interface IArchiveGeneratorConfiguration
+    public interface IGeneratorConfiguration
     {
         string Namespace { get; }
         string Output { get; }

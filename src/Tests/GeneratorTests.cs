@@ -1,7 +1,6 @@
 ﻿using DwC_A;
+using DwC_A.Config;
 using DwC_A.Generator;
-using DwcaCodegen.Config;
-using DwcaCodegen.Generator;
 using Moq;
 using System.Collections.Generic;
 using Xunit;
@@ -12,7 +11,7 @@ namespace Tests
     {
         private readonly ArchiveReader archive = new ArchiveReader("resources/dwca-mvzobs_bird-v34.48");
 
-        Mock<IArchiveGeneratorConfiguration> mockConfig = new Mock<IArchiveGeneratorConfiguration>();
+        Mock<IGeneratorConfiguration> mockConfig = new Mock<IGeneratorConfiguration>();
 
         ClassGenerator classGenerator = new ClassGenerator();
 

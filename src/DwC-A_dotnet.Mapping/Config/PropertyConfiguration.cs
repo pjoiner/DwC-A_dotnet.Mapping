@@ -1,4 +1,4 @@
-﻿namespace DwcaCodegen.Config
+﻿namespace DwC_A.Config
 {
     public class PropertyConfiguration
     {

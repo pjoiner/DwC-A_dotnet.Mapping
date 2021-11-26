@@ -1,8 +1,7 @@
 ﻿extern alias Core;
 
 using Core::DwC_A.Meta;
-using DwC_A.Generator;
-using DwcaCodegen.Config;
+using DwC_A.Config;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -10,24 +9,24 @@ using Microsoft.CodeAnalysis.Formatting;
 using System;
 using System.IO;
 
-namespace DwcaCodegen.Generator
+namespace DwC_A.Generator
 {
     public class ClassGenerator
     {
-        public string GenerateFile(IFileMetaData fileMetaData, IArchiveGeneratorConfiguration config)
+        public string GenerateFile(IFileMetaData fileMetaData, IGeneratorConfiguration config)
         {
             var classDeclaration = GeneratClassSyntax(fileMetaData, config);
-            if(config.MapMethod)
+            if (config.MapMethod)
             {
-                var staticMethodSyntax = config.TermAttribute == TermAttributeType.none ? 
+                var staticMethodSyntax = config.TermAttribute == TermAttributeType.none ?
                       MapMethodGenerator.MapStaticInstanceMethodSyntax(fileMetaData, config)
                     : MapMethodGenerator.MapStaticInstanceMethodSyntax(classDeclaration);
                 classDeclaration = classDeclaration.AddMembers(staticMethodSyntax);
             }
-            if(string.IsNullOrEmpty(config.Namespace))
+            if (string.IsNullOrEmpty(config.Namespace))
             {
                 var usings = new SyntaxList<UsingDirectiveSyntax>();
-                foreach(var usingNamespace in config.Usings)
+                foreach (var usingNamespace in config.Usings)
                 {
                     usings = usings.Add(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(usingNamespace)));
                 }
@@ -52,7 +51,7 @@ namespace DwcaCodegen.Generator
             return code;
         }
 
-        public string GenerateClass(IFileMetaData fileMetaData, IArchiveGeneratorConfiguration config)
+        public string GenerateClass(IFileMetaData fileMetaData, IGeneratorConfiguration config)
         {
             var classDeclaration = GeneratClassSyntax(fileMetaData, config);
             var doc = Formatter.Format(classDeclaration, new AdhocWorkspace());
@@ -60,10 +59,10 @@ namespace DwcaCodegen.Generator
             return code;
         }
 
-        public ClassDeclarationSyntax GeneratClassSyntax(IFileMetaData fileMetaData, IArchiveGeneratorConfiguration config)
+        public ClassDeclarationSyntax GeneratClassSyntax(IFileMetaData fileMetaData, IGeneratorConfiguration config)
         {
             var roslynGeneratorUtils = new RoslynGeneratorUtils();
-            var className = roslynGeneratorUtils.NormalizeIdentifiers(Path.GetFileNameWithoutExtension(fileMetaData.FileName), 
+            var className = roslynGeneratorUtils.NormalizeIdentifiers(Path.GetFileNameWithoutExtension(fileMetaData.FileName),
                 config.PascalCase);
             var classDeclaration = SyntaxFactory
                 .ClassDeclaration(className)
@@ -83,10 +82,10 @@ namespace DwcaCodegen.Generator
             return classDeclaration;
         }
 
-        private PropertyDeclarationSyntax GenerateProperty(FieldType metaData, 
-            PropertyConfiguration propertyConfiguration, 
+        private PropertyDeclarationSyntax GenerateProperty(FieldType metaData,
+            PropertyConfiguration propertyConfiguration,
             RoslynGeneratorUtils roslynGeneratorUtils,
-            IArchiveGeneratorConfiguration config)
+            IGeneratorConfiguration config)
         {
             var propertyName = propertyConfiguration.PropertyName ?? roslynGeneratorUtils.NormalizeIdentifiers(metaData.Term, config.PascalCase);
             var propertyDeclaration = SyntaxFactory
@@ -105,14 +104,15 @@ namespace DwcaCodegen.Generator
             return propertyDeclaration;
         }
 
-        private AttributeListSyntax GenerateTermAttribute(FieldType metaData, IArchiveGeneratorConfiguration config)
+        private AttributeListSyntax GenerateTermAttribute(FieldType metaData, IGeneratorConfiguration config)
         {
             LiteralExpressionSyntax literalExpression = null;
             switch (config.TermAttribute)
             {
-                case TermAttributeType.name: literalExpression = SyntaxFactory.LiteralExpression(
-                    SyntaxKind.StringLiteralExpression,
-                    SyntaxFactory.Literal(metaData.Term));
+                case TermAttributeType.name:
+                    literalExpression = SyntaxFactory.LiteralExpression(
+SyntaxKind.StringLiteralExpression,
+SyntaxFactory.Literal(metaData.Term));
                     break;
                 case TermAttributeType.index:
                     literalExpression = SyntaxFactory.LiteralExpression(
@@ -123,12 +123,12 @@ namespace DwcaCodegen.Generator
             };
 
             return SyntaxFactory.AttributeList(
-                    SyntaxFactory.SingletonSeparatedList<AttributeSyntax>(
+                    SyntaxFactory.SingletonSeparatedList(
                         SyntaxFactory.Attribute(
                             SyntaxFactory.IdentifierName("Term"))
                         .WithArgumentList(
                             SyntaxFactory.AttributeArgumentList(
-                                SyntaxFactory.SingletonSeparatedList<AttributeArgumentSyntax>(
+                                SyntaxFactory.SingletonSeparatedList(
                                     SyntaxFactory.AttributeArgument(literalExpression))))));
         }
     }
