@@ -1,8 +1,7 @@
 ﻿extern alias Core;
 
 using Core::DwC_A.Meta;
-using DwcaCodegen.Config;
-using DwcaCodegen.Generator;
+using DwC_A.Config;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -14,7 +13,7 @@ namespace DwC_A.Generator
 {
     public class MapMethodGenerator
     {
-        public static MethodDeclarationSyntax MapStaticInstanceMethodSyntax(IFileMetaData fileMetaData, IArchiveGeneratorConfiguration config)
+        public static MethodDeclarationSyntax MapStaticInstanceMethodSyntax(IFileMetaData fileMetaData, IGeneratorConfiguration config)
         {
             return MapMethodSyntax(fileMetaData, config, false);
         }
@@ -29,7 +28,7 @@ namespace DwC_A.Generator
             return MapMethodSyntax(classDeclaration, true);
         }
 
-        private static MethodDeclarationSyntax MapMethodSyntax(IFileMetaData fileMetaData, IArchiveGeneratorConfiguration config, bool useExtensionSyntax = false)
+        private static MethodDeclarationSyntax MapMethodSyntax(IFileMetaData fileMetaData, IGeneratorConfiguration config, bool useExtensionSyntax = false)
         {
             var roslynGeneratorUtils = new RoslynGeneratorUtils();
             var className = roslynGeneratorUtils.NormalizeIdentifiers(Path.GetFileNameWithoutExtension(fileMetaData.FileName),

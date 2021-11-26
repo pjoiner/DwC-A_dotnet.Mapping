@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Formatting;
 using System.Collections.Generic;
 
-namespace DwcaCodegen.Generator
+namespace DwC_A.Generator
 {
     internal class RoslynGeneratorUtils
     {
