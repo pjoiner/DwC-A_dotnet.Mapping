@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace DwcaCodegen.Config
 {
@@ -9,7 +10,7 @@ namespace DwcaCodegen.Config
         private bool pascalCase = true;
         private TermAttributeType termAttributeType = TermAttributeType.none;
         private bool mapMethod = false;
-        private readonly IList<string> usings = new List<string>();
+        private readonly HashSet<string> usings = new HashSet<string>();
         private readonly IDictionary<string, PropertyConfiguration> properties = new Dictionary<string, PropertyConfiguration>();
 
         public string Namespace => @namespace;
@@ -17,7 +18,7 @@ namespace DwcaCodegen.Config
         public bool PascalCase => pascalCase;
         public TermAttributeType TermAttribute => termAttributeType;
         public bool MapMethod => mapMethod;
-        public IList<string> Usings => usings;
+        public IList<string> Usings => usings.ToList();
         public IDictionary<string, PropertyConfiguration> Properties => properties;
 
         public PropertyConfiguration GetPropertyConfiguration(string term) => Properties.ContainsKey(term)

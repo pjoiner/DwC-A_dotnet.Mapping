@@ -26,8 +26,15 @@ namespace DwcaCodegen.Generator
             }
             if(string.IsNullOrEmpty(config.Namespace))
             {
-                //TODO: Need to tack on some usings at the beginning of the returned source
-                return FormatDeclarationSyntax(classDeclaration);
+                var usings = new SyntaxList<UsingDirectiveSyntax>();
+                foreach(var usingNamespace in config.Usings)
+                {
+                    usings = usings.Add(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(usingNamespace)));
+                }
+                var node = SyntaxFactory.CompilationUnit()
+                    .WithUsings(usings)
+                    .WithMembers(SyntaxFactory.SingletonList<MemberDeclarationSyntax>(classDeclaration));
+                return FormatDeclarationSyntax(node);
             }
             var @namespace = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.ParseName(config.Namespace));
             foreach (var usingNamespace in config.Usings)
@@ -38,9 +45,9 @@ namespace DwcaCodegen.Generator
             return FormatDeclarationSyntax(@namespace);
         }
 
-        private static string FormatDeclarationSyntax(SyntaxNode @namespace)
+        private static string FormatDeclarationSyntax(SyntaxNode node)
         {
-            var doc = Formatter.Format(@namespace, new AdhocWorkspace());
+            var doc = Formatter.Format(node, new AdhocWorkspace());
             var code = doc.ToFullString();
             return code;
         }

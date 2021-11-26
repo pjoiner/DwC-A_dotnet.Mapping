@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace DwcaCodegen.Generator
 {
-    public class RoslynGeneratorUtils
+    internal class RoslynGeneratorUtils
     {
         private readonly HashSet<string> propertyNameList = new HashSet<string>();
 
