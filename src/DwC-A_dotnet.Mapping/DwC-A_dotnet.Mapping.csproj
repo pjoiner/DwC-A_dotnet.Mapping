@@ -5,7 +5,7 @@
     <RootNamespace>DwC_A</RootNamespace>
     <IsRoslynComponent>true</IsRoslynComponent>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.6.1</Version>
+    <Version>0.6.2</Version>
     <Authors>Paul Joiner</Authors>
     <Description>DwC-A_dotnet.Mapping is an extension library of DwC-A_dotnet for mapping Darwin Core Archive data to strongly typed classes.</Description>
     <Copyright>Copyright  @ Paul Joiner 2021</Copyright>

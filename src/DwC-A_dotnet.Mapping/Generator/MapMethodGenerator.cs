@@ -14,7 +14,22 @@ namespace DwC_A.Generator
 {
     public class MapMethodGenerator
     {
-        public static MethodDeclarationSyntax MapMethodSyntax(IFileMetaData fileMetaData, IArchiveGeneratorConfiguration config, bool useExtensionSyntax = false)
+        public static MethodDeclarationSyntax MapStaticInstanceMethodSyntax(IFileMetaData fileMetaData, IArchiveGeneratorConfiguration config)
+        {
+            return MapMethodSyntax(fileMetaData, config, false);
+        }
+
+        public static MethodDeclarationSyntax MapStaticInstanceMethodSyntax(ClassDeclarationSyntax classDeclaration)
+        {
+            return MapMethodSyntax(classDeclaration, false);
+        }
+
+        public static MethodDeclarationSyntax MapExtensionMethodSyntax(ClassDeclarationSyntax classDeclaration)
+        {
+            return MapMethodSyntax(classDeclaration, true);
+        }
+
+        private static MethodDeclarationSyntax MapMethodSyntax(IFileMetaData fileMetaData, IArchiveGeneratorConfiguration config, bool useExtensionSyntax = false)
         {
             var roslynGeneratorUtils = new RoslynGeneratorUtils();
             var className = roslynGeneratorUtils.NormalizeIdentifiers(Path.GetFileNameWithoutExtension(fileMetaData.FileName),
@@ -73,22 +88,7 @@ namespace DwC_A.Generator
             return typeName.EndsWith("?");
         }
 
-        public static MethodDeclarationSyntax MapStaticInstanceMethodSyntax(IFileMetaData fileMetaData, IArchiveGeneratorConfiguration config)
-        {
-            return MapMethodSyntax(fileMetaData, config, false);
-        }
-
-        public static MethodDeclarationSyntax MapStaticInstanceMethodSyntax(ClassDeclarationSyntax classDeclaration)
-        {
-            return MapMethodSyntax(classDeclaration, false);
-        }
-
-        public static MethodDeclarationSyntax MapExtensionMethodSyntax(ClassDeclarationSyntax classDeclaration)
-        {
-            return MapMethodSyntax(classDeclaration, true);
-        }
-
-        public static MethodDeclarationSyntax MapMethodSyntax(ClassDeclarationSyntax classDeclaration, bool useExtensionSyntax = true)
+        private static MethodDeclarationSyntax MapMethodSyntax(ClassDeclarationSyntax classDeclaration, bool useExtensionSyntax = true)
         {
             var objParam = SyntaxFactory.Parameter(SyntaxFactory.Identifier("obj"))
                         .WithType(SyntaxFactory.ParseTypeName(classDeclaration.Identifier.Text));
@@ -124,7 +124,7 @@ namespace DwC_A.Generator
             return methodSyntax;
         }
 
-        public static StatementSyntax AssignPropertyStatement(PropertyDeclarationSyntax propertySyntax)
+        private static StatementSyntax AssignPropertyStatement(PropertyDeclarationSyntax propertySyntax)
         {
             foreach (var attributeList in propertySyntax.AttributeLists)
             {

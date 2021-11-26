@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace DwC_A.Mapping
 {
-    public class MappingSyntaxReceiver : ISyntaxReceiver
+    internal class MappingSyntaxReceiver : ISyntaxReceiver
     {
         private readonly List<SyntaxNode> candidates = new List<SyntaxNode>();
 
