@@ -5,9 +5,6 @@ namespace DwcaCodegen.Config
 {
     public class DefaultConfigurationBuilder
     {
-        private const string DefaultSection = "dwca-codegen";
-        private const string PropertySection = "properties";
-
         private DotNetConfig.Config config;
 
         public DefaultConfigurationBuilder()
@@ -17,13 +14,14 @@ namespace DwcaCodegen.Config
 
         public void Init()
         {
-            config.SetBoolean(DefaultSection, "pascalCase", true)
-                .SetBoolean(DefaultSection, "mapMethod", false)
-                .SetString(DefaultSection, "termAttribute", "none")
-                .SetString(DefaultSection, "namespace", "DwC")
-                .SetString(DefaultSection, "output", ".")
-                .SetString(DefaultSection, "usings", "using", "System");
+            config.SetBoolean(ConfigUtils.DefaultSection, "pascalCase", true)
+                .SetBoolean(ConfigUtils.DefaultSection, "mapMethod", false)
+                .SetString(ConfigUtils.DefaultSection, "termAttribute", "none")
+                .SetString(ConfigUtils.DefaultSection, "namespace", "DwC")
+                .SetString(ConfigUtils.DefaultSection, "output", ".")
+                .SetString(ConfigUtils.DefaultSection, "usings", "using", "System");
 
+            WriteProperty("*", "string");
             WriteProperty(Terms.coordinatePrecision, "double?");
             WriteProperty(Terms.coordinateUncertaintyInMeters, "double?");
             WriteProperty(Terms.dateIdentified, "DateTime?");
@@ -50,8 +48,8 @@ namespace DwcaCodegen.Config
         public void WriteProperty(string term, string typeName, bool include = true, string propertyName = null)
         {
             config = DotNetConfig.Config.Build(ConfigUtils.FullConfigFilePath);
-            config.SetString(PropertySection, term, "typeName", typeName)
-                .SetBoolean(PropertySection, term, "include", include);
+            config.SetString(ConfigUtils.PropertySection, term, "typeName", typeName)
+                .SetBoolean(ConfigUtils.PropertySection, term, "include", include);
         }
     }
 }

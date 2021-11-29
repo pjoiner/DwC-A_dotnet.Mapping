@@ -8,6 +8,10 @@
 	mapMethod = false
 [dwca-codegen "usings"]
 	using = System
+[properties "*"]
+	typeName = string
+	include = true
+	propertyName = null
 [properties "http://rs.tdwg.org/dwc/terms/coordinatePrecision"]
 	typeName = double?
 	include = true
