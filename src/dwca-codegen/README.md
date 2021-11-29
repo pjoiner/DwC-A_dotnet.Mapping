@@ -53,6 +53,9 @@ The layout of the file will appear similar to the following
 	mapMethod = false
 [dwca-codegen "usings"]
 	using = System
+[properties "*"]
+	typeName = string
+	include
 [properties "http://rs.tdwg.org/dwc/terms/coordinatePrecision"]
 	typeName = double?
 	include
@@ -84,7 +87,7 @@ The following explains some of the options and what they do
 ||output|string|Output path to write generated class files to|
 ||mapMethod|boolean|Adds a static mapRow method to the class definition to assign values from an IRow to each property of the class|
 |**dwca-codegen usings**|using|string|This is a list of usings that should be added to the generated source file. **Note:** If termAttribute is set to name or index then the DwC_A.Terms namespace will be added to the usings.
-|**properties**||string|This is a list of property definitions for each term.  The name of the property should be the term IRI for that property. See [List of Darwin Core terms](https://dwc.tdwg.org/list/) for a list of term IRIs|
+|**properties**||string|This is a list of property definitions for each term.  The name of the property should be the term IRI for that property. See [List of Darwin Core terms](https://dwc.tdwg.org/list/) for a list of term IRIs.  Use the __*__ wildcard to set a default type for all other terms.  Setting the include property to **false** for this property will exclude all undefined terms from the generated class definition|
 ||typeName|string|Type that should be used for this property.  If terms are not defined here they will default to type string|
 ||include|boolean|Should this property be included in the generated source or not|
 ||propertyName|string|By default properties are named after the label name of the associated term IRI but this field can be used to override that naming scheme.|
@@ -117,6 +120,7 @@ Usings:
 
 Name      Type      Include Term
 --------------------------------------------------------------------------------
+          string    True    *
           double?   True    http://rs.tdwg.org/dwc/terms/coordinatePrecision
           double?   True    http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters
           DateTime? True    http://rs.tdwg.org/dwc/terms/dateIdentified
