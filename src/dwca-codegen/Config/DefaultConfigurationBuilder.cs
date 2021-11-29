@@ -1,5 +1,6 @@
 ﻿using DotNetConfig;
 using DwC_A.Terms;
+using System.IO;
 
 namespace DwcaCodegen.Config
 {
@@ -7,14 +8,15 @@ namespace DwcaCodegen.Config
     {
         private DotNetConfig.Config config;
 
-        public DefaultConfigurationBuilder()
-        {
-            config = DotNetConfig.Config.Build(ConfigUtils.FullConfigFilePath);
-        }
-
         public void Init()
         {
-            config.SetBoolean(ConfigUtils.DefaultSection, "pascalCase", true)
+            if(File.Exists(ConfigUtils.FullConfigFilePath))
+            {
+                File.Delete(ConfigUtils.FullConfigFilePath);
+            }
+            config = DotNetConfig.Config.Build(ConfigUtils.FullConfigFilePath);
+
+            config = config.SetBoolean(ConfigUtils.DefaultSection, "pascalCase", true)
                 .SetBoolean(ConfigUtils.DefaultSection, "mapMethod", false)
                 .SetString(ConfigUtils.DefaultSection, "termAttribute", "none")
                 .SetString(ConfigUtils.DefaultSection, "namespace", "DwC")
@@ -45,10 +47,9 @@ namespace DwcaCodegen.Config
             WriteProperty(Terms.year, "int?");
         }
 
-        public void WriteProperty(string term, string typeName, bool include = true, string propertyName = null)
+        private void WriteProperty(string term, string typeName, bool include = true, string propertyName = null)
         {
-            config = DotNetConfig.Config.Build(ConfigUtils.FullConfigFilePath);
-            config.SetString(ConfigUtils.PropertySection, term, "typeName", typeName)
+            config = config.SetString(ConfigUtils.PropertySection, term, "typeName", typeName)
                 .SetBoolean(ConfigUtils.PropertySection, term, "include", include);
         }
     }
