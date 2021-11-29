@@ -8,6 +8,10 @@ namespace DwcaCodegen.Config
     {
         private const string ConfigFileName = ".dwca-codegen";
 
+        public static readonly string DefaultSection = "dwca-codegen";
+        public static readonly string PropertySection = "properties";
+
+
         public static string Location => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
         public static bool IsLocal => Location.Contains(".nuget");

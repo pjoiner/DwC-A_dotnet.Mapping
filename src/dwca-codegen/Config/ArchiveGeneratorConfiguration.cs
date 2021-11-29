@@ -6,13 +6,19 @@ namespace DwcaCodegen.Config
 {
     public class ArchiveGeneratorConfiguration : IGeneratorConfiguration
     {
+        private const string AllTerms = "*";
+
         private string @namespace = "DwC";
         private string output = ".";
         private bool pascalCase = true;
         private TermAttributeType termAttributeType = TermAttributeType.none;
         private bool mapMethod = false;
         private readonly HashSet<string> usings = new HashSet<string>();
-        private readonly IDictionary<string, PropertyConfiguration> properties = new Dictionary<string, PropertyConfiguration>();
+        private readonly IDictionary<string, PropertyConfiguration> properties =
+            new Dictionary<string, PropertyConfiguration>()
+            {
+                { AllTerms, new PropertyConfiguration() }
+            };
 
         public string Namespace => @namespace;
         public string Output => output;
@@ -24,7 +30,7 @@ namespace DwcaCodegen.Config
 
         public PropertyConfiguration GetPropertyConfiguration(string term) => Properties.ContainsKey(term)
                     ? Properties[term]
-                    : new PropertyConfiguration();
+                    : Properties[AllTerms];
 
         public ArchiveGeneratorConfiguration AddNamespace(string namespaceName)
         {

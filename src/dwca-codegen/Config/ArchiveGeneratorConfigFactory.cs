@@ -8,10 +8,10 @@ namespace DwcaCodegen.Config
 {
     public class ArchiveGeneratorConfigFactory
     {
-        private const string DefaultSection = "dwca-codegen";
         private const string TermAttributeNamespaceName = "DwC_A.Attributes";
         private const string ExtensionsNamespaceName = "DwC_A.Extensions";
         private const string SystemNamespaceName = "System";
+        private const string DwcaNamespace = "DwC_A";
         private readonly DotNetConfig.Config config;
 
         public ArchiveGeneratorConfigFactory(DotNetConfig.Config config)
@@ -21,11 +21,11 @@ namespace DwcaCodegen.Config
 
         public IGeneratorConfiguration BuildConfiguration()
         {
-            var @namespace = config.GetString(DefaultSection, "namespace") ?? "DwC";
-            var pascalCase = config.GetBoolean(DefaultSection, "pascalCase") ?? true;
-            var termAttribute = Enum.Parse<TermAttributeType>(config.GetString("default", "termAttribute") ?? "none");
-            var output = config.GetString(DefaultSection, "output") ?? ".";
-            var mapMethod = config.GetBoolean(DefaultSection, "mapMethod") ?? false;
+            var @namespace = config.GetString(ConfigUtils.DefaultSection, "namespace") ?? DwcaNamespace;
+            var pascalCase = config.GetBoolean(ConfigUtils.DefaultSection, "pascalCase") ?? true;
+            var termAttribute = Enum.Parse<TermAttributeType>(config.GetString(ConfigUtils.DefaultSection, "termAttribute") ?? "none");
+            var output = config.GetString(ConfigUtils.DefaultSection, "output") ?? ".";
+            var mapMethod = config.GetBoolean(ConfigUtils.DefaultSection, "mapMethod") ?? false;
             return BuildConfiguration(@namespace, pascalCase, termAttribute, output, mapMethod);
         }
 
@@ -52,24 +52,28 @@ namespace DwcaCodegen.Config
 
         private void BuildProperties(ArchiveGeneratorConfiguration archiveGeneratorConfiguration)
         {
-            var props = config.GetRegex("properties");
+            var props = config.GetRegex(ConfigUtils.PropertySection);
             var keys = props
                 .Select(n => n.Subsection)
                 .Distinct();
             foreach (var key in keys)
             {
+                if(archiveGeneratorConfiguration.Properties.ContainsKey(key))
+                {
+                    archiveGeneratorConfiguration.Properties.Remove(key);
+                }
                 archiveGeneratorConfiguration.Properties.Add(key, new PropertyConfiguration()
                 {
-                    Include = config.GetBoolean("properties", key, "include") ?? true,
-                    TypeName = config.GetString("properties", key, "typeName"),
-                    PropertyName = config.GetString("properties", key, "propertyName")
+                    Include = config.GetBoolean(ConfigUtils.PropertySection, key, "include") ?? true,
+                    TypeName = config.GetString(ConfigUtils.PropertySection, key, "typeName"),
+                    PropertyName = config.GetString(ConfigUtils.PropertySection, key, "propertyName")
                 });
             }
         }
 
         private void BuildUsings(ArchiveGeneratorConfiguration archiveGeneratorConfiguration)
         {
-            var usingEntries = config.GetAll(DefaultSection, "usings", "using")
+            var usingEntries = config.GetAll(ConfigUtils.DefaultSection, "usings", "using")
                 .Select(n => n.RawValue);
             foreach (var entry in usingEntries)
             {
