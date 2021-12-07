@@ -139,5 +139,5 @@ using(ArchiveReader archive = new ArchiveReader("archivePath"))
 
 ## Class Generation
 
-To ease the creation of class definitions for large files the [dwca-codegen](https://github.com/pjoiner/DwC-A_dotnet.Mapping/tree/AttributeMapper/src/dwca-codegen) CLI tool was created and can also be downloaded from NuGet.  See the [dwca-codegen](https://github.com/pjoiner/DwC-A_dotnet.Mapping/tree/AttributeMapper/src/dwca-codegen) documentation for more information.
+To ease the creation of class definitions for large files the [dwca-codegen](/src/dwca-codegen) CLI tool was created and can also be downloaded from NuGet.  See the [dwca-codegen](/src/dwca-codegen) documentation for more information.
 
