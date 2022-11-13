@@ -8,7 +8,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Paul Joiner</Authors>
     <Description>Code generation tool for mapping of Darwin Core Archive files to strongly typed classes.</Description>
-    <Copyright>Copyright © Paul Joiner 2021</Copyright>
+    <Copyright>Copyright © Paul Joiner 2022</Copyright>
     <RepositoryType>git</RepositoryType>
     <PackageTags>DwC-A darwin-core Biodiversity</PackageTags>
     <PackAsTool>true</PackAsTool>

@@ -9,7 +9,7 @@
     <Version>0.7.0</Version>
     <Authors>Paul Joiner</Authors>
     <Description>DwC-A_dotnet.Mapping is an extension library of DwC-A_dotnet for mapping Darwin Core Archive data to strongly typed classes.</Description>
-    <Copyright>Copyright  @ Paul Joiner 2021</Copyright>
+    <Copyright>Copyright  @ Paul Joiner 2022</Copyright>
     <PackageProjectUrl>https://github.com/pjoiner/DwC-A_dotnet.Mapping/tree/master/src/DwC-A_dotnet.Mapping</PackageProjectUrl>
     <RepositoryUrl>https://github.com/pjoiner/DwC-A_dotnet.Mapping</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
