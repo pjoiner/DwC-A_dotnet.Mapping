@@ -13,7 +13,7 @@ namespace DwcaCodegen.Config
         private bool pascalCase = true;
         private TermAttributeType termAttributeType = TermAttributeType.none;
         private bool mapMethod = false;
-        private readonly HashSet<string> usings = new HashSet<string>();
+        private readonly HashSet<string> usings = new();
         private readonly IDictionary<string, PropertyConfiguration> properties =
             new Dictionary<string, PropertyConfiguration>()
             {
@@ -28,9 +28,9 @@ namespace DwcaCodegen.Config
         public IList<string> Usings => usings.ToList();
         public IDictionary<string, PropertyConfiguration> Properties => properties;
 
-        public PropertyConfiguration GetPropertyConfiguration(string term) => Properties.ContainsKey(term)
-                    ? Properties[term]
-                    : Properties[AllTerms];
+        public PropertyConfiguration GetPropertyConfiguration(string term) => Properties.TryGetValue(term, out PropertyConfiguration value) 
+            ? value 
+            : Properties[AllTerms];
 
         public ArchiveGeneratorConfiguration AddNamespace(string namespaceName)
         {

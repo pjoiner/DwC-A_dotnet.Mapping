@@ -12,12 +12,12 @@ namespace DwcaCodegen.CommandLine
             : base("generate", "Generate class files from Darwin Core Archive meta data")
         {
             AddAlias("gen");
-            AddArgument(BuildArchiveArgument());
-            AddOption(optionBuilder.BuildNamespaceOption());
-            AddOption(optionBuilder.BuildPascalCaseOption());
-            AddOption(optionBuilder.BuildOutputOption());
-            AddOption(optionBuilder.BuildTermAttributeOption());
-            AddOption(optionBuilder.BuildIncludeMapMethodOption());
+            var archivePathArg = BuildAndAddArchiveArgument();
+            var namespaceOption = BuildAndAddOption(optionBuilder.BuildNamespaceOption());
+            var pascalCaseOption = BuildAndAddOption(optionBuilder.BuildPascalCaseOption());
+            var termAttributeOption = BuildAndAddOption(OptionBuilder.BuildTermAttributeOption());
+            var outputOption = BuildAndAddOption(optionBuilder.BuildOutputOption());
+            var mapMethodOption = BuildAndAddOption(optionBuilder.BuildIncludeMapMethodOption());
 
             Handler = CommandHandler.Create<string, string, bool, TermAttributeType, string, bool>((archive, @namespace, pascalCase, termAttribute, output, mapMethod) =>
             {
@@ -25,7 +25,7 @@ namespace DwcaCodegen.CommandLine
             });
         }
 
-        private Argument<string> BuildArchiveArgument()
+        private Argument<string> BuildAndAddArchiveArgument()
         {
             var archiveArgument = new Argument<string>(
                     name: "archive",
@@ -43,8 +43,14 @@ namespace DwcaCodegen.CommandLine
                 }
                 return s.ErrorMessage;
             });
+            AddArgument(archiveArgument);
             return archiveArgument;
         }
 
+        private Option<T> BuildAndAddOption<T>(Option<T> option)
+        {
+            AddOption(option);
+            return option;
+        }
     }
 }

@@ -45,7 +45,7 @@ namespace DwcaCodegen
             ConfigList(archiveGeneratorConfiguration);
         }
 
-        private void ConfigList(IGeneratorConfiguration generatorConfiguration)
+        private static void ConfigList(IGeneratorConfiguration generatorConfiguration)
         {
             Console.WriteLine($"Config File: {ConfigUtils.FullConfigFilePath}");
             Console.WriteLine($"Namespace:  {generatorConfiguration.Namespace}");

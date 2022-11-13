@@ -40,9 +40,9 @@ namespace DwcaCodegen.CommandLine
                 getDefaultValue: () => config.PascalCase );
         }
 
-        public Option<string> BuildTermAttributeOption()
+        public static Option<TermAttributeType> BuildTermAttributeOption()
         {
-            var opt = new Option<string>(
+            var opt = new Option<TermAttributeType>(
                 aliases: new[] { "-t", "--termAttribute" },
                 parseArgument: (s) => 
                 {
@@ -51,10 +51,9 @@ namespace DwcaCodegen.CommandLine
                     {
                         s.ErrorMessage = "termAttribute must be one of none, name or index";
                     }
-                    return argument.Value;
+                    return termAttributeType;
                 },
                 description: "Add Term attribute to properties");
-            opt.SetDefaultValue(config.TermAttribute);
             return opt;
         }
 

@@ -1,6 +1,4 @@
-﻿using DwcaCodegen.Config;
-
-namespace DwcaCodegen
+﻿namespace DwcaCodegen
 {
     public interface IConfigApp
     {

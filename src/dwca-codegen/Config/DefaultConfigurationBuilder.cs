@@ -47,7 +47,7 @@ namespace DwcaCodegen.Config
             WriteProperty(Terms.year, "int?");
         }
 
-        private void WriteProperty(string term, string typeName, bool include = true, string propertyName = null)
+        private void WriteProperty(string term, string typeName, bool include = true)
         {
             config = config.SetString(ConfigUtils.PropertySection, term, "typeName", typeName)
                 .SetBoolean(ConfigUtils.PropertySection, term, "include", include);
