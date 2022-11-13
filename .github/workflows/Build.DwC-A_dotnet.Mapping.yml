@@ -21,7 +21,7 @@ jobs:
     - name: Test
       run: dotnet test --verbosity normal -p:CollectCoverage=true
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: DwC-A_dotnet.Mapping.nupkg
         path: src/DwC-A_dotnet.Mapping/bin/Release/DwC-A_dotnet.Mapping.*.nupkg  
