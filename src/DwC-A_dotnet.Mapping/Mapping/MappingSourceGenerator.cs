@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DwC_A.Mapping
 {
@@ -15,7 +16,7 @@ namespace DwC_A.Mapping
         {
             if (context.SyntaxReceiver is MappingSyntaxReceiver syntaxReceiver)
             {
-                foreach (ClassDeclarationSyntax classDeclaration in syntaxReceiver.Candidates)
+                foreach (ClassDeclarationSyntax classDeclaration in syntaxReceiver.Candidates.Cast<ClassDeclarationSyntax>())
                 {
                     SyntaxNode node = classDeclaration;
                     while (!node.IsKind(SyntaxKind.NamespaceDeclaration))

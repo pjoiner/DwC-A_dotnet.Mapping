@@ -1,40 +1,36 @@
-﻿using DwcaCodegen.Config;
-using System.CommandLine;
+﻿using System.CommandLine;
 using System.CommandLine.Invocation;
 
-namespace DwcaCodegen.CommandLine
+namespace DwcaCodegen.CommandLine;
+
+public class ConfigCommand : Command
 {
-    public class ConfigCommand : Command
+    private readonly IConfigApp configApp;
+
+    public ConfigCommand(IConfigApp configApp) :
+        base("configuration", "Manage property configuration")
     {
-        private readonly IConfigApp configApp;
+        this.configApp = configApp;
+        AddAlias("config");
+        AddCommand(BuildListCommand());
+        AddCommand(BuildInitCommand());
+    }
 
-        public ConfigCommand(IConfigApp configApp) :
-            base("configuration", "Manage property configuration")
+    private Command BuildListCommand()
+    {
+        var list = new Command("list", "List configuration items")
         {
-            this.configApp = configApp;
-            AddAlias("config");
-            AddCommand(BuildListCommand());
-            AddCommand(BuildInitCommand());
-        }
+            Handler = CommandHandler.Create(configApp.ConfigList)
+        };
+        return list;
+    }
 
-        private Command BuildListCommand()
+    private Command BuildInitCommand()
+    {
+        var init = new Command("init", "Create new configuration file")
         {
-            var list = new Command("list", "List configuration items");
-            list.Handler = CommandHandler.Create(() =>
-            {
-                configApp.ConfigList();
-            });
-            return list;
-        }
-
-        private Command BuildInitCommand()
-        {
-            var init = new Command("init", "Create new configuration file");
-            init.Handler = CommandHandler.Create(() =>
-            {
-                configApp.ConfigInit();
-            });
-            return init;
-        }
+            Handler = CommandHandler.Create(configApp.ConfigInit)
+        };
+        return init;
     }
 }

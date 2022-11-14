@@ -1,5 +1,4 @@
-﻿using DwC_A.Generator;
-using DwcaCodegen.CommandLine;
+﻿using DwcaCodegen.CommandLine;
 using DwcaCodegen.Config;
 using DwcaCodegen.Generator;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DwcaCodegen
 {
-    class Program
+    public class Program
     {
         static async Task<int> Main(string[] args)
         {
@@ -28,7 +27,6 @@ namespace DwcaCodegen
             services.AddTransient<IGenerator, Application>();
             services.AddTransient<IConfigApp, Application>();
             services.AddTransient<IArchiveSourceGenerator, ArchiveSourceGenerator>();
-            services.AddTransient<ClassGenerator>();
             services.AddTransient<ArchiveGeneratorConfigFactory>();
             services.AddTransient<DefaultConfigurationBuilder>();
             services.AddTransient<DotNetConfig.Config>((c) =>

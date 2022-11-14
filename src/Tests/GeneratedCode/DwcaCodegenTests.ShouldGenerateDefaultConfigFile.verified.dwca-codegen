@@ -1,0 +1,74 @@
+[dwca-codegen]
+	pascalCase
+	mapMethod = false
+	termAttribute = none
+	namespace = DwC
+	output = .
+[dwca-codegen "usings"]
+	using = System
+[properties "*"]
+	typeName = string
+	include
+[properties "http://rs.tdwg.org/dwc/terms/coordinatePrecision"]
+	typeName = double?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters"]
+	typeName = double?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/dateIdentified"]
+	typeName = DateTime?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/day"]
+	typeName = int?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/decimalLatitude"]
+	typeName = double?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/decimalLongitude"]
+	typeName = double?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/endDayOfYear"]
+	typeName = int?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/footprintSpatialFit"]
+	typeName = double?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/individualCount"]
+	typeName = int?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/maximumDepthInMeters"]
+	typeName = double?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/maximumDistanceAboveSurfaceInMeters"]
+	typeName = double?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/measurementDeterminedDate"]
+	typeName = DateTime?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/minimumDistanceAboveSurfaceInMeters"]
+	typeName = double?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/minimumElevationInMeters"]
+	typeName = double?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/month"]
+	typeName = int?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/namePublishedInYear"]
+	typeName = int?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/pointRadiusSpatialFit"]
+	typeName = double?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/relationshipEstablishedDate"]
+	typeName = DateTime?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/sampleSizeValue"]
+	typeName = int?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/startDayOfYear"]
+	typeName = int?
+	include
+[properties "http://rs.tdwg.org/dwc/terms/year"]
+	typeName = int?
+	include

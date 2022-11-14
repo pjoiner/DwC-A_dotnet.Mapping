@@ -9,11 +9,9 @@ namespace Tests
 {
     public class GeneratorTests
     {
-        private readonly ArchiveReader archive = new ArchiveReader("resources/dwca-mvzobs_bird-v34.48");
+        private readonly ArchiveReader archive = new("resources/dwca-mvzobs_bird-v34.48");
 
-        Mock<IGeneratorConfiguration> mockConfig = new Mock<IGeneratorConfiguration>();
-
-        ClassGenerator classGenerator = new ClassGenerator();
+        private readonly Mock<IGeneratorConfiguration>  mockConfig = new();
 
         public GeneratorTests()
         {
@@ -30,7 +28,7 @@ namespace Tests
         public void ShouldGeneratorOccurrenceClassAndNamespace()
         {
             mockConfig.Setup(n => n.Namespace).Returns("DwC_A");
-            var classSource = classGenerator.GenerateFile(archive.CoreFile.FileMetaData, mockConfig.Object);
+            var classSource = ClassGenerator.GenerateFile(archive.CoreFile.FileMetaData, mockConfig.Object);
             Assert.Contains("namespace DwC_A", classSource);
             Assert.Contains("public partial class Occurrence", classSource);
             //var methodSyntax = MapMethodGenerator.MapStaticInstanceMethodSyntax(classDeclaration);
@@ -43,8 +41,7 @@ namespace Tests
         public void ShouldAddTopLevelUsingsWhenNamespaceIsEmpty()
         {
 
-            var classGenerator = new ClassGenerator();
-            var classSource = classGenerator.GenerateFile(archive.CoreFile.FileMetaData, mockConfig.Object);
+            var classSource = ClassGenerator.GenerateFile(archive.CoreFile.FileMetaData, mockConfig.Object);
 
             Assert.Contains("using System;", classSource);
             Assert.Contains("using DwC_A.Extensions", classSource);

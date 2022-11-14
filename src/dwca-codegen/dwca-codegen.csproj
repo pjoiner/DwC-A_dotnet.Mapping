@@ -2,12 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>DwcaCodegen</RootNamespace>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Paul Joiner</Authors>
     <Description>Code generation tool for mapping of Darwin Core Archive files to strongly typed classes.</Description>
-    <Copyright>Copyright © Paul Joiner 2021</Copyright>
+    <Copyright>Copyright © Paul Joiner 2022</Copyright>
     <RepositoryType>git</RepositoryType>
     <PackageTags>DwC-A darwin-core Biodiversity</PackageTags>
     <PackAsTool>true</PackAsTool>
@@ -15,7 +16,7 @@
     <Nullable>disable</Nullable>
     <PackageProjectUrl>https://github.com/pjoiner/DwC-A_dotnet.Mapping</PackageProjectUrl>
     <RepositoryUrl>https://github.com/pjoiner/DwC-A_dotnet.Mapping/tree/master/src/dwca-codegen</RepositoryUrl>
-    <Version>1.0.13</Version>
+    <Version>1.0.14</Version>
     <NoDefaultExcludes>true</NoDefaultExcludes>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageLicenseFile>LICENSE</PackageLicenseFile>
@@ -28,14 +29,14 @@
     </None>
     <PackageReference Include="DotNetConfig" Version="1.0.6" />
     <PackageReference Include="DotNetConfig.CommandLine" Version="1.0.6" />
-    <PackageReference Include="DwC-A_dotnet" Version="0.6.0" />
-    <PackageReference Include="DwC-A_dotnet.Mapping" Version="0.6.3" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.11.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.11.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="3.11.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
-    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
+    <PackageReference Include="DwC-A_dotnet" Version="0.7.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21216.1" />
 	<None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DwC-A_dotnet.Mapping\DwC-A_dotnet.Mapping.csproj" />
   </ItemGroup>
 
   <ItemGroup>

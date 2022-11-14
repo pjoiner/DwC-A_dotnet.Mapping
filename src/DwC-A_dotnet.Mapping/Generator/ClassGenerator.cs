@@ -11,9 +11,9 @@ using System.IO;
 
 namespace DwC_A.Generator
 {
-    public class ClassGenerator
+    public static class ClassGenerator
     {
-        public string GenerateFile(IFileMetaData fileMetaData, IGeneratorConfiguration config)
+        public static string GenerateFile(IFileMetaData fileMetaData, IGeneratorConfiguration config)
         {
             var classDeclaration = GeneratClassSyntax(fileMetaData, config);
             if (config.MapMethod)
@@ -51,7 +51,7 @@ namespace DwC_A.Generator
             return code;
         }
 
-        public string GenerateClass(IFileMetaData fileMetaData, IGeneratorConfiguration config)
+        public static string GenerateClass(IFileMetaData fileMetaData, IGeneratorConfiguration config)
         {
             var classDeclaration = GeneratClassSyntax(fileMetaData, config);
             var doc = Formatter.Format(classDeclaration, new AdhocWorkspace());
@@ -59,7 +59,7 @@ namespace DwC_A.Generator
             return code;
         }
 
-        public ClassDeclarationSyntax GeneratClassSyntax(IFileMetaData fileMetaData, IGeneratorConfiguration config)
+        public static ClassDeclarationSyntax GeneratClassSyntax(IFileMetaData fileMetaData, IGeneratorConfiguration config)
         {
             var roslynGeneratorUtils = new RoslynGeneratorUtils();
             var className = roslynGeneratorUtils.NormalizeIdentifiers(Path.GetFileNameWithoutExtension(fileMetaData.FileName),
@@ -82,7 +82,7 @@ namespace DwC_A.Generator
             return classDeclaration;
         }
 
-        private PropertyDeclarationSyntax GenerateProperty(FieldType metaData,
+        private static PropertyDeclarationSyntax GenerateProperty(FieldType metaData,
             PropertyConfiguration propertyConfiguration,
             RoslynGeneratorUtils roslynGeneratorUtils,
             IGeneratorConfiguration config)
@@ -104,9 +104,9 @@ namespace DwC_A.Generator
             return propertyDeclaration;
         }
 
-        private AttributeListSyntax GenerateTermAttribute(FieldType metaData, IGeneratorConfiguration config)
+        private static AttributeListSyntax GenerateTermAttribute(FieldType metaData, IGeneratorConfiguration config)
         {
-            LiteralExpressionSyntax literalExpression = null;
+            LiteralExpressionSyntax literalExpression;
             switch (config.TermAttribute)
             {
                 case TermAttributeType.name:
