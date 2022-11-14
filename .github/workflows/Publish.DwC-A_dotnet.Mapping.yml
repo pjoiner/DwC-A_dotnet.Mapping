@@ -15,18 +15,16 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
-           dotnet-version: 6.0.x
+           dotnet-version: 7.0.x
            
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Publish NuGet
-        uses: brandedoutcast/publish-nuget@v2.5.5
-        with:
-          # Filepath of the project to be packaged, relative to root of repository
-          PROJECT_FILE_PATH: src/DwC-A_dotnet.Mapping/DwC-A_dotnet.Mapping.csproj 
-          # NuGet package id, used for version detection & defaults to project name
-          # API key to authenticate with NuGet server
-          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+      - name: Build
+        run: dotnet build -c Release src/DwC-A_dotnet.Mapping/DwC-A_dotnet.Mapping.csproj
+      - name: Package
+        run: dotnet pack -c Release -o . src/DwC-A_dotnet.Mapping/DwC-A_dotnet.Mapping.csproj
+      - name: Publish
+        run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
