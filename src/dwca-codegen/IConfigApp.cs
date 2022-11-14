@@ -1,8 +1,7 @@
-﻿namespace DwcaCodegen
+﻿namespace DwcaCodegen;
+
+public interface IConfigApp
 {
-    public interface IConfigApp
-    {
-        void ConfigList();
-        void ConfigInit();
-    }
+    void ConfigList();
+    void ConfigInit();
 }

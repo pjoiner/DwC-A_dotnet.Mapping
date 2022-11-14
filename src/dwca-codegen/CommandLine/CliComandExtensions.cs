@@ -5,25 +5,24 @@ using System.CommandLine;
 using System.Linq;
 using System.Reflection;
 
-namespace DwcaCodegen.CommandLine
+namespace DwcaCodegen.CommandLine;
+
+public static class CliCommandExtensions
 {
-    public static class CliCommandExtensions
+    public static IServiceCollection AddCliCommands(this IServiceCollection services)
     {
-        public static IServiceCollection AddCliCommands(this IServiceCollection services)
+        Type commandType = typeof(Command);
+
+        IEnumerable<Type> commands = Assembly
+            .GetExecutingAssembly()
+            .GetTypes()
+            .Where(x => commandType.IsAssignableFrom(x));
+
+        foreach (Type command in commands)
         {
-            Type commandType = typeof(Command);
-
-            IEnumerable<Type> commands = Assembly
-                .GetExecutingAssembly()
-                .GetTypes()
-                .Where(x => commandType.IsAssignableFrom(x));
-
-            foreach (Type command in commands)
-            {
-                services.AddSingleton(commandType, command);
-            }
-
-            return services;
+            services.AddSingleton(commandType, command);
         }
+
+        return services;
     }
 }

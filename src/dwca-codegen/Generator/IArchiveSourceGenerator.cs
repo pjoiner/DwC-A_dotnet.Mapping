@@ -1,9 +1,8 @@
 ﻿using DwC_A.Config;
 
-namespace DwcaCodegen.Generator
+namespace DwcaCodegen.Generator;
+
+public interface IArchiveSourceGenerator
 {
-    public interface IArchiveSourceGenerator
-    {
-        string[] GenerateSource(string fileName, IGeneratorConfiguration config);
-    }
+    string[] GenerateSource(string fileName, IGeneratorConfiguration config);
 }

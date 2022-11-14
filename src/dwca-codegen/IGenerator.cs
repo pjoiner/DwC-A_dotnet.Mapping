@@ -1,9 +1,8 @@
 ﻿using DwC_A.Config;
 
-namespace DwcaCodegen
+namespace DwcaCodegen;
+
+public interface IGenerator
 {
-    public interface IGenerator
-    {
-        void Generate(string archive, string @namespace, bool pascalCase, TermAttributeType termAttribute, string output, bool mapMetho);
-    }
+    void Generate(string archive, string @namespace, bool pascalCase, TermAttributeType termAttribute, string output, bool mapMetho);
 }
