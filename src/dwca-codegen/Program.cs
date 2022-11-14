@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DwcaCodegen
 {
-    class Program
+    public class Program
     {
         static async Task<int> Main(string[] args)
         {
