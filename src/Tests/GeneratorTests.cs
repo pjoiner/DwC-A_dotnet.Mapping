@@ -2,8 +2,6 @@
 using DwC_A.Config;
 using DwC_A.Generator;
 using Moq;
-using System.Collections.Generic;
-using Xunit;
 
 namespace Tests
 {
@@ -11,7 +9,7 @@ namespace Tests
     {
         private readonly ArchiveReader archive = new("resources/dwca-mvzobs_bird-v34.48");
 
-        private readonly Mock<IGeneratorConfiguration>  mockConfig = new();
+        private readonly Mock<IGeneratorConfiguration> mockConfig = new();
 
         public GeneratorTests()
         {

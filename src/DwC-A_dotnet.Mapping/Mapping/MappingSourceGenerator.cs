@@ -10,7 +10,7 @@ namespace DwC_A.Mapping
     [Generator]
     public class MappingSourceGenerator : ISourceGenerator
     {
-        private readonly IList<string> classes = new List<string>();
+        private readonly List<string> classes = new List<string>();
 
         public void Execute(GeneratorExecutionContext context)
         {

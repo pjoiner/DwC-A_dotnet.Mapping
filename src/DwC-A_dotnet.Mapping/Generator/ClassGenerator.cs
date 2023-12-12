@@ -111,8 +111,8 @@ namespace DwC_A.Generator
             {
                 case TermAttributeType.name:
                     literalExpression = SyntaxFactory.LiteralExpression(
-SyntaxKind.StringLiteralExpression,
-SyntaxFactory.Literal(metaData.Term));
+                    SyntaxKind.StringLiteralExpression,
+                    SyntaxFactory.Literal(metaData.Term));
                     break;
                 case TermAttributeType.index:
                     literalExpression = SyntaxFactory.LiteralExpression(
