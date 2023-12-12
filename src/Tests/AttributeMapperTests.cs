@@ -1,7 +1,5 @@
 ﻿using DwC_A;
 using DwC_A.Mapping;
-using System.Linq;
-using Xunit;
 
 namespace Tests
 {
@@ -55,7 +53,7 @@ namespace Tests
         {
             var mapper = MapperFactory.CreateMapper<Models.WithTerms.Occurrence>((o, row) => o.MapRow(row));
 
-            foreach(var occurence in archive.CoreFile.Map<Models.WithTerms.Occurrence>(mapper))
+            foreach (var occurence in archive.CoreFile.Map<Models.WithTerms.Occurrence>(mapper))
             {
                 Assert.NotNull(occurence.Id);
             }

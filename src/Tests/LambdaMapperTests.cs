@@ -1,8 +1,6 @@
 ﻿using DwC_A;
 using DwC_A.Mapping;
 using DwC_A.Terms;
-using System.Linq;
-using Xunit;
 
 namespace Tests
 {

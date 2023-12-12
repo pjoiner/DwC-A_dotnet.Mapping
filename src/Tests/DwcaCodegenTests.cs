@@ -22,9 +22,9 @@ namespace Tests
         }
 
         [Fact]
-        public async Task ShouldGenerateDefaultConfigFile() 
+        public async Task ShouldGenerateDefaultConfigFile()
         {
-            await parser.InvokeAsync("config init".Split()).ConfigureAwait(false);
+            await parser.InvokeAsync("config init".Split());
 
             await VerifyFile(".dwca-codegen");
         }
@@ -34,7 +34,7 @@ namespace Tests
         [InlineData("OccurrenceWithTerms", "gen -t name ./resources/dwca-mvzobs_bird-v34.48")]
         public async Task ShouldBuildOccurrenceWithDefaults(string methodName, string commandLine)
         {
-            await parser.InvokeAsync(commandLine.Split()).ConfigureAwait(false);
+            await parser.InvokeAsync(commandLine.Split());
             using var stream = new FileStream("Occurrence.cs", FileMode.Open);
 
             var settings = new VerifySettings();
