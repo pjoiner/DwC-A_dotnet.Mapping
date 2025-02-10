@@ -6,19 +6,11 @@ namespace Tests
 {
     public class SourceGeneratorTest
     {
-        public SourceGeneratorTest()
+        [Theory]
+        [MemberData(nameof(TestSourceFiles))]
+        public async Task ShouldGenerateMapMethod((string testSource, string fileName) testData)
         {
-            Verifier.DerivePathInfo((sourceFile, projectDirectory, type, method) => new(
-                directory: Path.Combine(projectDirectory, "GeneratedCode"),
-                typeName: type.Name,
-                methodName: method.Name));
-        }
-
-        [Fact]
-        public async Task ShouldGenerateMapMethod()
-        {
-            var testSource = File.ReadAllText("./TestSourceFiles/Multimedia.cs");
-            SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(testSource);
+            SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(testData.testSource);
 
             CSharpCompilation compilation = CSharpCompilation.Create(
                 assemblyName: "Tests",
@@ -30,7 +22,15 @@ namespace Tests
 
             driver = driver.RunGenerators(compilation);
 
-            await Verify(driver);
+            await Verify(driver)
+                .UseDirectory("./GeneratedCode")
+                .UseFileName($"ShouldGenerateMapMethod_{testData.fileName}");
+        }
+
+        public static TheoryData<(string, string)> TestSourceFiles()
+        {
+            var files = Directory.GetFiles("./TestSourceFiles");
+            return new TheoryData<(string, string)>(files.Select(f => (File.ReadAllText(f), Path.GetFileName(f))));
         }
     }
 }

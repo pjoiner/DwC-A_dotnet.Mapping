@@ -7,10 +7,14 @@
 
   <ItemGroup>
     <Compile Remove="TestSourceFiles\Multimedia.cs" />
+    <Compile Remove="TestSourceFiles\Occurrence.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="TestSourceFiles\Multimedia.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestSourceFiles\Occurrence.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
