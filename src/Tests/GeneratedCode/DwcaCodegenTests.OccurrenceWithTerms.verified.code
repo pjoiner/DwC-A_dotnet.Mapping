@@ -7,194 +7,289 @@
     {
         [Term("id")]
         public string Id { get; set; }
+
         [Term("http://purl.org/dc/terms/type")]
         public string Type { get; set; }
+
         [Term("http://purl.org/dc/terms/modified")]
         public string Modified { get; set; }
+
         [Term("http://purl.org/dc/terms/language")]
         public string Language { get; set; }
+
         [Term("http://purl.org/dc/terms/license")]
         public string License { get; set; }
+
         [Term("http://purl.org/dc/terms/accessRights")]
         public string AccessRights { get; set; }
+
         [Term("http://purl.org/dc/terms/references")]
         public string References { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/institutionID")]
         public string InstitutionID { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/collectionID")]
         public string CollectionID { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/institutionCode")]
         public string InstitutionCode { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/collectionCode")]
         public string CollectionCode { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/basisOfRecord")]
         public string BasisOfRecord { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/informationWithheld")]
         public string InformationWithheld { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/dynamicProperties")]
         public string DynamicProperties { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/occurrenceID")]
         public string OccurrenceID { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/catalogNumber")]
         public string CatalogNumber { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/occurrenceRemarks")]
         public string OccurrenceRemarks { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/recordNumber")]
         public string RecordNumber { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/recordedBy")]
         public string RecordedBy { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/individualCount")]
         public int? IndividualCount { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/sex")]
         public string Sex { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/lifeStage")]
         public string LifeStage { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/establishmentMeans")]
         public string EstablishmentMeans { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/preparations")]
         public string Preparations { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/otherCatalogNumbers")]
         public string OtherCatalogNumbers { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/associatedMedia")]
         public string AssociatedMedia { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/associatedSequences")]
         public string AssociatedSequences { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/associatedTaxa")]
         public string AssociatedTaxa { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/organismID")]
         public string OrganismID { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/associatedOccurrences")]
         public string AssociatedOccurrences { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/previousIdentifications")]
         public string PreviousIdentifications { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/samplingProtocol")]
         public string SamplingProtocol { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/eventDate")]
         public string EventDate { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/eventTime")]
         public string EventTime { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/endDayOfYear")]
         public int? EndDayOfYear { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/year")]
         public int? Year { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/month")]
         public int? Month { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/day")]
         public int? Day { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/verbatimEventDate")]
         public string VerbatimEventDate { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/habitat")]
         public string Habitat { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/fieldNumber")]
         public string FieldNumber { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/eventRemarks")]
         public string EventRemarks { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/higherGeography")]
         public string HigherGeography { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/continent")]
         public string Continent { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/waterBody")]
         public string WaterBody { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/islandGroup")]
         public string IslandGroup { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/island")]
         public string Island { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/country")]
         public string Country { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/stateProvince")]
         public string StateProvince { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/county")]
         public string County { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/locality")]
         public string Locality { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/verbatimLocality")]
         public string VerbatimLocality { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/minimumElevationInMeters")]
         public double? MinimumElevationInMeters { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/maximumElevationInMeters")]
         public string MaximumElevationInMeters { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/minimumDepthInMeters")]
         public string MinimumDepthInMeters { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/maximumDepthInMeters")]
         public double? MaximumDepthInMeters { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/locationAccordingTo")]
         public string LocationAccordingTo { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/locationRemarks")]
         public string LocationRemarks { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/verbatimCoordinates")]
         public string VerbatimCoordinates { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/verbatimCoordinateSystem")]
         public string VerbatimCoordinateSystem { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/decimalLatitude")]
         public double? DecimalLatitude { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/decimalLongitude")]
         public double? DecimalLongitude { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/geodeticDatum")]
         public string GeodeticDatum { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters")]
         public double? CoordinateUncertaintyInMeters { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/georeferencedBy")]
         public string GeoreferencedBy { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/georeferencedDate")]
         public string GeoreferencedDate { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/georeferenceProtocol")]
         public string GeoreferenceProtocol { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/georeferenceSources")]
         public string GeoreferenceSources { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/georeferenceVerificationStatus")]
         public string GeoreferenceVerificationStatus { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/earliestEonOrLowestEonothem")]
         public string EarliestEonOrLowestEonothem { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/earliestEraOrLowestErathem")]
         public string EarliestEraOrLowestErathem { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/earliestPeriodOrLowestSystem")]
         public string EarliestPeriodOrLowestSystem { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/earliestEpochOrLowestSeries")]
         public string EarliestEpochOrLowestSeries { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/earliestAgeOrLowestStage")]
         public string EarliestAgeOrLowestStage { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/group")]
         public string Group { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/formation")]
         public string Formation { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/member")]
         public string Member { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/identifiedBy")]
         public string IdentifiedBy { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/dateIdentified")]
         public DateTime? DateIdentified { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/identificationReferences")]
         public string IdentificationReferences { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/identificationRemarks")]
         public string IdentificationRemarks { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/identificationQualifier")]
         public string IdentificationQualifier { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/identificationVerificationStatus")]
         public string IdentificationVerificationStatus { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/typeStatus")]
         public string TypeStatus { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/scientificName")]
         public string ScientificName { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/higherClassification")]
         public string HigherClassification { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/kingdom")]
         public string Kingdom { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/phylum")]
         public string Phylum { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/class")]
         public string Class { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/order")]
         public string Order { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/family")]
         public string Family { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/genus")]
         public string Genus { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/specificEpithet")]
         public string SpecificEpithet { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/infraspecificEpithet")]
         public string InfraspecificEpithet { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/taxonRank")]
         public string TaxonRank { get; set; }
+
         [Term("http://rs.tdwg.org/dwc/terms/nomenclaturalCode")]
         public string NomenclaturalCode { get; set; }
     }

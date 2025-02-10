@@ -5,7 +5,6 @@ using DwC_A.Config;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Formatting;
 using System;
 using System.IO;
 
@@ -46,16 +45,14 @@ namespace DwC_A.Generator
 
         private static string FormatDeclarationSyntax(SyntaxNode node)
         {
-            var doc = Formatter.Format(node, new AdhocWorkspace());
-            var code = doc.ToFullString();
+            var code = node.NormalizeWhitespace().ToFullString();
             return code;
         }
 
         public static string GenerateClass(IFileMetaData fileMetaData, IGeneratorConfiguration config)
         {
             var classDeclaration = GeneratClassSyntax(fileMetaData, config);
-            var doc = Formatter.Format(classDeclaration, new AdhocWorkspace());
-            var code = doc.ToFullString();
+            var code = classDeclaration.NormalizeWhitespace().ToFullString();
             return code;
         }
 

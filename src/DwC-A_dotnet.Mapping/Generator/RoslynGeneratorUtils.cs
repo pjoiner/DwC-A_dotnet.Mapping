@@ -3,7 +3,6 @@
 using Core::DwC_A.Terms;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Formatting;
 using System.Collections.Generic;
 
 namespace DwC_A.Generator
@@ -34,8 +33,7 @@ namespace DwC_A.Generator
 
         public static string FormatSyntax(SyntaxNode node)
         {
-            var doc = Formatter.Format(node, new AdhocWorkspace());
-            var code = doc.ToFullString();
+            var code = node.NormalizeWhitespace().ToFullString();
             return code;
         }
     }
