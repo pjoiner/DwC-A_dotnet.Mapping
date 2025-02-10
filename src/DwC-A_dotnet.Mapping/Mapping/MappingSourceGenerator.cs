@@ -11,7 +11,7 @@ namespace DwC_A.Mapping
     [Generator]
     public class MappingSourceGenerator : IIncrementalGenerator
     {
-        private static readonly List<string> classes = new List<string>();
+        private static readonly List<string> classes = [];
 
         static void Execute(SourceProductionContext context, ClassDeclarationSyntax classDeclaration)
         {

@@ -9,7 +9,7 @@ namespace DwC_A.Generator
 {
     internal class RoslynGeneratorUtils
     {
-        private readonly HashSet<string> propertyNameList = new HashSet<string>();
+        private readonly HashSet<string> propertyNameList = [];
 
         public string NormalizeIdentifiers(string name, bool pascalCase = false)
         {

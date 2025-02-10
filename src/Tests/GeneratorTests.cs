@@ -19,7 +19,7 @@ namespace Tests
             mockConfig.Setup(n => n.TermAttribute).Returns(TermAttributeType.none);
             mockConfig.Setup(n => n.Properties).Returns(new Dictionary<string, PropertyConfiguration>());
             mockConfig.Setup(n => n.GetPropertyConfiguration(It.IsAny<string>())).Returns(new PropertyConfiguration());
-            mockConfig.Setup(n => n.Usings).Returns(new[] { "System", "DwC_A.Extensions" });
+            mockConfig.Setup(n => n.Usings).Returns(["System", "DwC_A.Extensions"]);
         }
 
         [Fact]

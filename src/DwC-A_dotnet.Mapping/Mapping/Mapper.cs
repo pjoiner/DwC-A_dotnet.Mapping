@@ -5,18 +5,13 @@ using System;
 
 namespace DwC_A.Mapping
 {
-    internal class Mapper<T> : IMapper<T> where T : new()
+    internal class Mapper<T>(Action<T, IRow> rowMapFunc) : IMapper<T> where T : new()
     {
-        private readonly Action<T, IRow> rowMapFunc;
-
-        public Mapper(Action<T, IRow> rowMapFunc)
-        {
-            this.rowMapFunc = rowMapFunc;
-        }
+        private readonly Action<T, IRow> rowMapFunc = rowMapFunc;
 
         public T MapRow(IRow row)
         {
-            T obj = new T();
+            T obj = new();
             rowMapFunc?.Invoke(obj, row);
             return obj;
         }
