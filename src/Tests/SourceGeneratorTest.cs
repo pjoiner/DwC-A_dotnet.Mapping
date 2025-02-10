@@ -6,6 +6,14 @@ namespace Tests
 {
     public class SourceGeneratorTest
     {
+        public SourceGeneratorTest()
+        {
+            Verifier.DerivePathInfo((sourceFile, projectDirectory, type, method) => new(
+                directory: Path.Combine(projectDirectory, "GeneratedCode"),
+                typeName: type.Name,
+                methodName: method.Name));
+        }
+
         [Fact]
         public async Task ShouldGenerateMapMethod()
         {
