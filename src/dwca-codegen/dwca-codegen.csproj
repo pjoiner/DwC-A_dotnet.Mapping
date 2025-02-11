@@ -29,7 +29,7 @@
     </None>
     <PackageReference Include="DotNetConfig" Version="1.0.6" />
     <PackageReference Include="DotNetConfig.CommandLine" Version="1.0.6" />
-    <PackageReference Include="DwC-A_dotnet" Version="0.8.0" />
+    <PackageReference Include="DwC-A_dotnet" Version="0.9.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21216.1" />
 	<None Include="README.md" Pack="true" PackagePath="\" />

@@ -48,7 +48,7 @@ namespace DwC_A.Generator
                 };
 
             var statements = new List<StatementSyntax>();
-            foreach(var field in fileMetaData.Fields)
+            foreach (var field in fileMetaData.Fields)
             {
                 var propertyConfig = config.GetPropertyConfiguration(field.Term);
                 var propertyName = propertyConfig.PropertyName ?? roslynGeneratorUtils.NormalizeIdentifiers(field.Term, config.PascalCase);
@@ -63,18 +63,18 @@ namespace DwC_A.Generator
             var methodSyntax = SyntaxFactory.MethodDeclaration(SyntaxFactory.ParseTypeName("void"), "MapRow")
                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.StaticKeyword))
-                .AddParameterListParameters(parameterList.ToArray())
+                .AddParameterListParameters([.. parameterList])
                 .WithBody(SyntaxFactory.Block(statements.ToArray()));
             return methodSyntax;
         }
 
-        private static StatementSyntax CreateStatement(string propertyName, string term, PropertyConfiguration propertyConfig )
+        private static StatementSyntax CreateStatement(string propertyName, string term, PropertyConfiguration propertyConfig)
         {
             if (propertyConfig.TypeName == "string")
             {
                 return SyntaxFactory.ParseStatement($"obj.{propertyName} = row[\"{term}\"];");
             }
-            else if (IsNullableType(propertyConfig.TypeName, out string underlyingTypeName)) 
+            else if (IsNullableType(propertyConfig.TypeName, out string underlyingTypeName))
             {
                 return SyntaxFactory.ParseStatement($"obj.{propertyName} = row.ConvertNullable<{underlyingTypeName}>(\"{term}\");");
             }
@@ -92,7 +92,7 @@ namespace DwC_A.Generator
             var objParam = SyntaxFactory.Parameter(SyntaxFactory.Identifier("obj"))
                         .WithType(SyntaxFactory.ParseTypeName(classDeclaration.Identifier.Text));
 
-            if(useExtensionSyntax)
+            if (useExtensionSyntax)
             {
                 objParam = objParam.AddModifiers(SyntaxFactory.Token(SyntaxKind.ThisKeyword));
             }
@@ -118,7 +118,7 @@ namespace DwC_A.Generator
             var methodSyntax = SyntaxFactory.MethodDeclaration(SyntaxFactory.ParseTypeName("void"), "MapRow")
                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.StaticKeyword))
-                .AddParameterListParameters(parameterList.ToArray())
+                .AddParameterListParameters([.. parameterList])
                 .WithBody(SyntaxFactory.Block(statements.ToArray()));
             return methodSyntax;
         }
