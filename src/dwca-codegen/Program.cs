@@ -48,7 +48,7 @@ namespace DwcaCodegen
 
             var config = serviceProvider.GetService<DotNetConfig.Config>();
             rootCommand = rootCommand.WithConfigurableDefaults("dwca-codegen", config);
-            
+
             var commandLineBuilder = new CommandLineBuilder(rootCommand);
 
             return commandLineBuilder

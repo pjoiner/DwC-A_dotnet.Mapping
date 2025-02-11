@@ -1,7 +1,8 @@
 {
   "profiles": {
     "dwca-codegen": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "--help"
     }
   }
 }

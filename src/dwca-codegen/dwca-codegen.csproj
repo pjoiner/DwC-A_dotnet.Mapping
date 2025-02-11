@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <RootNamespace>DwcaCodegen</RootNamespace>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Paul Joiner</Authors>
     <Description>Code generation tool for mapping of Darwin Core Archive files to strongly typed classes.</Description>
-    <Copyright>Copyright © Paul Joiner 2023</Copyright>
+    <Copyright>Copyright © Paul Joiner 2025</Copyright>
     <RepositoryType>git</RepositoryType>
     <PackageTags>DwC-A darwin-core Biodiversity</PackageTags>
     <PackAsTool>true</PackAsTool>
@@ -27,11 +27,11 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-    <PackageReference Include="DotNetConfig" Version="1.0.6" />
-    <PackageReference Include="DotNetConfig.CommandLine" Version="1.0.6" />
+    <PackageReference Include="DotNetConfig" Version="1.2.0" />
+    <PackageReference Include="DotNetConfig.CommandLine" Version="1.2.0" />
     <PackageReference Include="DwC-A_dotnet" Version="0.9.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21216.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.1" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
 	<None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 

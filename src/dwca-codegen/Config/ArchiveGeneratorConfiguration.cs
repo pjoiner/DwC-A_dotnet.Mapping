@@ -1,6 +1,5 @@
 ﻿using DwC_A.Config;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DwcaCodegen.Config;
 
@@ -13,7 +12,7 @@ public class ArchiveGeneratorConfiguration : IGeneratorConfiguration
     private bool pascalCase = true;
     private TermAttributeType termAttributeType = TermAttributeType.none;
     private bool mapMethod = false;
-    private readonly HashSet<string> usings = new();
+    private readonly HashSet<string> usings = [];
     private readonly IDictionary<string, PropertyConfiguration> properties =
         new Dictionary<string, PropertyConfiguration>()
         {
@@ -25,11 +24,11 @@ public class ArchiveGeneratorConfiguration : IGeneratorConfiguration
     public bool PascalCase => pascalCase;
     public TermAttributeType TermAttribute => termAttributeType;
     public bool MapMethod => mapMethod;
-    public IList<string> Usings => usings.ToList();
+    public IList<string> Usings => [.. usings];
     public IDictionary<string, PropertyConfiguration> Properties => properties;
 
-    public PropertyConfiguration GetPropertyConfiguration(string term) => Properties.TryGetValue(term, out PropertyConfiguration value) 
-        ? value 
+    public PropertyConfiguration GetPropertyConfiguration(string term) => Properties.TryGetValue(term, out PropertyConfiguration value)
+        ? value
         : Properties[AllTerms];
 
     public ArchiveGeneratorConfiguration AddNamespace(string namespaceName)
