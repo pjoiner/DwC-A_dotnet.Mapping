@@ -6,18 +6,13 @@ using System.Text;
 
 namespace DwcaCodegen.Config;
 
-public class ArchiveGeneratorConfigFactory
+public class ArchiveGeneratorConfigFactory(DotNetConfig.Config config)
 {
     private const string TermAttributeNamespaceName = "DwC_A.Attributes";
     private const string ExtensionsNamespaceName = "DwC_A.Extensions";
     private const string SystemNamespaceName = "System";
     private const string DwcaNamespace = "DwC_A";
-    private readonly DotNetConfig.Config config;
-
-    public ArchiveGeneratorConfigFactory(DotNetConfig.Config config)
-    {
-        this.config = config;
-    }
+    private readonly DotNetConfig.Config config = config;
 
     public IGeneratorConfiguration BuildConfiguration()
     {
@@ -58,10 +53,7 @@ public class ArchiveGeneratorConfigFactory
             .Distinct();
         foreach (var key in keys)
         {
-            if(archiveGeneratorConfiguration.Properties.ContainsKey(key))
-            {
-                archiveGeneratorConfiguration.Properties.Remove(key);
-            }
+            archiveGeneratorConfiguration.Properties.Remove(key);
             archiveGeneratorConfiguration.Properties.Add(key, new PropertyConfiguration()
             {
                 Include = config.GetBoolean(ConfigUtils.PropertySection, key, "include") ?? true,
@@ -84,7 +76,7 @@ public class ArchiveGeneratorConfigFactory
         {
             archiveGeneratorConfiguration.AddUsing(TermAttributeNamespaceName);
         }
-        if( archiveGeneratorConfiguration.MapMethod)
+        if (archiveGeneratorConfiguration.MapMethod)
         {
             archiveGeneratorConfiguration.AddUsing(ExtensionsNamespaceName);
         }

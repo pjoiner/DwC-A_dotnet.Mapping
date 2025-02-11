@@ -6,20 +6,13 @@ using System.Linq;
 
 namespace DwcaCodegen;
 
-public class Application : IGenerator, IConfigApp
+public class Application(IArchiveSourceGenerator archiveSourceGenerator,
+    ArchiveGeneratorConfigFactory archiveGeneratorConfigFactory,
+    DefaultConfigurationBuilder defaultConfigurationBuilder) : IGenerator, IConfigApp
 {
-    private readonly IArchiveSourceGenerator archiveSourceGenerator;
-    private readonly ArchiveGeneratorConfigFactory archiveGeneratorConfigFactory;
-    private readonly DefaultConfigurationBuilder defaultConfigurationBuilder;
-
-    public Application(IArchiveSourceGenerator archiveSourceGenerator,
-        ArchiveGeneratorConfigFactory archiveGeneratorConfigFactory,
-        DefaultConfigurationBuilder defaultConfigurationBuilder)
-    {
-        this.archiveSourceGenerator = archiveSourceGenerator;
-        this.archiveGeneratorConfigFactory = archiveGeneratorConfigFactory;
-        this.defaultConfigurationBuilder = defaultConfigurationBuilder;
-    }
+    private readonly IArchiveSourceGenerator archiveSourceGenerator = archiveSourceGenerator;
+    private readonly ArchiveGeneratorConfigFactory archiveGeneratorConfigFactory = archiveGeneratorConfigFactory;
+    private readonly DefaultConfigurationBuilder defaultConfigurationBuilder = defaultConfigurationBuilder;
 
     public void Generate(string archive,
         string @namespace,

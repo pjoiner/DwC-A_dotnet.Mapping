@@ -3,7 +3,6 @@ using DwC_A.Config;
 using DwC_A.Generator;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace DwcaCodegen.Generator;
@@ -12,7 +11,7 @@ public class ArchiveSourceGenerator : IArchiveSourceGenerator
 {
     public string[] GenerateSource(string fileName, IGeneratorConfiguration config)
     {
-        IList<string> sourceFiles = new List<string>();
+        List<string> sourceFiles = [];
         using (var archive = new ArchiveReader(fileName))
         {
             var outputPath = config.Output;
@@ -27,19 +26,19 @@ public class ArchiveSourceGenerator : IArchiveSourceGenerator
             File.WriteAllText(sourceFileName, coreSource, Encoding.UTF8);
             foreach (var extension in archive.Extensions.GetFileReaders())
             {
-                var extensionFileName = CreateSourceFileName(extension.FileName, outputPath, config); 
+                var extensionFileName = CreateSourceFileName(extension.FileName, outputPath, config);
                 sourceFiles.Add(extensionFileName);
                 var meta = extension.FileMetaData;
                 var extensionSource = ClassGenerator.GenerateFile(meta, config);
                 File.WriteAllText(extensionFileName, extensionSource, Encoding.UTF8);
             }
         }
-        return sourceFiles.ToArray();
+        return [.. sourceFiles];
     }
 
     private static string CreateSourceFileName(string fileName, string outputPath, IGeneratorConfiguration config)
     {
-        var sourceFileName = Path.GetFileNameWithoutExtension(fileName); 
+        var sourceFileName = Path.GetFileNameWithoutExtension(fileName);
         if (config.PascalCase)
         {
             sourceFileName = char.ToUpper(sourceFileName[0]) + sourceFileName[1..];
