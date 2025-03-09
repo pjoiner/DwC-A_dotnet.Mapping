@@ -45,14 +45,14 @@ namespace DwC_A.Generator
 
         private static string FormatDeclarationSyntax(SyntaxNode node)
         {
-            var code = node.NormalizeWhitespace().ToFullString();
+            var code = node.NormalizeWhitespace(eol: Environment.NewLine).ToFullString();
             return code;
         }
 
         public static string GenerateClass(IFileMetaData fileMetaData, IGeneratorConfiguration config)
         {
             var classDeclaration = GeneratClassSyntax(fileMetaData, config);
-            var code = classDeclaration.NormalizeWhitespace().ToFullString();
+            var code = classDeclaration.NormalizeWhitespace(eol: Environment.NewLine).ToFullString();
             return code;
         }
 
