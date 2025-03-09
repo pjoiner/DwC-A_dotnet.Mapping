@@ -16,7 +16,7 @@
     <Nullable>disable</Nullable>
     <PackageProjectUrl>https://github.com/pjoiner/DwC-A_dotnet.Mapping</PackageProjectUrl>
     <RepositoryUrl>https://github.com/pjoiner/DwC-A_dotnet.Mapping/tree/master/src/dwca-codegen</RepositoryUrl>
-    <Version>1.0.15</Version>
+    <Version>1.0.16</Version>
     <NoDefaultExcludes>true</NoDefaultExcludes>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageLicenseFile>LICENSE</PackageLicenseFile>
