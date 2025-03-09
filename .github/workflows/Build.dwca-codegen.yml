@@ -13,7 +13,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: 9.0.x
     - name: Restore dependencies
       run: dotnet restore src/dwca-codegen
     - name: Build
@@ -21,7 +21,7 @@ jobs:
     - name: Test
       run: dotnet test --verbosity normal -p:CollectCoverage=true
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: DwC-A_dotnet.Mapping.nupkg
         path: src/dwca-codegen/bin/Release/dwca-codegen.*.nupkg  

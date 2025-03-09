@@ -3,7 +3,6 @@ using System.CommandLine.Parsing;
 
 namespace Tests
 {
-    [UsesVerify]
     public class DwcaCodegenTests
     {
         private readonly Parser parser;
