@@ -45,9 +45,7 @@ namespace DwC_A.Mapping
 
             @namespace = @namespace.AddMembers(extensionClassSyntax);
 
-            var sourceCode = @namespace
-                .NormalizeWhitespace(eol: Environment.NewLine)
-                .ToFullString();
+            var sourceCode = RoslynGeneratorUtils.FormatSyntax(@namespace);
             var sourceFileName = $"{className}.g.cs";
             context.AddSource(sourceFileName, sourceCode);
         }
