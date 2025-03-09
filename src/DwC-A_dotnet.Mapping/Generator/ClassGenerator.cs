@@ -52,7 +52,9 @@ namespace DwC_A.Generator
         public static string GenerateClass(IFileMetaData fileMetaData, IGeneratorConfiguration config)
         {
             var classDeclaration = GeneratClassSyntax(fileMetaData, config);
+#pragma warning disable RS1035 // Do not use APIs banned for analyzers
             var code = classDeclaration.NormalizeWhitespace(eol: Environment.NewLine).ToFullString();
+#pragma warning restore RS1035 // Do not use APIs banned for analyzers
             return code;
         }
 
