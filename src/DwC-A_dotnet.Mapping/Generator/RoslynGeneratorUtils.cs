@@ -32,6 +32,7 @@ namespace DwC_A.Generator
             return propertyName;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1035:Do not use APIs banned for analyzers", Justification = "We are generating not analyzing")]
         public static string FormatSyntax(SyntaxNode node)
         {
             var code = node.NormalizeWhitespace(eol: Environment.NewLine).ToFullString();

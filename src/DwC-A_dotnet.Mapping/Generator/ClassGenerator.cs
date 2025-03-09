@@ -32,7 +32,7 @@ namespace DwC_A.Generator
                 var node = SyntaxFactory.CompilationUnit()
                     .WithUsings(usings)
                     .WithMembers(SyntaxFactory.SingletonList<MemberDeclarationSyntax>(classDeclaration));
-                return FormatDeclarationSyntax(node);
+                return RoslynGeneratorUtils.FormatSyntax(node);
             }
             var @namespace = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.ParseName(config.Namespace));
             foreach (var usingNamespace in config.Usings)
@@ -40,21 +40,13 @@ namespace DwC_A.Generator
                 @namespace = @namespace.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(usingNamespace)));
             }
             @namespace = @namespace.AddMembers(classDeclaration);
-            return FormatDeclarationSyntax(@namespace);
-        }
-
-        private static string FormatDeclarationSyntax(SyntaxNode node)
-        {
-            var code = node.NormalizeWhitespace(eol: Environment.NewLine).ToFullString();
-            return code;
+            return RoslynGeneratorUtils.FormatSyntax(@namespace);
         }
 
         public static string GenerateClass(IFileMetaData fileMetaData, IGeneratorConfiguration config)
         {
             var classDeclaration = GeneratClassSyntax(fileMetaData, config);
-#pragma warning disable RS1035 // Do not use APIs banned for analyzers
-            var code = classDeclaration.NormalizeWhitespace(eol: Environment.NewLine).ToFullString();
-#pragma warning restore RS1035 // Do not use APIs banned for analyzers
+            var code = RoslynGeneratorUtils.FormatSyntax(classDeclaration);
             return code;
         }
 
