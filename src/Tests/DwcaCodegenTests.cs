@@ -34,6 +34,7 @@ namespace Tests
         public async Task ShouldBuildOccurrenceWithDefaults(string methodName, string commandLine)
         {
             await parser.InvokeAsync(commandLine.Split());
+            Console.WriteLine(File.ReadAllText("Occurrence.cs"));
             using var stream = new FileStream("Occurrence.cs", FileMode.Open);
 
             var settings = new VerifySettings();

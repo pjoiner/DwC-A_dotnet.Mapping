@@ -46,7 +46,7 @@ namespace DwC_A.Mapping
             @namespace = @namespace.AddMembers(extensionClassSyntax);
 
             var sourceCode = @namespace
-                .NormalizeWhitespace()
+                .NormalizeWhitespace(eol: Environment.NewLine)
                 .ToFullString();
             var sourceFileName = $"{className}.g.cs";
             context.AddSource(sourceFileName, sourceCode);
